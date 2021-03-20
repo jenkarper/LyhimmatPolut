@@ -32,3 +32,5 @@ En vielä ole varsinaisesti tehnyt mitään uutta, vaan kaikki on ollut vanhan k
 | 18.3. |  3  | Hiekkalaatikkokokeiluja (tiedostonluku, kartan piirtäminen) |
 | 19.3. |  3  | Lähdemateriaalin etsiminen, määrittelydokumentin kirjoittaminen |
 | 20.2. |  1  | Viikkoraportti ja pakettien JavaDoc-kuvaukset |
+|       |     | |
+|**YHT**|**8**| |
