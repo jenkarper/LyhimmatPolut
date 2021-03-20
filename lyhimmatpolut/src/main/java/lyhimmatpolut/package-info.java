@@ -1,0 +1,5 @@
+/**
+ * Pääohjelmaluokka
+ */
+
+ package lyhimmatpolut;
