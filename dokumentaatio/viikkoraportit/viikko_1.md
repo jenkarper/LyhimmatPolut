@@ -10,7 +10,7 @@ Perustin projektille etärepositorion GitHubiin, loin alustavan projektirakentee
 
 ### Koodaus
 
-En kirjoittanut itse työhön varsinaista koodia vielä tällä viikolla, mutta tein joitakin hiekkalaatikkokokeiluja esimerkiksi karttatiedoston lukemisesta ja kartan piirtmäisestä graafiseen käyttöliittymään. Olin alun perin ajatellut tekeväni työhön tekstikäyttöliittymän, mutta tulin siihen tulokseen, että algoritmien hakutulosten visualisointi olisi parempi tehdä graafisessa käyttöliittymässä.
+En kirjoittanut itse työhön varsinaista koodia vielä tällä viikolla, mutta tein joitakin hiekkalaatikkokokeiluja esimerkiksi karttatiedoston lukemisesta ja kartan piirtämisestä graafiseen käyttöliittymään. Olin alun perin ajatellut tekeväni työhön tekstikäyttöliittymän, mutta tulin siihen tulokseen, että algoritmien hakutulosten visualisointi olisi parempi tehdä graafisessa käyttöliittymässä.
 
 ### Pulmatilanteita
 
@@ -18,7 +18,7 @@ En juurikaan ole käyttänyt JavaFX-kirjaston Canvas-olioita Ohjelmoinnin jatkok
 
 ## Ensi viikon suunnitelma
 
-Kartan visualisointi toimii nyt riittävän hyvin, jotta voin aloittaa ensimmäisen algoritmin kirjoittamisen. Ajattelin edetä kurssimateriaalin vinkin mukaan niin, että käytän alussa Javan valmiita tietorakenteita (PriorityQueue ja ArrayList) ja yritän ensin saada algoritmit toimimaan niiden avulla. Aloitan Tira-kurssilta tutulla Dijkstralla. Seuraavaa palautusta varten tarkoitukseni on siis saada aikaan toimiva Dijkstran algoritmi sekä sen löytämän polun piirtäminen kartalle. Tarkoitukseni on myös aloittaa testaaminen sitä mukaa kuin koodia syntyy. Testien kirjoittaminen tulee luultavasti viemään jonkin verran aikaa, koska otaksun, että yksikkötekstitkään eivät ole niin suoraviivaisesti luotavissa kuin viime syksynä tekemässäni Ohjelmistotekniikan harjoitustyössä. Pyrin kuitenkin noudattamaan kurseilla vahvasti suositeltua käytäntöä, että testaus olisi koko ajan ajantasalla.
+Kartan visualisointi toimii nyt riittävän hyvin, jotta voin aloittaa ensimmäisen algoritmin kirjoittamisen. Ajattelin edetä kurssimateriaalin vinkin mukaan niin, että käytän alussa Javan valmiita tietorakenteita (PriorityQueue ja ArrayList) ja yritän ensin saada algoritmit toimimaan niiden avulla. Aloitan Tira-kurssilta tutulla Dijkstralla. Seuraavaa palautusta varten tarkoitukseni on siis saada aikaan toimiva Dijkstran algoritmi sekä sen löytämän polun piirtäminen kartalle. Tarkoitukseni on myös aloittaa testaaminen sitä mukaa kuin koodia syntyy. Testien kirjoittaminen tulee luultavasti viemään melko paljon aikaa, koska otaksun, että yksikkötestitkään eivät ole niin suoraviivaisesti luotavissa kuin viime syksynä tekemässäni Ohjelmistotekniikan harjoitustyössä. Pyrin kuitenkin noudattamaan kursseilla vahvasti suositeltua käytäntöä, että testikattavuus olisi koko ajan korkea.
 
 ## Mitä opin tällä viikolla
 
