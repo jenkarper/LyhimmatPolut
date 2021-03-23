@@ -1,5 +1,8 @@
 package ui;
 
+import dao.Kartanlukija;
+import dao.TiedostonlukijaIO;
+import domain.Kartta;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -16,5 +19,12 @@ public class GUI extends Application {
     
     public static void main(String[] args) {
         System.out.println("Hello Dijkstra!");
+        TiedostonlukijaIO lukija = new Kartanlukija();
+        lukija.lue("kartat/testikartta.map");
+        Kartta kartta = lukija.haeKartta();
+        System.out.println(kartta.getKorkeus());
+        System.out.println(kartta.getLeveys());
+        String rivi = new String(kartta.getKarttataulu()[0]);
+        System.out.println(rivi);
     }
 }
