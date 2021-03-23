@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
  * @author pertjenn
  */
 public class Kartanpiirtaja {
-    private final Kartta kartta;
+    private Kartta kartta;
     private final Canvas alusta;
     private final GraphicsContext piirturi;
     
@@ -24,13 +24,12 @@ public class Kartanpiirtaja {
         this.piirturi = alusta.getGraphicsContext2D();
     }
     
-    public Canvas piirraKartta() {
+    public void piirraKartta() {
         for (int rivi = 0; rivi < kartta.getKorkeus(); rivi++) {
             for (int sarake = 0; sarake < kartta.getLeveys(); sarake++) {
                 taytaRuutu(rivi, sarake);
             }
         }
-        return alusta;
     }
     
     private void taytaRuutu(int rivi, int sarake) {
@@ -45,5 +44,13 @@ public class Kartanpiirtaja {
     protected void valitsePaatepiste(int rivi, int sarake) {
         piirturi.setFill(PAATEPISTE);
         piirturi.fillOval(rivi, sarake, 5, 5);
+    }
+    
+    public Canvas getAlusta() {
+        return alusta;
+    }
+    
+    public void setKartta(Kartta kartta) {
+        this.kartta = kartta;
     }
 }
