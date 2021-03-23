@@ -8,17 +8,20 @@ public class Kartta {
     private final char[][] karttataulu;
     private final int leveys;
     private final int korkeus;
+    private final String nimi;
 
     /**
      * Luo uuden karttaolion.
      * @param taulu karttatiedostoa vastaavaa 2d-taulukko
      * @param k taulukon korkeus
      * @param l taulukon leveys
+     * @param nimi kartan nimi
      */
-    public Kartta(final char[][] taulu, final int k, final int l) {
+    public Kartta(final char[][] taulu, final int k, final int l, final String nimi) {
         this.karttataulu = taulu;
         this.korkeus = k;
         this.leveys = l;
+        this.nimi = nimi;
     }
 
     /**
@@ -35,5 +38,9 @@ public class Kartta {
 
     public int getKorkeus() {
         return korkeus;
+    }
+    
+    public String getNimi() {
+        return nimi;
     }
 }

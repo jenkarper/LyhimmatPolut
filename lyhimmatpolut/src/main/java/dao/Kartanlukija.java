@@ -6,27 +6,30 @@ import java.util.Scanner;
 
 /**
  * Karttatiedoston lukemisesta vastaava luokka.
+ *
  * @author pertjenn
  */
 public class Kartanlukija implements TiedostonlukijaIO {
+
     /**
      * Karttaolio, joka luodaan karttatiedostosta.
      */
     private Kartta kartta;
+    private int korkeus;
+    private int leveys;
+    private String nimi;
 
     /**
      * Lukee parametrina annetun karttatiedoston ja luo siitä Kartta-olion.
+     *
      * @param tiedosto tiedostopolku
      */
     @Override
     public boolean lue(final String tiedosto) {
 
         try (Scanner lukija = new Scanner(new File(tiedosto))) {
-
-            lukija.nextLine(); // kartan tyyppi
-            int korkeus = Integer.valueOf(lukija.nextLine().split(" ")[1]);
-            int leveys = Integer.valueOf(lukija.nextLine().split(" ")[1]);
-            lukija.nextLine(); // tiedostotyyppi?
+            
+            haeMetatiedot(lukija, tiedosto);
 
             int rivi = 0;
             char[][] karttataulu = new char[korkeus][leveys];
@@ -36,7 +39,7 @@ public class Kartanlukija implements TiedostonlukijaIO {
                 karttataulu[rivi] = kartanRivi.toCharArray();
                 rivi++;
             }
-            this.kartta = new Kartta(karttataulu, korkeus, leveys);
+            this.kartta = new Kartta(karttataulu, korkeus, leveys, nimi);
             return true;
 
         } catch (Exception e) {
@@ -47,10 +50,19 @@ public class Kartanlukija implements TiedostonlukijaIO {
 
     /**
      * Palauttaa tiedostosta muodostetun Kartta-olion.
+     *
      * @return
      */
     @Override
     public Kartta haeKartta() {
         return this.kartta;
+    }
+
+    private void haeMetatiedot(Scanner lukija, String tiedosto) {
+        this.nimi = tiedosto.substring(7, tiedosto.length() - 4);
+        lukija.nextLine(); // kartan tyyppi
+        this.korkeus = Integer.valueOf(lukija.nextLine().split(" ")[1]);
+        this.leveys = Integer.valueOf(lukija.nextLine().split(" ")[1]);
+        lukija.nextLine(); // tiedostotyyppi?
     }
 }
