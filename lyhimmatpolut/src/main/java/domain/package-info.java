@@ -1,5 +1,5 @@
 /**
- * Sovelluslogiikan toteuttavat luokat
+ * Sovelluslogiikan toteuttavat luokat.
  */
 
- package domain;
+package domain;

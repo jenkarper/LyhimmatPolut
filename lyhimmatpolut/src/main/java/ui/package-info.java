@@ -1,5 +1,5 @@
 /**
- * Graafisen käyttöliittymän toteuttavat luokat
+ * Graafisen käyttöliittymän toteuttavat luokat.
  */
 
- package ui;
+package ui;
