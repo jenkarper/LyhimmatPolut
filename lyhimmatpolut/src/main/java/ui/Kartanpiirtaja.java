@@ -14,8 +14,9 @@ public class Kartanpiirtaja {
     private final Canvas alusta;
     private final GraphicsContext piirturi;
     
-    private final Color VAPAA = Color.WHITE;
+    private final Color VAPAA = Color.SNOW;
     private final Color ESTE = Color.DARKGREEN;
+    private final Color PAATEPISTE = Color.FUCHSIA;
     
     public Kartanpiirtaja(Kartta kartta) {
         this.kartta = kartta;
@@ -39,5 +40,10 @@ public class Kartanpiirtaja {
             piirturi.setFill(ESTE);
         }
         piirturi.fillRect(rivi, sarake, 1, 1);
+    }
+    
+    protected void valitsePaatepiste(int rivi, int sarake) {
+        piirturi.setFill(PAATEPISTE);
+        piirturi.fillOval(rivi, sarake, 5, 5);
     }
 }
