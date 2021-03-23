@@ -4,14 +4,13 @@ import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
 import domain.Kartta;
 import domain.Solmu;
-import java.io.File;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -39,9 +38,7 @@ public class GUI extends Application {
     public void start(Stage ikkuna) throws Exception {
         ikkuna.setTitle("Lyhimmät polut - reitinhakualgoritmien vertailu");
         alustaKartta("kartat/Berlin_0_1024.map");
-        this.valikonRakentaja = new PaavalikonRakentaja();
-        this.tiedotJaTulokset = valikonRakentaja.luoValikko();
-        this.lukija = new Kartanlukija();
+        muodostaPaavalikko();
         muodostaAsetteluJaNakyma();
         valitsePaatepisteet();
         ikkuna.setScene(this.nakyma);
@@ -54,17 +51,19 @@ public class GUI extends Application {
             int sarake = (int) event.getY();
 
             if (this.alku == null) {
-                this.piirtaja.valitsePaatepiste(rivi, sarake);
-                this.alku = new Solmu(rivi, sarake);
+                if (this.piirtaja.valitsePaatepiste(rivi, sarake)) {
+                    this.alku = new Solmu(rivi, sarake);
+                } else {
+                    naytaPaatepisteidenValintaVaroitus(false);
+                }
             } else if (this.loppu == null) {
-                this.piirtaja.valitsePaatepiste(rivi, sarake);
-                this.loppu = new Solmu(rivi, sarake);
+                if (this.piirtaja.valitsePaatepiste(rivi, sarake)) {
+                    this.loppu = new Solmu(rivi, sarake);
+                } else {
+                    naytaPaatepisteidenValintaVaroitus(false);
+                }
             } else {
-                Alert huomautus = new Alert(AlertType.WARNING);
-                huomautus.setHeaderText(null);
-                huomautus.setTitle(null);
-                huomautus.setContentText("Olet jo valinnut kaksi pistettä!");
-                huomautus.show();
+                naytaPaatepisteidenValintaVaroitus(true);
             }
         }));
 
@@ -80,6 +79,12 @@ public class GUI extends Application {
         }
     }
 
+    private void muodostaPaavalikko() {
+        this.valikonRakentaja = new PaavalikonRakentaja();
+        this.tiedotJaTulokset = valikonRakentaja.luoValikko();
+        muodostaLaskennanKaynnistysNappi();
+    }
+
     private void muodostaAsetteluJaNakyma() {
         Insets ulkoreunat = new Insets(20, 20, 20, 20);
         this.asettelu = new BorderPane();
@@ -88,6 +93,37 @@ public class GUI extends Application {
         BorderPane.setMargin(karttataulu, ulkoreunat);
         this.asettelu.setRight(tiedotJaTulokset);
         this.nakyma = new Scene(asettelu);
+    }
+
+    private void muodostaKarttalista() {
+        System.out.println("Muodosta ChoiceBox");
+    }
+
+    private void muodostaLaskennanKaynnistysNappi() {
+        Button laske = new Button("Laske!");
+
+        laske.setOnAction((event) -> {
+            if (alku == null || loppu == null) {
+                naytaPaatepisteidenValintaVaroitus(false);
+            } else {
+                System.out.println("Hello Dijkstra!");
+            }
+        });
+
+        this.valikonRakentaja.getLaskennanKaynnistysValikko().getChildren().add(laske);
+    }
+
+    private void naytaPaatepisteidenValintaVaroitus(boolean valittu) {
+        Alert huomautus = new Alert(AlertType.WARNING);
+        huomautus.setHeaderText(null);
+        huomautus.setTitle(null);
+
+        if (valittu) {
+            huomautus.setContentText("Olet jo valinnut kaksi pistettä!");
+        } else {
+            huomautus.setContentText("Valitse päätepisteet kartan vapaalta alueelta!");
+        }
+        huomautus.show();
     }
 
     public static void main(String[] args) {

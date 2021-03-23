@@ -1,9 +1,7 @@
 package ui;
 
-import java.io.File;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,6 +19,7 @@ public class PaavalikonRakentaja {
     private Button piirraUusiKartta;
     private Label alku;
     private Label loppu;
+    private VBox laskennanKaynnistysValikko;
     private Label reitinPituus;
     private Label laskennanKesto;
     private String valittuKartta;
@@ -64,8 +63,8 @@ public class PaavalikonRakentaja {
     private void luoLaskennanKaynnistys() {
         Label laskennanKaynnistys = new Label("3. Käynnistä reitin laskenta: ");
         muotoileOtsikko(laskennanKaynnistys);
-        Button kaynnista = new Button("Laske!");
-        valikko.getChildren().addAll(laskennanKaynnistys, kaynnista);
+        this.laskennanKaynnistysValikko = new VBox(10, laskennanKaynnistys);
+        valikko.getChildren().add(laskennanKaynnistysValikko);
     }
 
     private void luoTulostenNaytto() {
@@ -89,7 +88,11 @@ public class PaavalikonRakentaja {
         this.loppu.setText("Loppu: " + x + ", " + y);
     }
     
-    public HBox haeKarttalistanKehys() {
+    public HBox getKarttalistanKehys() {
         return this.karttalistanKehys;
+    }
+    
+    public VBox getLaskennanKaynnistysValikko() {
+        return this.laskennanKaynnistysValikko;
     }
 }
