@@ -1,5 +1,7 @@
 # Reitinhakualgoritmien vertailu
 
+![GitHub Actions](https://github.com/jenkarper/LyhimmatPolut/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit, kevät 2021
 
 Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen oppiaineen kurssille Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit.
