@@ -22,3 +22,7 @@ jobs:
         java-version: 11
     - name: Build with Maven
       run: mvn -B package --file lyhimmatpolut/pom.xml
+    - name: Code coverage rapost
+      run: mvn test jacoco:report
+    - name: Data to codecov
+      run: bash <(curl -s https://codecov.io/bash)
