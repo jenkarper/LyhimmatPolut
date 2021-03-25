@@ -1,6 +1,7 @@
 # Reitinhakualgoritmien vertailu
 
 ![GitHub Actions](https://github.com/jenkarper/LyhimmatPolut/workflows/Java%20CI%20with%20Maven/badge.svg)
+[![codecov](https://codecov.io/gh/jenkarper/LyhimmatPolut/branch/main/graph/badge.svg?token=ADCY2UMF1W)](https://codecov.io/gh/jenkarper/LyhimmatPolut)
 
 Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit, kevät 2021
 
