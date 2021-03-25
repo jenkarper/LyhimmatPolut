@@ -2,6 +2,7 @@ package ui;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -94,5 +95,9 @@ public class PaavalikonRakentaja {
     
     public VBox getLaskennanKaynnistysValikko() {
         return this.laskennanKaynnistysValikko;
+    }
+    
+    public void lisaaKarttalista(ChoiceBox lista) {
+        this.karttalistanKehys.getChildren().add(lista);
     }
 }

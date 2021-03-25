@@ -11,6 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -33,6 +34,7 @@ public class GUI extends Application {
     private VBox tiedotJaTulokset;
     private Scene nakyma;
     private PaavalikonRakentaja valikonRakentaja;
+    private ChoiceBox karttalista;
 
     @Override
     public void start(Stage ikkuna) throws Exception {
@@ -40,6 +42,7 @@ public class GUI extends Application {
         alustaKartta("kartat/Berlin_0_1024.map");
         muodostaPaavalikko();
         muodostaAsetteluJaNakyma();
+        muodostaKarttalista("kartat");
         valitsePaatepisteet();
         ikkuna.setScene(this.nakyma);
         ikkuna.show();
@@ -95,8 +98,10 @@ public class GUI extends Application {
         this.nakyma = new Scene(asettelu);
     }
 
-    private void muodostaKarttalista() {
-        System.out.println("Muodosta ChoiceBox");
+    private void muodostaKarttalista(String hakemisto) {
+        KarttalistanRakentaja rakentaja = new KarttalistanRakentaja(hakemisto);
+        this.karttalista = rakentaja.luoKarttalista();
+        this.valikonRakentaja.lisaaKarttalista(karttalista);
     }
 
     private void muodostaLaskennanKaynnistysNappi() {
