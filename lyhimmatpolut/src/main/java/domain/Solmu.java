@@ -10,8 +10,8 @@ public class Solmu {
     
     /**
      * Luo uuden solmuolion annetuilla koordinaateilla.
-     * @param x
-     * @param y 
+     * @param x solmun x-koordinaatti
+     * @param y solmun y-koordinaatti
      */
     public Solmu(final int x, final int y) {
         this.x = x;

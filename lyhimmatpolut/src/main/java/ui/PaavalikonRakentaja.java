@@ -25,10 +25,17 @@ public class PaavalikonRakentaja {
     private Label laskennanKesto;
     private String valittuKartta;
 
+    /**
+     * Luo uuden päävalikonrakentajan ja alustaa valikkoelementin.
+     */
     public PaavalikonRakentaja() {
         this.valikko = new VBox();
     }
 
+    /**
+     * Täyttää valikkoelementin ja palauttaa sen GUIn käyttöön.
+     * @return valikko VBox-oliona
+     */
     public VBox luoValikko() {
 
         luoKartanValinta();
@@ -81,10 +88,20 @@ public class PaavalikonRakentaja {
         otsikko.setStyle("-fx-font-weight: bold");
     }
    
+    /**
+     * Päivittää valitun alkupisteen koordinaatit valikkoon.
+     * @param x valitun pisteen x-koordinaatti
+     * @param y valitun pisteen y-koordinaatti
+     */
     public void asetaAlku(int x, int y) {
         this.alku.setText("Alku: (" + x + ", " + y + ")");
     }
     
+    /**
+     * Päivittää valitun loppupisteen koordinaatit valikkoon.
+     * @param x valitun pisteen x-koordinaatti
+     * @param y valitun pisteen y-koordinaatti
+     */
     public void asetaLoppu(int x, int y) {
         this.loppu.setText("Loppu: (" + x + ", " + y + ")");
     }
