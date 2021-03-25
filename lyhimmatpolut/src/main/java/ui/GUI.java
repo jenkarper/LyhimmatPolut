@@ -56,12 +56,14 @@ public class GUI extends Application {
             if (this.alku == null) {
                 if (this.piirtaja.valitsePaatepiste(rivi, sarake)) {
                     this.alku = new Solmu(rivi, sarake);
+                    this.valikonRakentaja.asetaAlku(alku.getX(), alku.getY());
                 } else {
                     naytaPaatepisteidenValintaVaroitus(false);
                 }
             } else if (this.loppu == null) {
                 if (this.piirtaja.valitsePaatepiste(rivi, sarake)) {
                     this.loppu = new Solmu(rivi, sarake);
+                    this.valikonRakentaja.asetaLoppu(loppu.getX(), loppu.getY());
                 } else {
                     naytaPaatepisteidenValintaVaroitus(false);
                 }

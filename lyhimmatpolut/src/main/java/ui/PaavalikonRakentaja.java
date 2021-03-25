@@ -82,11 +82,11 @@ public class PaavalikonRakentaja {
     }
    
     public void asetaAlku(int x, int y) {
-        this.alku.setText("Alku: " + x + ", " + y);
+        this.alku.setText("Alku: (" + x + ", " + y + ")");
     }
     
     public void asetaLoppu(int x, int y) {
-        this.loppu.setText("Loppu: " + x + ", " + y);
+        this.loppu.setText("Loppu: (" + x + ", " + y + ")");
     }
     
     public HBox getKarttalistanKehys() {
