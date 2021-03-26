@@ -78,9 +78,9 @@ public class PaavalikonRakentaja {
     private void luoTulostenNaytto() {
         Label tulokset = new Label("4. Tulokset:");
         muotoileOtsikko(tulokset);
-        Label pituus = new Label("Reitin pituus: ");
-        Label aika = new Label("Käytetty aika: ");
-        valikko.getChildren().addAll(tulokset, pituus, aika);
+        this.reitinPituus = new Label("Reitin pituus: ");
+        this.laskennanKesto = new Label("Käytetty aika: ");
+        valikko.getChildren().addAll(tulokset, reitinPituus, laskennanKesto);
     }
 
     private void muotoileOtsikko(Label otsikko) {
@@ -106,6 +106,14 @@ public class PaavalikonRakentaja {
         this.loppu.setText("Loppu: (" + x + ", " + y + ")");
     }
     
+    /**
+     * Päivittää polun pituuden oikeaan Label-olioon.
+     * @param pituus löydetyn polun pituus
+     */
+    public void asetaLoydetynPolunPituus(double pituus) {
+        this.reitinPituus.setText("Reitin pituus: " + pituus);
+    }
+    
     public HBox getKarttalistanKehys() {
         return this.karttalistanKehys;
     }
@@ -114,6 +122,10 @@ public class PaavalikonRakentaja {
         return this.laskennanKaynnistysValikko;
     }
     
+    /**
+     * Lisää GUIssa muodostetun ChoiceBox-listan kartta-aineistosta.
+     * @param lista 
+     */
     public void lisaaKarttalista(ChoiceBox lista) {
         this.karttalistanKehys.getChildren().add(lista);
     }

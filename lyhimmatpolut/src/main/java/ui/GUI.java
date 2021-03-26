@@ -2,8 +2,10 @@ package ui;
 
 import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
+import domain.Dijkstra;
 import domain.Kartta;
 import domain.Solmu;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -39,7 +41,8 @@ public class GUI extends Application {
     @Override
     public void start(Stage ikkuna) throws Exception {
         ikkuna.setTitle("Lyhimmät polut - reitinhakualgoritmien vertailu");
-        alustaKartta("kartat/Berlin_0_1024.map");
+        alustaKartta("kartat/London_1_1024.map");
+        //alustaKartta("kartat/Berlin_0_1024.map");
         muodostaPaavalikko();
         muodostaAsetteluJaNakyma();
         muodostaKarttalista("kartat");
@@ -113,7 +116,14 @@ public class GUI extends Application {
             if (alku == null || loppu == null) {
                 naytaPaatepisteidenValintaVaroitus(false);
             } else {
-                System.out.println("Hello Dijkstra!");
+                Dijkstra d = new Dijkstra(kartta);
+                ArrayList<Solmu> polku = d.laskeReitti(alku, loppu);
+                double pituus = d.getPolunPituus(loppu);
+                if (polku.isEmpty()) {
+                    System.out.println("Polkua ei voitu muodostaa!");
+                }
+                this.piirtaja.piirraPolku(polku);
+                this.valikonRakentaja.asetaLoydetynPolunPituus(pituus);
             }
         });
 
