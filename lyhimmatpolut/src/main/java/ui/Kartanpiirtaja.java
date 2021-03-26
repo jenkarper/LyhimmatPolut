@@ -1,6 +1,8 @@
 package ui;
 
 import domain.Kartta;
+import domain.Solmu;
+import java.util.ArrayList;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -18,7 +20,7 @@ public class Kartanpiirtaja {
 
     private final Color VAPAA = Color.SNOW;
     private final Color ESTE = Color.DARKGREEN;
-    private final Color PAATEPISTE = Color.FUCHSIA;
+    private final Color POLKU = Color.FUCHSIA;
 
     public Kartanpiirtaja(Kartta kartta) {
         this.kartta = kartta;
@@ -33,6 +35,13 @@ public class Kartanpiirtaja {
             }
         }
     }
+    
+    public void piirraPolku(ArrayList<Solmu> polku) {
+        piirturi.setFill(POLKU);
+        for (Solmu s : polku) {
+            piirturi.fillRect(s.getX(), s.getY(), 2, 2);
+        }
+    }
 
     private void taytaRuutu(int rivi, int sarake) {
         if (kartta.getKarttataulu()[rivi][sarake] == '.') {
@@ -45,8 +54,8 @@ public class Kartanpiirtaja {
 
     protected boolean valitsePaatepiste(int rivi, int sarake) {
         if (kartta.getKarttataulu()[rivi][sarake] == '.') {
-            piirturi.setFill(PAATEPISTE);
-            piirturi.fillOval(rivi, sarake, 15, 15);
+            piirturi.setFill(POLKU);
+            piirturi.fillOval(rivi-7, sarake-7, 15, 15);
             return true;
         }
         return false;
