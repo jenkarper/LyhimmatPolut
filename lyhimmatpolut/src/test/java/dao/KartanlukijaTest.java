@@ -20,7 +20,7 @@ public class KartanlukijaTest {
         this.lukija.lue("kartat/testikartat/testikartta_1.map");
         Kartta testikartta = this.lukija.haeKartta();
         String testikartanRivi = new String(testikartta.getKarttataulu()[0]);
-        String odotettuRivi = "....@@..@..@@@@.....";
+        String odotettuRivi = ".....@@@@@@@@@@@@@@.";
         
         assertEquals(odotettuRivi, testikartanRivi);
     }

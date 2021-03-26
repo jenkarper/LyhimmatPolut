@@ -41,8 +41,8 @@ public class GUI extends Application {
     @Override
     public void start(Stage ikkuna) throws Exception {
         ikkuna.setTitle("Lyhimmät polut - reitinhakualgoritmien vertailu");
-        alustaKartta("kartat/London_1_1024.map");
-        //alustaKartta("kartat/Berlin_0_1024.map");
+        //alustaKartta("kartat/London_1_1024.map");
+        alustaKartta("kartat/Berlin_0_1024.map");
         muodostaPaavalikko();
         muodostaAsetteluJaNakyma();
         muodostaKarttalista("kartat");

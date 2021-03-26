@@ -50,12 +50,12 @@ public class DijkstraTest {
         ArrayList<Solmu> loydettyPolku = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(4, 4));
         ArrayList<Solmu> odotettuPolku = new ArrayList<>() {{
             add(new Solmu(0, 0));
-            add(new Solmu(1, 0));
-            add(new Solmu(2, 0));
-            add(new Solmu(3, 0));
-            add(new Solmu(4, 1));
-            add(new Solmu(4, 2));
-            add(new Solmu(4, 3));
+            add(new Solmu(0, 1));
+            add(new Solmu(0, 2));
+            add(new Solmu(0, 3));
+            add(new Solmu(1, 4));
+            add(new Solmu(2, 4));
+            add(new Solmu(3, 4));
             add(new Solmu(4, 4));
         }};
         
