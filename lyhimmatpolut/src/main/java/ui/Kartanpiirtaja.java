@@ -18,9 +18,9 @@ public class Kartanpiirtaja {
     private final Canvas alusta;
     private final GraphicsContext piirturi;
 
-    private final Color VAPAA = Color.SNOW;
-    private final Color ESTE = Color.DARKGREEN;
-    private final Color POLKU = Color.FUCHSIA;
+    private static final Color VAPAA = Color.SNOW;
+    private static final Color ESTE = Color.DARKGREEN;
+    private static final Color POLKU = Color.FUCHSIA;
 
     public Kartanpiirtaja(Kartta kartta) {
         this.kartta = kartta;
@@ -55,7 +55,7 @@ public class Kartanpiirtaja {
     protected boolean valitsePaatepiste(int rivi, int sarake) {
         if (kartta.getKarttataulu()[rivi][sarake] == '.') {
             piirturi.setFill(POLKU);
-            piirturi.fillOval(rivi-7, sarake-7, 15, 15);
+            piirturi.fillOval(rivi-7, sarake-5, 10, 10);
             return true;
         }
         return false;

@@ -15,11 +15,12 @@ public class Dijkstra {
     private final char[][] kartta;
     private final int sarakkeet;
     private final int rivit;
-    private final int inf;
     private boolean[][] vierailtu;
     private double[][] etaisyys;
     private Solmu[][] edeltaja;
     private final ArrayList<Solmu> polku;
+    
+    private static final int INF = 999999999;
 
     /**
      * Alustaa uuden algoritmiolion valitulle kartalle.
@@ -29,7 +30,6 @@ public class Dijkstra {
         this.kartta = valittuKartta.getKarttataulu();
         this.sarakkeet = valittuKartta.getLeveys();
         this.rivit = valittuKartta.getKorkeus();
-        this.inf = 999999999;
         this.polku = new ArrayList<>();
 
         alustaTaulukot();
@@ -92,7 +92,7 @@ public class Dijkstra {
 
         for (int i = 0; i < rivit; i++) {
             for (int j = 0; j < sarakkeet; j++) {
-                this.etaisyys[i][j] = inf;
+                this.etaisyys[i][j] = INF;
             }
         }
     }

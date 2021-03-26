@@ -15,6 +15,7 @@ public class Kartanlukija implements TiedostonlukijaIO {
      * Karttaolio, joka luodaan karttatiedostosta.
      */
     private Kartta kartta;
+    private char[][] karttataulu;
     private int korkeus;
     private int leveys;
     private String nimi;
@@ -28,18 +29,9 @@ public class Kartanlukija implements TiedostonlukijaIO {
     public boolean lue(final String tiedosto) {
 
         try (Scanner lukija = new Scanner(new File(tiedosto))) {
-            
+
             haeMetatiedot(lukija, tiedosto);
-
-            int rivi = 0;
-            char[][] karttataulu = new char[korkeus][leveys];
-
-            while (lukija.hasNextLine()) {
-                String kartanRivi = lukija.nextLine();
-                karttataulu[rivi] = kartanRivi.toCharArray();
-                rivi++;
-            }
-            this.kartta = new Kartta(karttataulu, korkeus, leveys, nimi);
+            muodostaKartta(lukija);
             return true;
 
         } catch (Exception e) {
@@ -64,5 +56,24 @@ public class Kartanlukija implements TiedostonlukijaIO {
         this.korkeus = Integer.valueOf(lukija.nextLine().split(" ")[1]);
         this.leveys = Integer.valueOf(lukija.nextLine().split(" ")[1]);
         lukija.nextLine(); // tiedostotyyppi?
+    }
+
+    private void muodostaKartta(Scanner lukija) {
+        int rivi = 0;
+        this.karttataulu = new char[korkeus][leveys];
+
+        while (lukija.hasNextLine()) {
+            String kartanRivi = lukija.nextLine();
+            //karttataulu[rivi] = kartanRivi.toCharArray();
+            for (int y = 0; y < kartanRivi.length(); y++) {
+                if (kartanRivi.charAt(y) == '.') {
+                    karttataulu[y][rivi] = '.';
+                } else {
+                    karttataulu[y][rivi] = '@';
+                }
+            }
+            rivi++;
+        }
+        this.kartta = new Kartta(karttataulu, korkeus, leveys, nimi);
     }
 }
