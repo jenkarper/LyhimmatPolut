@@ -65,11 +65,11 @@ public class Kartanlukija implements TiedostonlukijaIO {
         while (lukija.hasNextLine()) {
             String kartanRivi = lukija.nextLine();
             //karttataulu[rivi] = kartanRivi.toCharArray();
-            for (int y = 0; y < kartanRivi.length(); y++) {
-                if (kartanRivi.charAt(y) == '.') {
-                    karttataulu[y][rivi] = '.';
+            for (int sarake = 0; sarake < kartanRivi.length(); sarake++) {
+                if (kartanRivi.charAt(sarake) == '.') {
+                    karttataulu[sarake][rivi] = '.';
                 } else {
-                    karttataulu[y][rivi] = '@';
+                    karttataulu[sarake][rivi] = '@';
                 }
             }
             rivi++;
