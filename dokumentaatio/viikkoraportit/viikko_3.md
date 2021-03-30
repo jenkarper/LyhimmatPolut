@@ -16,6 +16,6 @@
 
 | PVM | Tunnit | Tehtävät |
 | -----:|:---:| :-----|
-| 30.3. |  2  | Oman listan toteutus ja sille testejä, muun koodin muokkaus listan käytössä |
+| 30.3. |  5  | Oman listan toteutus ja sille testejä, muun koodin muokkaus listan käytössä; oman keon rakentamisen aloitus |
 |       |     | |
 |**YHT**|**xx**| |
