@@ -18,7 +18,8 @@ public class Dijkstra {
     private boolean[][] vierailtu;
     private double[][] etaisyys;
     private Solmu[][] edeltaja;
-    private final ArrayList<Solmu> polku;
+    private final Lista polku;
+    //private final ArrayList<Solmu> polku;
     
     private static final int INF = 999999999;
 
@@ -30,7 +31,8 @@ public class Dijkstra {
         this.kartta = valittuKartta.getKarttataulu();
         this.sarakkeet = valittuKartta.getLeveys();
         this.rivit = valittuKartta.getKorkeus();
-        this.polku = new ArrayList<>();
+        this.polku = new Lista();
+        //this.polku = new ArrayList<>();
 
         alustaTaulukot();
     }
@@ -41,8 +43,7 @@ public class Dijkstra {
      * @param loppu maalisolmu
      * @return löydetty polku listana
      */
-    //CHECKSTYLE:OFF
-    public ArrayList<Solmu> laskeReitti(final Solmu alku, final Solmu loppu) {
+    public Lista laskeReitti(final Solmu alku, final Solmu loppu) {
         alku.setEtaisyys(0);
         etaisyys[alku.getX()][alku.getY()] = 0;
 
@@ -61,9 +62,11 @@ public class Dijkstra {
 
             if (!vierailtu[ux][uy]) {
                 vierailtu[ux][uy] = true;
-                ArrayList<Solmu> naapurit = haeNaapurit(u);
-
-                for (Solmu n : naapurit) {
+                //ArrayList<Solmu> naapurit = haeNaapurit(u);
+                Lista naapurit = haeNaapurit(u);
+                
+                for (int i = naapurit.getViimeinen(); i >= 0; i--) {
+                    Solmu n = naapurit.haeSolmu(i);
                     int nx = n.getX();
                     int ny = n.getY();
 
@@ -74,16 +77,28 @@ public class Dijkstra {
                         keko.add(n);
                     }
                 }
+
+//                for (Solmu n : naapurit) {
+//                    int nx = n.getX();
+//                    int ny = n.getY();
+//
+//                    if (etaisyys[nx][ny] > etaisyys[ux][uy] + n.getPaino()) {
+//                        etaisyys[nx][ny] = etaisyys[ux][uy] + n.getPaino();
+//                        n.setEtaisyys(etaisyys[nx][ny]);
+//                        edeltaja[nx][ny] = u;
+//                        keko.add(n);
+//                    }
+//                }
             }
         }
         if (!vierailtu[loppu.getX()][loppu.getY()]) {
-            return new ArrayList<>();
+            return new Lista();
+            //return new ArrayList<>();
         }
         muodostaPolku(alku, loppu);
 
         return this.polku;
     }
-    //CHECKSTYLE:ON
 
     private void alustaTaulukot() {
         this.vierailtu = new boolean[rivit][sarakkeet];
@@ -101,37 +116,64 @@ public class Dijkstra {
         return s.equals(maali);
     }
 
-    //CHECKSTYLE:OFF
-    private ArrayList<Solmu> haeNaapurit(Solmu s) {
-        ArrayList<Solmu> naapurit = new ArrayList<>();
+//    private ArrayList<Solmu> haeNaapurit(Solmu s) {
+//        ArrayList<Solmu> naapurit = new ArrayList<>();
+//        for (int i = -1; i <= 1; i++) {
+//            int rivi = s.getX() + i;
+//            for (int j = -1; j <= 1; j++) {
+//                int sarake = s.getY() + j;
+//
+//                if (!kartalla(rivi, sarake)) { // ovatko indeksit valideja
+//                    continue;
+//                }
+//
+//                if (i == 0 && j == 0) { // onko kyseessä solmu s
+//                    continue;
+//                }
+//
+//                if (kartta[rivi][sarake] == '.') { // tässä kohdassa karttaa on reitti
+//                    if (rivi == s.getX() || sarake == s.getY()) { // sama rivi/sarake kuin solmulla s
+//                        Solmu naapuri = new Solmu(rivi, sarake, 1); // tässä etäisyys on vielä INF
+//                        naapurit.add(naapuri);
+//                    } else {
+//                        Solmu naapuri = new Solmu(rivi, sarake, sqrt(2)); // diagonaalisiirtymä
+//                        naapurit.add(naapuri);
+//                    }
+//                }
+//            }
+//        }
+//
+//        return naapurit;
+//    }
+    
+    private Lista haeNaapurit(Solmu s) {
+        Lista naapurit = new Lista();
         for (int i = -1; i <= 1; i++) {
             int rivi = s.getX() + i;
             for (int j = -1; j <= 1; j++) {
                 int sarake = s.getY() + j;
 
-                if (!kartalla(rivi, sarake)) {
+                if (!kartalla(rivi, sarake)) { // ovatko indeksit valideja
                     continue;
                 }
 
-                if (i == 0 && j == 0) {
+                if (i == 0 && j == 0) { // onko kyseessä solmu s
                     continue;
                 }
 
                 if (kartta[rivi][sarake] == '.') { // tässä kohdassa karttaa on reitti
-                    if (rivi == s.getX() || sarake == s.getY()) {
-                        Solmu naapuri = new Solmu(rivi, sarake, 1);
-                        naapurit.add(naapuri);
+                    if (rivi == s.getX() || sarake == s.getY()) { // sama rivi/sarake kuin solmulla s
+                        Solmu naapuri = new Solmu(rivi, sarake, 1); // tässä etäisyys on vielä INF
+                        naapurit.lisaa(naapuri);
                     } else {
-                        Solmu naapuri = new Solmu(rivi, sarake, sqrt(2));
-                        naapurit.add(naapuri);
+                        Solmu naapuri = new Solmu(rivi, sarake, sqrt(2)); // diagonaalisiirtymä
+                        naapurit.lisaa(naapuri);
                     }
                 }
             }
         }
-
         return naapurit;
     }
-    //CHECKSTYLE:ON
 
     private boolean kartalla(int rivi, int sarake) {
         return (rivi >= 0 && rivi < this.rivit) && (sarake >= 0 && sarake < this.sarakkeet);
@@ -139,14 +181,14 @@ public class Dijkstra {
 
     private void muodostaPolku(final Solmu alku, final Solmu loppu) {
         Solmu s = loppu;
-        this.polku.add(loppu);
+        this.polku.lisaa(loppu);
 
         while (!s.equals(alku)) {
             s = edeltaja[s.getX()][s.getY()];
-            polku.add(s);
+            polku.lisaa(s);
         }
 
-        Collections.reverse(polku);
+        //Collections.reverse(polku);
     }
     
     /**
