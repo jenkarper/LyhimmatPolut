@@ -4,6 +4,7 @@ import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
 import domain.Dijkstra;
 import domain.Kartta;
+import domain.Lista;
 import domain.Solmu;
 import java.util.ArrayList;
 import javafx.application.Application;
@@ -117,9 +118,11 @@ public class GUI extends Application {
                 naytaPaatepisteidenValintaVaroitus(false);
             } else {
                 Dijkstra d = new Dijkstra(kartta);
-                ArrayList<Solmu> polku = d.laskeReitti(alku, loppu);
+                //ArrayList<Solmu> polku = d.laskeReitti(alku, loppu);
+                Lista polku = d.laskeReitti(alku, loppu);
                 double pituus = d.getPolunPituus(loppu);
-                if (polku.isEmpty()) {
+                if (polku.tyhja()) {
+                //if (polku.isEmpty()) {
                     System.out.println("Polkua ei voitu muodostaa!");
                 }
                 this.piirtaja.piirraPolku(polku);

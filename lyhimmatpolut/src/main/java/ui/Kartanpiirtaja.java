@@ -1,6 +1,7 @@
 package ui;
 
 import domain.Kartta;
+import domain.Lista;
 import domain.Solmu;
 import java.util.ArrayList;
 import javafx.scene.canvas.Canvas;
@@ -36,9 +37,17 @@ public class Kartanpiirtaja {
         }
     }
     
-    public void piirraPolku(ArrayList<Solmu> polku) {
+//    public void piirraPolku(ArrayList<Solmu> polku) {
+//        piirturi.setFill(POLKU);
+//        for (Solmu s : polku) {
+//            piirturi.fillRect(s.getX(), s.getY(), 2, 2);
+//        }
+//    }
+    
+    public void piirraPolku(Lista polku) {
         piirturi.setFill(POLKU);
-        for (Solmu s : polku) {
+        for (int i = polku.getViimeinen(); i >= 0; i--) {
+            Solmu s = polku.haeSolmu(i);
             piirturi.fillRect(s.getX(), s.getY(), 2, 2);
         }
     }
