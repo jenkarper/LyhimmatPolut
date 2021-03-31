@@ -5,6 +5,7 @@ import dao.TiedostonlukijaIO;
 import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -14,11 +15,25 @@ public class DijkstraTest {
     private Dijkstra algoritmi;
     private final TiedostonlukijaIO lukija;
     private final Kartta helppo;
+    private final Lista testiPolku;
     
     public DijkstraTest() {
         this.lukija = new Kartanlukija();
         lukija.lue("kartat/testikartat/testikartta_2.map");
         this.helppo = lukija.haeKartta();
+        this.testiPolku = new Lista();
+    }
+    
+    @Before
+    public void alusta() {
+        testiPolku.lisaa(new Solmu(4, 4));
+        testiPolku.lisaa(new Solmu(3, 4));
+        testiPolku.lisaa(new Solmu(2, 4));
+        testiPolku.lisaa(new Solmu(1, 4));
+        testiPolku.lisaa(new Solmu(0, 3));
+        testiPolku.lisaa(new Solmu(0, 2));
+        testiPolku.lisaa(new Solmu(0, 1));
+        testiPolku.lisaa(new Solmu(0, 0));
     }
     
     @Test
