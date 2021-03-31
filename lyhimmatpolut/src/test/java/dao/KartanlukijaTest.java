@@ -19,10 +19,10 @@ public class KartanlukijaTest {
     public void lukijaMuodostaaKartanOikein() {
         this.lukija.lue("kartat/testikartat/testikartta_1.map");
         Kartta testikartta = this.lukija.haeKartta();
-        String testikartanSarake = new String(testikartta.getKarttataulu()[0]);
-        String odotettuSarake = ".....@@@@@@@@@@@@@@.";
+        String testikartanRivi = new String(testikartta.getKarttataulu()[0]);
+        String odotettuRivi = "....@@..@..@@@@.....";
         
-        assertEquals(odotettuSarake, testikartanSarake);
+        assertEquals(odotettuRivi, testikartanRivi);
     }
     
     @Test
