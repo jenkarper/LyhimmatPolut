@@ -69,6 +69,10 @@ public class Lista {
         return this.lista.length;
     }
     
+    /**
+     * Palauttaa listalla olevien solmujen lukumäärän.
+     * @return listan taulukon koko
+     */
     public int koko() {
         return this.viimeinen + 1;
     }

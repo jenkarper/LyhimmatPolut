@@ -3,7 +3,6 @@ package ui;
 import domain.Kartta;
 import domain.Lista;
 import domain.Solmu;
-import java.util.ArrayList;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
