@@ -33,6 +33,6 @@ public class ListaTest {
         assertTrue(lista.getViimeinen() == 9);
         
         lista.lisaa(new Solmu(10, 10));
-        assertTrue(lista.haeTaulukonKoko() == 20);
+        assertTrue(lista.kapasiteetti() == 20);
     }
 }

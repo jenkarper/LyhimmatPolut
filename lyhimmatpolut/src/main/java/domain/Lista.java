@@ -65,7 +65,11 @@ public class Lista {
      * Palauttaa listaolion käyttämän taulukon koon (testausta varten).
      * @return taulukon integer-koko
      */
-    public int haeTaulukonKoko() {
+    public int kapasiteetti() {
         return this.lista.length;
+    }
+    
+    public int koko() {
+        return this.viimeinen + 1;
     }
 }
