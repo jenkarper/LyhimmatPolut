@@ -1,9 +1,5 @@
 package domain;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -30,9 +26,26 @@ public class ListaTest {
             Solmu s = new Solmu(i, i);
             lista.lisaa(s);
         }
-        assertTrue(lista.getViimeinen() == 9);
+        assertTrue(lista.koko() == 10);
         
         lista.lisaa(new Solmu(10, 10));
-        assertTrue(lista.haeTaulukonKoko() == 20);
+        assertTrue(lista.kapasiteetti() == 20);
+    }
+    
+    @Test
+    public void eiHaeSolmuaVaarallaIndeksilla() {
+        Lista lista = new Lista();
+        lista.lisaa(new Solmu(1, 1));
+        
+        assertTrue(lista.haeSolmu(-1)==null && lista.haeSolmu(1)==null);
+    }
+    
+    @Test
+    public void hakeeOikeanSolmunOikeallaIndeksilla() {
+        Solmu odotettu = new Solmu(1, 1);
+        Lista lista = new Lista();
+        lista.lisaa(odotettu);
+        
+        assertTrue(lista.haeSolmu(0).samaSolmu(odotettu));
     }
 }

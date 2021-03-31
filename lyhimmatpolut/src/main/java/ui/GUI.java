@@ -42,8 +42,8 @@ public class GUI extends Application {
     @Override
     public void start(Stage ikkuna) throws Exception {
         ikkuna.setTitle("Lyhimmät polut - reitinhakualgoritmien vertailu");
-        //alustaKartta("kartat/London_1_1024.map");
         alustaKartta("kartat/Berlin_0_1024.map");
+        //alustaKartta("kartat/testikartat/testikartta_2.map");
         muodostaPaavalikko();
         muodostaAsetteluJaNakyma();
         muodostaKarttalista("kartat");
@@ -54,13 +54,13 @@ public class GUI extends Application {
 
     private void valitsePaatepisteet() {
         this.karttataulu.setOnMouseClicked((event -> {
-            int rivi = (int) event.getX();
-            int sarake = (int) event.getY();
-
+            int rivi = (int) event.getY();
+            int sarake = (int) event.getX();
+            
             if (this.alku == null) {
                 if (this.piirtaja.valitsePaatepiste(rivi, sarake)) {
                     this.alku = new Solmu(rivi, sarake);
-                    this.valikonRakentaja.asetaAlku(alku.getX(), alku.getY());
+                    this.valikonRakentaja.asetaAlku(rivi, sarake);
                 } else {
                     naytaPaatepisteidenValintaVaroitus(false);
                 }
@@ -118,11 +118,11 @@ public class GUI extends Application {
                 naytaPaatepisteidenValintaVaroitus(false);
             } else {
                 Dijkstra d = new Dijkstra(kartta);
-                //ArrayList<Solmu> polku = d.laskeReitti(alku, loppu);
+                //alku = new Solmu(1013, 1012);
+                //loppu = new Solmu(8, 68);
                 Lista polku = d.laskeReitti(alku, loppu);
                 double pituus = d.getPolunPituus(loppu);
                 if (polku.tyhja()) {
-                //if (polku.isEmpty()) {
                     System.out.println("Polkua ei voitu muodostaa!");
                 }
                 this.piirtaja.piirraPolku(polku);
