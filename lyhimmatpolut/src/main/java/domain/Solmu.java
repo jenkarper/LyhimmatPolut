@@ -43,6 +43,15 @@ public class Solmu implements Comparable<Solmu> {
         this.etaisyys = etaisyys;
     }
     
+    /**
+     * Vertaa solmujen koordinaatteja.
+     * @param s verrattava solmu
+     * @return palauttaa true, jos koordinaatit ovat samat, ja false muutoin
+     */
+    public boolean samaSolmu(Solmu s) {
+        return this.x == s.getX() && this.y == s.getY();
+    }
+    
     public int getX() {
         return x;
     }
@@ -62,16 +71,7 @@ public class Solmu implements Comparable<Solmu> {
     public void setEtaisyys(double etaisyys) {
         this.etaisyys = etaisyys;
     }
-       
-    /**
-     * Vertaa solmujen koordinaatteja.
-     * @param s verrattava solmu
-     * @return palauttaa true, jos koordinaatit ovat samat, ja false muutoin
-     */
-    public boolean samaSolmu(Solmu s) {
-        return this.x == s.getX() && this.y == s.getY();
-    }
-    
+
     // Javan valmiiden tietorakenteiden kanssa tarvittavat metodit
     
     /**
@@ -82,14 +82,5 @@ public class Solmu implements Comparable<Solmu> {
     @Override
     public int compareTo(Solmu s) {
         return Double.compare(this.etaisyys, s.getEtaisyys());
-    }
-    
-    /**
-     * Vertaa solmujen koordinaatteja.
-     * @param s verrattava solmu
-     * @return palauttaa true, jos koordinaatit ovat samat, ja false muutoin
-     */
-    public boolean equals(Solmu s) {
-        return this.x == s.getX() && this.y == s.getY();
     }
 }
