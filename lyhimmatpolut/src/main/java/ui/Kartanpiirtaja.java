@@ -33,7 +33,6 @@ public class Kartanpiirtaja {
             for (int sarake = 0; sarake < kartta.getLeveys(); sarake++) {
                 taytaRuutu(rivi, sarake);
             }
-            //System.out.println("");
         }
     }
     
@@ -47,10 +46,8 @@ public class Kartanpiirtaja {
 
     private void taytaRuutu(int x, int y) {
         if (kartta.getKarttataulu()[y][x] == '.') {
-            //System.out.print(kartta.getKarttataulu()[rivi][sarake]);
             piirturi.setFill(VAPAA);
         } else {
-            //System.out.print(kartta.getKarttataulu()[rivi][sarake]);
             piirturi.setFill(ESTE);
         }
         
@@ -60,7 +57,7 @@ public class Kartanpiirtaja {
     protected boolean valitsePaatepiste(int x, int y) {
         if (kartta.getKarttataulu()[y][x] == '.') {
             piirturi.setFill(POLKU);
-            piirturi.fillOval(x-7, y-5, 10, 10);
+            piirturi.fillOval(x-5, y-5, 10, 10);
             return true;
         }
         return false;
