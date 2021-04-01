@@ -54,20 +54,20 @@ public class GUI extends Application {
 
     private void valitsePaatepisteet() {
         this.karttataulu.setOnMouseClicked((event -> {
-            int rivi = (int) event.getY();
-            int sarake = (int) event.getX();
+            int x = (int) event.getX();
+            int y = (int) event.getY();
             
             if (this.alku == null) {
-                if (this.piirtaja.valitsePaatepiste(rivi, sarake)) {
-                    this.alku = new Solmu(rivi, sarake);
-                    this.valikonRakentaja.asetaAlku(rivi, sarake);
+                if (this.piirtaja.valitsePaatepiste(x, y)) {
+                    this.alku = new Solmu(x, y);
+                    this.valikonRakentaja.asetaAlku(x, y);
                 } else {
                     naytaPaatepisteidenValintaVaroitus(false);
                 }
             } else if (this.loppu == null) {
-                if (this.piirtaja.valitsePaatepiste(rivi, sarake)) {
-                    this.loppu = new Solmu(rivi, sarake);
-                    this.valikonRakentaja.asetaLoppu(loppu.getX(), loppu.getY());
+                if (this.piirtaja.valitsePaatepiste(x, y)) {
+                    this.loppu = new Solmu(x, y);
+                    this.valikonRakentaja.asetaLoppu(x, y);
                 } else {
                     naytaPaatepisteidenValintaVaroitus(false);
                 }
@@ -118,8 +118,8 @@ public class GUI extends Application {
                 naytaPaatepisteidenValintaVaroitus(false);
             } else {
                 Dijkstra d = new Dijkstra(kartta);
-                //alku = new Solmu(1013, 1012);
-                //loppu = new Solmu(8, 68);
+//                alku = new Solmu(1017, 982);
+//                loppu = new Solmu(122, 14);
                 Lista polku = d.laskeReitti(alku, loppu);
                 double pituus = d.getPolunPituus(loppu);
                 if (polku.tyhja()) {

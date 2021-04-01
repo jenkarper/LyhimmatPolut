@@ -41,12 +41,12 @@ public class Kartanpiirtaja {
         piirturi.setFill(POLKU);
         for (int i = polku.getViimeinen(); i >= 0; i--) {
             Solmu s = polku.haeSolmu(i);
-            piirturi.fillRect(s.getY(), s.getX(), 2, 2);
+            piirturi.fillRect(s.getX(), s.getY(), 2, 2);
         }
     }
 
-    private void taytaRuutu(int rivi, int sarake) {
-        if (kartta.getKarttataulu()[rivi][sarake] == '.') {
+    private void taytaRuutu(int x, int y) {
+        if (kartta.getKarttataulu()[y][x] == '.') {
             //System.out.print(kartta.getKarttataulu()[rivi][sarake]);
             piirturi.setFill(VAPAA);
         } else {
@@ -54,13 +54,13 @@ public class Kartanpiirtaja {
             piirturi.setFill(ESTE);
         }
         
-        piirturi.fillRect(sarake, rivi, 1, 1);
+        piirturi.fillRect(x, y, 1, 1);
     }
 
-    protected boolean valitsePaatepiste(int rivi, int sarake) {
-        if (kartta.getKarttataulu()[rivi][sarake] == '.') {
+    protected boolean valitsePaatepiste(int x, int y) {
+        if (kartta.getKarttataulu()[y][x] == '.') {
             piirturi.setFill(POLKU);
-            piirturi.fillOval(sarake-7, rivi-5, 10, 10);
+            piirturi.fillOval(x-7, y-5, 10, 10);
             return true;
         }
         return false;
