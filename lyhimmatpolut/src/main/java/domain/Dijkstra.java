@@ -10,31 +10,28 @@ import java.util.PriorityQueue;
  */
 public class Dijkstra {
 
-    private final char[][] kartta;
-    private final int sarakkeet; // x
-    private final int rivit; // y
+    private char[][] kartta;
+    private int sarakkeet; // x
+    private int rivit; // y
     private boolean[][] vierailtu;
     private double[][] etaisyys;
     private Solmu[][] edeltaja;
-    private final Lista polku;
-    
+    private Lista polku;
+
     private static final int INF = 999999999;
 
     /**
      * Alustaa uuden algoritmiolion valitulle kartalle.
+     *
      * @param valittuKartta käyttäjän valitsema kartta
      */
     public Dijkstra(Kartta valittuKartta) {
-        this.kartta = valittuKartta.getKarttataulu();
-        this.sarakkeet = valittuKartta.getLeveys();
-        this.rivit = valittuKartta.getKorkeus();
-        this.polku = new Lista();
-
-        alustaTaulukot();
+        alusta(valittuKartta);
     }
 
     /**
      * Laskee lyhimman polun annettujen pisteiden välillä.
+     *
      * @param alku lähtösolmu
      * @param loppu maalisolmu
      * @return löydetty polku listana
@@ -130,16 +127,30 @@ public class Dijkstra {
             polku.lisaa(s);
         }
     }
-    
+
     /**
      * Hakee löydetyn polun pituuden etäisyystaulukosta.
+     *
      * @param loppu maalisolmu
      * @return maalisolmun etäisyys lähtösolmusta
      */
     public double getPolunPituus(Solmu loppu) {
         return this.etaisyys[loppu.getY()][loppu.getX()];
     }
-    
+
+    /**
+     * Alustaa muuttujat uuden reitin laskemista varten.
+     * @param valittuKartta uusi valittu kartta
+     */
+    public final void alusta(Kartta valittuKartta) {
+        this.kartta = valittuKartta.getKarttataulu();
+        this.sarakkeet = valittuKartta.getLeveys();
+        this.rivit = valittuKartta.getKorkeus();
+        this.polku = new Lista();
+
+        alustaTaulukot();
+    }
+
     private void alustaTaulukot() {
         this.vierailtu = new boolean[rivit][sarakkeet];
         this.etaisyys = new double[rivit][sarakkeet];
