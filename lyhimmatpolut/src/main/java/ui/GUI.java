@@ -1,11 +1,12 @@
 package ui;
 
+import algoritmit.Algoritmi;
 import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
-import domain.Dijkstra;
+import algoritmit.Dijkstra;
 import domain.Kartta;
-import domain.Lista;
 import domain.Solmu;
+import domain.Tulos;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -115,16 +116,16 @@ public class GUI extends Application {
             if (alku == null || loppu == null) {
                 naytaPaatepisteidenValintaVaroitus(false);
             } else {
-                Dijkstra d = new Dijkstra(kartta);
+                Algoritmi algoritmi = asetaAlgoritmi(kartta);
 //                alku = new Solmu(38, 28);
 //                loppu = new Solmu(1012, 941);
-                Lista polku = d.laskeReitti(alku, loppu);
-                double pituus = d.getPolunPituus(loppu);
-                if (polku.tyhja()) {
+                Tulos laskennanTulos = algoritmi.laskeReitti(alku, loppu);
+                
+                if (!laskennanTulos.onnistui()) {
                     System.out.println("Polkua ei voitu muodostaa!");
                 }
-                this.piirtaja.piirraPolku(polku);
-                this.valikonRakentaja.asetaLoydetynPolunPituus(pituus);
+                this.piirtaja.piirraPolku(laskennanTulos.getPolku());
+                this.valikonRakentaja.asetaTulokset(laskennanTulos.getPituus(), laskennanTulos.getAika());
             }
         });
 
@@ -142,6 +143,22 @@ public class GUI extends Application {
             huomautus.setContentText("Valitse päätepisteet kartan vapaalta alueelta!");
         }
         huomautus.show();
+    }
+    
+    private Algoritmi asetaAlgoritmi(Kartta kartta) {
+        String valittuAlgoritmi = this.valikonRakentaja.haeValittuAlgoritmi();
+        
+        if (valittuAlgoritmi.equals("Dijkstra")) {
+            return new Dijkstra(kartta);
+        } else if (valittuAlgoritmi.equals("A*")) {
+            System.out.println("A* valittu!");
+        } else if (valittuAlgoritmi.equals("Jump Point Search")) {
+            System.out.println("JPS valittu!");
+        } else {
+            System.out.println(valittuAlgoritmi);
+        }
+        
+        return new Dijkstra(kartta);
     }
 
     public static void main(String[] args) {
