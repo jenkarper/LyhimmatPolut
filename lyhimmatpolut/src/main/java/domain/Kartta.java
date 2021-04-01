@@ -43,4 +43,13 @@ public class Kartta {
     public String getNimi() {
         return nimi;
     }
+    
+//    public void tulosta() {
+//        for (int i = 0; i < korkeus; i++) {
+//            for (int j = 0; j < leveys; j++) {
+//                System.out.print(karttataulu[i][j]);
+//            }
+//            System.out.println("");
+//        }
+//    }
 }

@@ -76,4 +76,12 @@ public class Lista {
     public int koko() {
         return this.viimeinen + 1;
     }
+    
+    /**
+     * Resetoi listan uuden polun laskemista varten.
+     */
+    public void tyhjenna() {
+        this.lista = new Solmu[10];
+        this.viimeinen = -1;
+    }
 }
