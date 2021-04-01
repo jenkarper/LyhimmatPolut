@@ -1,7 +1,11 @@
-package domain;
+package algoritmit;
 
 import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
+import domain.Kartta;
+import domain.Lista;
+import domain.Solmu;
+import domain.Tulos;
 import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -48,16 +52,18 @@ public class DijkstraTest {
     @Test
     public void loytaaPolunHelpostaKartasta() {
         this.algoritmi = new Dijkstra(helppo);
-        Lista loydettyPolku = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(4, 4));
+        Tulos tulos = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(4, 4));
+        Lista loydettyPolku = tulos.getPolku();
         
-        //assertTrue(!loydettyPolku.tyhja());
-        //assertTrue(loydettyPolku.getViimeinen() == 7);
+        assertTrue(!loydettyPolku.tyhja());
+        assertTrue(loydettyPolku.getViimeinen() == 8); // polulla on enemmän solmuja, jos esteen nurkalla ei saa edetä viistoon
     }
     
     @Test
     public void eiLoydaPolkuaHelpostaKartastaKunSitaEiOle() {
         this.algoritmi = new Dijkstra(helppo);
-        Lista loydettyPolku = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(0, 7));
+        Tulos tulos = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(0, 7));
+        Lista loydettyPolku = tulos.getPolku();
         
         assertTrue(loydettyPolku.tyhja());
     }
@@ -65,13 +71,14 @@ public class DijkstraTest {
     @Test
     public void loytaaOikeanLyhimmanPolunHelpostaKartasta() {
         this.algoritmi = new Dijkstra(helppo);
-        Lista loydettyPolku = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(4, 4));
+        Tulos tulos = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(4, 4));
+        Lista loydettyPolku = tulos.getPolku();
         ArrayList<Solmu> odotettuPolku = new ArrayList<>() {{
             add(new Solmu(4, 4));
             add(new Solmu(3, 4));
             add(new Solmu(2, 4));
             add(new Solmu(1, 4));
-            add(new Solmu(0, 4)); // tämä solmu tulee reitille, jos esteen nurkalla ei mennä viistosti
+            add(new Solmu(0, 4)); // tämä solmu tulee reitille, jos esteen nurkalla ei saa edetä viistoon
             add(new Solmu(0, 3));
             add(new Solmu(0, 2));
             add(new Solmu(0, 1));
@@ -90,7 +97,8 @@ public class DijkstraTest {
     public void laskeePolunPituudenOikeinHelpossaKartassa() {
         this.algoritmi = new Dijkstra(helppo);
         Solmu maali = new Solmu(0, 4);
-        Lista loydettyPolku = algoritmi.laskeReitti(new Solmu(0, 0), maali);
+        Tulos tulos = algoritmi.laskeReitti(new Solmu(0, 0), maali);
+        Lista loydettyPolku = tulos.getPolku();
         double odotettuPituus = 4.0;
         double loydettyPituus = algoritmi.getPolunPituus(maali);
         
