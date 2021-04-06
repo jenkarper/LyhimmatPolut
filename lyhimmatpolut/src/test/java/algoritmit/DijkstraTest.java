@@ -105,6 +105,36 @@ public class DijkstraTest {
         assertTrue(odotettuPituus == loydettyPituus);
     }
     
+    @Test
+    public void laskeePolunPituudenOikeinVaikeassaKartassa() {
+        this.algoritmi = new Dijkstra(vaikeaBerliini);
+        Solmu lahto = new Solmu(19, 3);
+        Solmu maali = new Solmu(1005, 1002);
+        Tulos saatuTulos = algoritmi.laskeReitti(lahto, maali);
+        double odotettuPituus = 1539.80;
+        double loydettyPituus = saatuTulos.getPituus();
+        
+        assertTrue(loydettyPituus == odotettuPituus);
+        
+        algoritmi.alusta(vaikeaLontoo);
+        lahto = new Solmu(415, 51);
+        maali = new Solmu(147, 842);
+        saatuTulos = algoritmi.laskeReitti(lahto, maali);
+        odotettuPituus = 1603.24;
+        loydettyPituus = saatuTulos.getPituus();
+        
+        assertTrue(loydettyPituus == odotettuPituus);
+        
+        algoritmi.alusta(vaikeaMilano);
+        lahto = new Solmu(38, 28);
+        maali = new Solmu(1012, 941);
+        saatuTulos = algoritmi.laskeReitti(lahto, maali);
+        odotettuPituus = 1468.61;
+        loydettyPituus = saatuTulos.getPituus();
+        
+        assertTrue(loydettyPituus == odotettuPituus);
+    }
+    
 //    @Test
 //    public void laskeePolunPituudenOikeinVaikeassaKartassa() {
 //        
@@ -112,7 +142,7 @@ public class DijkstraTest {
 //        this.algoritmi = new Dijkstra(vaikeaBerliini);
 //        Solmu maali = new Solmu(1005, 1002);
 //        Lista loydettyPolku = algoritmi.laskeReitti(new Solmu(19, 3), maali);
-//        double odotettuPituus = 1539.80230712;
+//        double odotettuPituus = 1539.80;
 //        double loydettyPituus = algoritmi.getPolunPituus(maali);
 //        
 //        System.out.println(odotettuPituus + " " + loydettyPituus);
