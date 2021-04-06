@@ -1,5 +1,6 @@
 package ui;
 
+import domain.Tulos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -23,8 +24,10 @@ public class PaavalikonRakentaja {
     private Label alku;
     private Label loppu;
     private VBox laskennanKaynnistysValikko;
-    private Label reitinPituus;
-    private Label laskennanKesto;
+    private VBox tulokset;
+//    private Label reitinPituus;
+//    private Label laskennanKesto;
+//    private Label tutkittujaRuutuja;
     private String valittuKartta;
     private ToggleGroup algoritmiNapit;
 
@@ -95,11 +98,9 @@ public class PaavalikonRakentaja {
     }
 
     private void luoTulostenNaytto() {
-        Label tulokset = new Label("5. Tulokset:");
-        muotoileOtsikko(tulokset);
-        this.reitinPituus = new Label("Reitin pituus: ");
-        this.laskennanKesto = new Label("Käytetty aika (s): ");
-        valikko.getChildren().addAll(tulokset, reitinPituus, laskennanKesto);
+        Label tulosOtsikko = new Label("5. Tulokset:");
+        muotoileOtsikko(tulosOtsikko);
+        valikko.getChildren().addAll(tulosOtsikko);
     }
 
     private void muotoileOtsikko(Label otsikko) {
@@ -138,12 +139,28 @@ public class PaavalikonRakentaja {
     /**
      * Päivittää polun pituuden oikeaan Label-olioon.
      *
-     * @param pituus löydetyn polun pituus
-     * @param aika laskentaan käytetty aika sekunteina
+     * @param tulos laskennan tulokset
      */
-    public void asetaTulokset(double pituus, double aika) {
-        this.reitinPituus.setText("Reitin pituus: " + pituus);
-        this.laskennanKesto.setText("Käytetty aika (s): " + aika);
+    public void asetaTulokset(Tulos tulos) {
+
+        if (tulos.getOnnistui()) {
+            Label pituus = new Label("Reitin pituus: " + tulos.getPituus());
+            Label kesto = new Label("Käytetty aika (s): " + tulos.getAika());
+            Label tutkittuja = new Label("Vapaista ruuduista tutkittu (%): " + tulos.getTutkittujaRuutuja());
+            this.tulokset = new VBox(10, pituus, kesto, tutkittuja);
+            this.valikko.getChildren().add(tulokset);
+        } else {
+            Label eiTulosta = new Label("Antamiesi pisteiden välille ei voitu muodostaa polkua!");
+            this.tulokset = new VBox(eiTulosta);
+        }
+
+    }
+    
+    /**
+     * Nollaa valikon näyttämät tulokset uutta laskentaa varten.
+     */
+    public void nollaaTulokset() {
+        this.valikko.getChildren().remove(this.tulokset);
     }
 
     public HBox getKarttalistanKehys() {

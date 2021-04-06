@@ -21,6 +21,7 @@ public class Kartanpiirtaja {
     private static final Color VAPAA = Color.SNOW;
     private static final Color ESTE = Color.DARKGREEN;
     private static final Color POLKU = Color.FUCHSIA;
+    private static final Color TUTKITTU = Color.MISTYROSE;
 
     public Kartanpiirtaja(Kartta kartta) {
         this.kartta = kartta;
