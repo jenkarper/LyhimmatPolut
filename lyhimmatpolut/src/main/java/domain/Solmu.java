@@ -72,6 +72,11 @@ public class Solmu implements Comparable<Solmu> {
         this.etaisyys = etaisyys;
     }
     
+    /**
+     * Keko-olion tarvitsema vertailumetodi.
+     * @param s kutsuvaan solmuun verrattava solmu
+     * @return true, jos kutsuvan solmun etäisyysarvo on pienempi kuin verrattavan
+     */
     public boolean lahempanaKuin(Solmu s) {
         return this.etaisyys < s.getEtaisyys();
     }

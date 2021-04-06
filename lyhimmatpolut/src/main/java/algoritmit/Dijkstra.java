@@ -7,6 +7,7 @@ import domain.Solmu;
 import domain.Tulos;
 import static java.lang.Math.sqrt;
 import java.util.PriorityQueue;
+import tietorakenteet.Keko;
 
 /**
  * Luokka etsii polun kartalta Dijkstran algoritmia käyttäen.
@@ -50,11 +51,11 @@ public class Dijkstra implements Algoritmi {
         alku.setEtaisyys(0);
         etaisyys[alku.getY()][alku.getX()] = 0;
 
-        PriorityQueue<Solmu> keko = new PriorityQueue<>();
-        keko.add(alku);
+        Keko keko = new Keko();
+        keko.lisaa(alku);
 
-        while (!keko.isEmpty()) {
-            Solmu u = keko.poll();
+        while (!keko.tyhja()) {
+            Solmu u = keko.poistaPienin();
             int uy = u.getY();
             int ux = u.getX();
 
@@ -79,7 +80,7 @@ public class Dijkstra implements Algoritmi {
                         n.setEtaisyys(etaisyys[uy][ux] + n.getPaino()); // päivitetään uusi, parempi etäisyysarvo
                         etaisyys[ny][nx] = n.getEtaisyys();
                         edeltaja[ny][nx] = u;
-                        keko.add(n);
+                        keko.lisaa(n);
                     }
                 }
             }
