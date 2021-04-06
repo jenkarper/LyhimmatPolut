@@ -42,16 +42,87 @@ public class GUI extends Application {
     @Override
     public void start(Stage ikkuna) throws Exception {
         ikkuna.setTitle("Lyhimmät polut - reitinhakualgoritmien vertailu");
-        alustaKartta("kartat/Milan_1_1024.map");
         muodostaPaavalikko();
+        muodostaKarttavalikko("kartat");
         muodostaAsetteluJaNakyma();
-        muodostaKarttalista("kartat");
-        valitsePaatepisteet();
+        
         ikkuna.setScene(this.nakyma);
         ikkuna.show();
     }
+    
+    private void muodostaPaavalikko() {
+        this.valikonRakentaja = new PaavalikonRakentaja();
+        this.tiedotJaTulokset = valikonRakentaja.luoValikko();
+        muodostaLaskennanKaynnistysNappi();
+    }
+    
+    private void muodostaKarttavalikko(String hakemisto) {
+        KarttalistanRakentaja rakentaja = new KarttalistanRakentaja(hakemisto);
+        this.karttalista = rakentaja.luoKarttalista();
+        this.valikonRakentaja.lisaaKarttalista(karttalista);
+        
+        this.karttalista.getSelectionModel().selectFirst();
+        lueKartta((String) karttalista.getSelectionModel().getSelectedItem());
+        piirraKartta();
+        alustaKartanValinta();
+        alustaPaatepisteidenValinta();
+    }
+    
+    private void muodostaAsetteluJaNakyma() {
+        Insets ulkoreunat = new Insets(20, 20, 20, 20);
+        this.asettelu = new BorderPane();
+        this.asettelu.setPadding(ulkoreunat);
+        this.asettelu.setCenter(karttataulu);
+        BorderPane.setMargin(karttataulu, ulkoreunat);
+        this.asettelu.setRight(tiedotJaTulokset);
+        this.nakyma = new Scene(asettelu);
+    }
+    
+    private void muodostaLaskennanKaynnistysNappi() {
+        Button laske = new Button("Laske!");
 
-    private void valitsePaatepisteet() {
+        laske.setOnAction((event) -> {
+            if (alku == null || loppu == null) {
+                naytaPaatepisteidenValintaVaroitus(false);
+            } else {
+                Algoritmi algoritmi = asetaAlgoritmi(kartta);
+                Tulos laskennanTulos = algoritmi.laskeReitti(alku, loppu);
+                
+                if (!laskennanTulos.onnistui()) {
+                    System.out.println("Polkua ei voitu muodostaa!");
+                }
+                this.piirtaja.piirraPolku(laskennanTulos.getPolku());
+                this.valikonRakentaja.asetaTulokset(laskennanTulos.getPituus(), laskennanTulos.getAika());
+            }
+        });
+
+        this.valikonRakentaja.getLaskennanKaynnistysValikko().getChildren().add(laske);
+    }
+    
+    private void lueKartta(String karttatiedosto) {
+        this.lukija = new Kartanlukija();
+        lukija.lue("kartat/" + karttatiedosto);
+        this.kartta = lukija.haeKartta();
+    }
+    
+    private void piirraKartta() {
+        this.piirtaja = new Kartanpiirtaja(this.kartta);
+        this.piirtaja.piirraKartta();
+        this.karttataulu = this.piirtaja.getAlusta();
+    }
+    
+    private void alustaKartanValinta() {
+        this.karttalista.setOnAction(e -> {
+            nollaaPisteidenValinta();
+            lueKartta((String) karttalista.getSelectionModel().getSelectedItem());
+            this.kartta = lukija.haeKartta();
+            piirraKartta();
+            this.asettelu.setCenter(karttataulu);
+            alustaPaatepisteidenValinta();
+        });
+    }
+
+    private void alustaPaatepisteidenValinta() {
         this.karttataulu.setOnMouseClicked((event -> {
             int x = (int) event.getX();
             int y = (int) event.getY();
@@ -77,59 +148,20 @@ public class GUI extends Application {
 
     }
 
-    private void alustaKartta(String karttatiedosto) {
-        this.lukija = new Kartanlukija();
-        if (lukija.lue(karttatiedosto)) {
-            this.kartta = lukija.haeKartta();
-            this.piirtaja = new Kartanpiirtaja(kartta);
-            piirtaja.piirraKartta();
-            this.karttataulu = piirtaja.getAlusta();
+    private Algoritmi asetaAlgoritmi(Kartta kartta) {
+        String valittuAlgoritmi = this.valikonRakentaja.haeValittuAlgoritmi();
+        
+        if (valittuAlgoritmi.equals("Dijkstra")) {
+            return new Dijkstra(kartta);
+        } else if (valittuAlgoritmi.equals("A*")) {
+            System.out.println("A* valittu!");
+        } else if (valittuAlgoritmi.equals("Jump Point Search")) {
+            System.out.println("JPS valittu!");
+        } else {
+            System.out.println(valittuAlgoritmi);
         }
-    }
-
-    private void muodostaPaavalikko() {
-        this.valikonRakentaja = new PaavalikonRakentaja();
-        this.tiedotJaTulokset = valikonRakentaja.luoValikko();
-        muodostaLaskennanKaynnistysNappi();
-    }
-
-    private void muodostaAsetteluJaNakyma() {
-        Insets ulkoreunat = new Insets(20, 20, 20, 20);
-        this.asettelu = new BorderPane();
-        this.asettelu.setPadding(ulkoreunat);
-        this.asettelu.setCenter(karttataulu);
-        BorderPane.setMargin(karttataulu, ulkoreunat);
-        this.asettelu.setRight(tiedotJaTulokset);
-        this.nakyma = new Scene(asettelu);
-    }
-
-    private void muodostaKarttalista(String hakemisto) {
-        KarttalistanRakentaja rakentaja = new KarttalistanRakentaja(hakemisto);
-        this.karttalista = rakentaja.luoKarttalista();
-        this.valikonRakentaja.lisaaKarttalista(karttalista);
-    }
-
-    private void muodostaLaskennanKaynnistysNappi() {
-        Button laske = new Button("Laske!");
-
-        laske.setOnAction((event) -> {
-            if (alku == null || loppu == null) {
-                naytaPaatepisteidenValintaVaroitus(false);
-            } else {
-                Algoritmi algoritmi = asetaAlgoritmi(kartta);
-//                alku = new Solmu(38, 28);
-//                loppu = new Solmu(1012, 941);
-                Tulos laskennanTulos = algoritmi.laskeReitti(alku, loppu);
-                
-                if (!laskennanTulos.onnistui()) {
-                    System.out.println("Polkua ei voitu muodostaa!");
-                }
-                this.piirtaja.piirraPolku(laskennanTulos.getPolku());
-                this.valikonRakentaja.asetaTulokset(laskennanTulos.getPituus(), laskennanTulos.getAika());
-            }
-        });
-
-        this.valikonRakentaja.getLaskennanKaynnistysValikko().getChildren().add(laske);
+        
+        return new Dijkstra(kartta);
     }
 
     private void naytaPaatepisteidenValintaVaroitus(boolean valittu) {
@@ -145,20 +177,9 @@ public class GUI extends Application {
         huomautus.show();
     }
     
-    private Algoritmi asetaAlgoritmi(Kartta kartta) {
-        String valittuAlgoritmi = this.valikonRakentaja.haeValittuAlgoritmi();
-        
-        if (valittuAlgoritmi.equals("Dijkstra")) {
-            return new Dijkstra(kartta);
-        } else if (valittuAlgoritmi.equals("A*")) {
-            System.out.println("A* valittu!");
-        } else if (valittuAlgoritmi.equals("Jump Point Search")) {
-            System.out.println("JPS valittu!");
-        } else {
-            System.out.println(valittuAlgoritmi);
-        }
-        
-        return new Dijkstra(kartta);
+    private void nollaaPisteidenValinta() {
+        this.alku = null;
+        this.loppu = null;
     }
 
     public static void main(String[] args) {

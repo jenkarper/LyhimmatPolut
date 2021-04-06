@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.File;
+import java.util.Arrays;
 import javafx.scene.control.ChoiceBox;
 
 /**
@@ -27,6 +28,7 @@ public class KarttalistanRakentaja {
      */
     public ChoiceBox luoKarttalista() {
         File[] karttatiedostot = new File(this.karttahakemisto).listFiles();
+        Arrays.sort(karttatiedostot);
 
         for (File karttatiedosto : karttatiedostot) {
             if (karttatiedosto.isFile()) {
