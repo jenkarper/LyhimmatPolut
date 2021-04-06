@@ -1,4 +1,6 @@
-package domain;
+package tietorakenteet;
+
+import domain.Solmu;
 
 /**
  * Tarjoaa listarakenteen solmujen tallennusta varten.

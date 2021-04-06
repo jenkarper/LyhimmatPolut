@@ -1,5 +1,6 @@
-package domain;
+package tietorakenteet;
 
+import domain.Solmu;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,14 +20,14 @@ public class ListaTest {
     }
     
     @Test
-    public void kasvattaaListaaYhdeksannenAlkionLisaamisenJalkeen() {
+    public void kasvattaaListaaOikein() {
         Lista lista = new Lista();
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             Solmu s = new Solmu(i, i);
             lista.lisaa(s);
         }
-        assertTrue(lista.koko() == 10);
+        assertTrue(lista.kapasiteetti() == 10);
         
         lista.lisaa(new Solmu(10, 10));
         assertTrue(lista.kapasiteetti() == 20);

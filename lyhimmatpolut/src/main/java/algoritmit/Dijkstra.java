@@ -2,7 +2,7 @@ package algoritmit;
 
 import domain.Ajanottaja;
 import domain.Kartta;
-import domain.Lista;
+import tietorakenteet.Lista;
 import domain.Solmu;
 import domain.Tulos;
 import static java.lang.Math.sqrt;

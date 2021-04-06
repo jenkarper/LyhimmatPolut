@@ -1,5 +1,7 @@
 package domain;
 
+import tietorakenteet.Lista;
+
 /**
  * Laskennan tulokset kokoava luokka.
  * @author pertjenn

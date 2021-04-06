@@ -71,6 +71,10 @@ public class Solmu implements Comparable<Solmu> {
     public void setEtaisyys(double etaisyys) {
         this.etaisyys = etaisyys;
     }
+    
+    public boolean lahempanaKuin(Solmu s) {
+        return this.etaisyys < s.getEtaisyys();
+    }
 
     // Javan valmiiden tietorakenteiden kanssa tarvittavat metodit
     
