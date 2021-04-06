@@ -119,6 +119,7 @@ public class GUI extends Application {
             piirraKartta();
             this.asettelu.setCenter(karttataulu);
             alustaPaatepisteidenValinta();
+            this.valikonRakentaja.nollaaTulokset();
         });
     }
 

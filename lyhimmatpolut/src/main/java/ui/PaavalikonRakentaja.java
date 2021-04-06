@@ -173,6 +173,7 @@ public class PaavalikonRakentaja {
 
     /**
      * Palauttaa sen RadioButtonin arvon, joka on valittuna.
+     *
      * @return algoritmin nimi
      */
     public String haeValittuAlgoritmi() {
