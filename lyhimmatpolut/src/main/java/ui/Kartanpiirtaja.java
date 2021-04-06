@@ -1,7 +1,7 @@
 package ui;
 
 import domain.Kartta;
-import domain.Lista;
+import tietorakenteet.Lista;
 import domain.Solmu;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

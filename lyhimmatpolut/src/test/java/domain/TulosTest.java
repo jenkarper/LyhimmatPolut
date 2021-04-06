@@ -1,5 +1,6 @@
 package domain;
 
+import tietorakenteet.Lista;
 import algoritmit.Algoritmi;
 import algoritmit.Dijkstra;
 import dao.Kartanlukija;

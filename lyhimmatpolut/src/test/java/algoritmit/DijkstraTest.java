@@ -3,7 +3,7 @@ package algoritmit;
 import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
 import domain.Kartta;
-import domain.Lista;
+import tietorakenteet.Lista;
 import domain.Solmu;
 import domain.Tulos;
 import java.util.ArrayList;
