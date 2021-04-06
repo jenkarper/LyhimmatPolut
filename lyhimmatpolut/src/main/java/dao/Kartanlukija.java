@@ -59,15 +59,26 @@ public class Kartanlukija implements TiedostonlukijaIO {
     }
 
     private void muodostaKartta(Scanner lukija) {
+        int vapaitaRuutuja = 0;
         int rivi = 0;
         this.karttataulu = new char[korkeus][leveys];
 
         while (lukija.hasNextLine()) {
             String kartanRivi = lukija.nextLine();
-            karttataulu[rivi] = kartanRivi.toCharArray();
+            
+            for (int sarake = 0; sarake < leveys; sarake++) {
+                karttataulu[rivi][sarake] = kartanRivi.charAt(sarake);
+                if (kartanRivi.charAt(sarake) == '.') {
+                    vapaitaRuutuja++;
+                }
+                
+            }
             rivi++;
+//            String kartanRivi = lukija.nextLine();
+//            karttataulu[rivi] = kartanRivi.toCharArray();
+//            rivi++;
         }
 
-        this.kartta = new Kartta(karttataulu, korkeus, leveys, nimi);
+        this.kartta = new Kartta(karttataulu, korkeus, leveys, nimi, vapaitaRuutuja);
     }
 }

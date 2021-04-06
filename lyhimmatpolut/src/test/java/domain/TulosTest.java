@@ -46,12 +46,15 @@ public class TulosTest {
     public void pyoristaaLiukuluvutOikein() {
         double pituus = 12.345678;
         double aika = 0.87654321;
-        Tulos tulos = new Tulos("testi", new Lista(), pituus, aika, true);
+        double tutkittuja = 87.654321;
+        Tulos tulos = new Tulos("testi", new Lista(), pituus, aika, tutkittuja, true);
         
         double odotettuPyoristettyPituus = 12.35;
         double odotettuPyoristettyAika = 0.8765;
+        double odotettuPyoristettyTutkittuja = 87.65;
         
         assertTrue(odotettuPyoristettyPituus == tulos.getPituus());
         assertTrue(odotettuPyoristettyAika == tulos.getAika());
+        assertTrue(odotettuPyoristettyTutkittuja == tulos.getTutkittujaRuutuja());
     }
 }

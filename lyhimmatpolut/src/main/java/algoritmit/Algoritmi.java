@@ -16,4 +16,10 @@ public interface Algoritmi {
      * @return laskennan tulos
      */
     Tulos laskeReitti(Solmu lahto, Solmu maali);
+    
+    /**
+     * Hakee algoritmin rakentaman taulukon vierailluista solmuista.
+     * @return boolean-taulukko
+     */
+    boolean[][] haeTutkitut();
 }

@@ -9,6 +9,7 @@ public class Tulos {
     private final Lista polku;
     private final double pituus;
     private final double aika;
+    private final double tutkittujaRuutuja;
     private boolean onnistui;
     
     /**
@@ -16,7 +17,7 @@ public class Tulos {
      * @param algoritmi valitun algoritmin nimi
      */
     public Tulos(String algoritmi) {
-        this(algoritmi, new Lista(), -1, -1, false);
+        this(algoritmi, new Lista(), -1, -1, -1, false);
     }
     
     /**
@@ -25,13 +26,15 @@ public class Tulos {
      * @param polku algoritmin löytämä polku solmulistana
      * @param pituus löydetyn polun pituus
      * @param aika laskentaan käytetty aika
+     * @param tutkittuja tutkittujen ruutujen osuus vapaista
      * @param onnistui onnistuiko laskenta
      */
-    public Tulos(String algoritmi, Lista polku, double pituus, double aika, boolean onnistui) {
+    public Tulos(String algoritmi, Lista polku, double pituus, double aika, double tutkittuja, boolean onnistui) {
         this.algoritmi = algoritmi;
         this.polku = polku;
         this.pituus = pyorista(pituus, 100);
         this.aika = pyorista(aika, 10000);
+        this.tutkittujaRuutuja = pyorista(tutkittuja, 100);
         this.onnistui = onnistui;
     }
 
@@ -49,6 +52,14 @@ public class Tulos {
 
     public double getAika() {
         return this.aika;
+    }
+    
+    public double getTutkittujaRuutuja() {
+        return this.tutkittujaRuutuja;
+    }
+    
+    public boolean getOnnistui() {
+        return this.onnistui;
     }
     
     /**

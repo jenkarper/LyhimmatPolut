@@ -22,6 +22,8 @@ public class Dijkstra implements Algoritmi {
     private double[][] etaisyys;
     private Solmu[][] edeltaja;
     private Ajanottaja ajanottaja;
+    private int vapaitaRuutuja;
+    private int tutkittujaRuutuja;
 
     private static final int INF = 999999999;
 
@@ -58,12 +60,14 @@ public class Dijkstra implements Algoritmi {
 
             if (u.samaSolmu(loppu)) {
                 vierailtu[uy][ux] = true;
+                tutkittujaRuutuja++;
                 break;
             }
 
             if (!vierailtu[uy][ux]) {
 
                 vierailtu[uy][ux] = true;
+                tutkittujaRuutuja++;
                 Lista naapurit = haeNaapurit(u);
 
                 for (int i = naapurit.getViimeinen(); i >= 0; i--) {
@@ -81,12 +85,12 @@ public class Dijkstra implements Algoritmi {
             }
         }
         if (!vierailtu[loppu.getY()][loppu.getX()]) { // varmistetaan vielä, onko loppuun päästy
-            return new Tulos("Dijkstra");
+            return muodostaTulos(alku, loppu, false);
         }
 
         ajanottaja.pysayta();
 
-        return muodostaTulos(alku, loppu);
+        return muodostaTulos(alku, loppu, true);
     }
 
     private Lista haeNaapurit(Solmu s) {
@@ -178,13 +182,22 @@ public class Dijkstra implements Algoritmi {
         return polku;
     }
 
-    private Tulos muodostaTulos(final Solmu alku, final Solmu loppu) {
-        Lista polku = muodostaPolku(alku, loppu);
-        double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
-        double aika = ajanottaja.getAika();
+    private Tulos muodostaTulos(final Solmu alku, final Solmu loppu, boolean onnistui) {
 
-        return new Tulos("Dijkstra", polku, pituus, aika, true);
+        if (onnistui) {
+            Lista polku = muodostaPolku(alku, loppu);
+            double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
+            double aika = ajanottaja.getAika();
+            double tutkittuja = haeTutkittujenOsuus();
 
+            return new Tulos("Dijkstra", polku, pituus, aika, tutkittuja, true);
+        }
+
+        return new Tulos("Dijkstra");
+    }
+
+    private double haeTutkittujenOsuus() {
+        return (tutkittujaRuutuja * 100) / vapaitaRuutuja;
     }
 
     /**
@@ -207,8 +220,15 @@ public class Dijkstra implements Algoritmi {
         this.sarakkeet = valittuKartta.getLeveys();
         this.rivit = valittuKartta.getKorkeus();
         this.ajanottaja = new Ajanottaja();
+        this.vapaitaRuutuja = valittuKartta.getVapaitaRuutuja();
+        this.tutkittujaRuutuja = 0;
 
         alustaTaulukot();
+    }
+
+    @Override
+    public boolean[][] haeTutkitut() {
+        return this.vierailtu;
     }
 
     private void alustaTaulukot() {

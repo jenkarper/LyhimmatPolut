@@ -9,6 +9,7 @@ public class Kartta {
     private final int leveys;
     private final int korkeus;
     private final String nimi;
+    private final int vapaitaRuutuja;
 
     /**
      * Luo uuden karttaolion.
@@ -16,12 +17,14 @@ public class Kartta {
      * @param k taulukon korkeus
      * @param l taulukon leveys
      * @param nimi kartan nimi
+     * @param vapaitaRuutuja kartalla olevien vapaiden ruutujen lkm
      */
-    public Kartta(final char[][] taulu, final int k, final int l, final String nimi) {
+    public Kartta(final char[][] taulu, final int k, final int l, final String nimi, final int vapaitaRuutuja) {
         this.karttataulu = taulu;
         this.korkeus = k;
         this.leveys = l;
         this.nimi = nimi;
+        this.vapaitaRuutuja = vapaitaRuutuja;
     }
 
     /**
@@ -42,6 +45,10 @@ public class Kartta {
     
     public String getNimi() {
         return nimi;
+    }
+    
+    public int getVapaitaRuutuja() {
+        return vapaitaRuutuja;
     }
     
 //    public void tulosta() {

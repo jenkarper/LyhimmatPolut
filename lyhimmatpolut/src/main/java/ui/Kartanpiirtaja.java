@@ -21,6 +21,7 @@ public class Kartanpiirtaja {
     private static final Color VAPAA = Color.SNOW;
     private static final Color ESTE = Color.DARKGREEN;
     private static final Color POLKU = Color.FUCHSIA;
+    private static final Color TUTKITTU = Color.MISTYROSE;
 
     public Kartanpiirtaja(Kartta kartta) {
         this.kartta = kartta;
@@ -29,28 +30,37 @@ public class Kartanpiirtaja {
     }
 
     public void piirraKartta() {
-        for (int rivi = 0; rivi < kartta.getKorkeus(); rivi++) {
-            for (int sarake = 0; sarake < kartta.getLeveys(); sarake++) {
-                taytaRuutu(rivi, sarake);
+        for (int x = 0; x < kartta.getKorkeus(); x++) {
+            for (int y = 0; y < kartta.getLeveys(); y++) {
+                if (kartta.getKarttataulu()[y][x] == '.') {
+                    taytaRuutu(x, y, VAPAA);
+                } else {
+                    taytaRuutu(x, y, ESTE);
+                }
             }
         }
     }
     
-    public void piirraPolku(Lista polku) {
+    public void piirraPolku(Lista polku, boolean[][] tutkitut) {
+        for (int x = 0; x < kartta.getKorkeus(); x++) {
+            for (int y = 0; y < kartta.getLeveys(); y++) {
+                if (tutkitut[y][x]) {
+                    taytaRuutu(x, y, TUTKITTU);
+                }
+            }
+        }
+        
         piirturi.setFill(POLKU);
         for (int i = polku.getViimeinen(); i >= 0; i--) {
             Solmu s = polku.haeSolmu(i);
             piirturi.fillRect(s.getX(), s.getY(), 2, 2);
         }
+        valitsePaatepiste(polku.haeSolmu(0).getX(), polku.haeSolmu(0).getY());
+        valitsePaatepiste(polku.haeSolmu(polku.getViimeinen()).getX(), polku.haeSolmu(polku.getViimeinen()).getY());
     }
 
-    private void taytaRuutu(int x, int y) {
-        if (kartta.getKarttataulu()[y][x] == '.') {
-            piirturi.setFill(VAPAA);
-        } else {
-            piirturi.setFill(ESTE);
-        }
-        
+    private void taytaRuutu(int x, int y, Color vari) {
+        piirturi.setFill(vari);
         piirturi.fillRect(x, y, 1, 1);
     }
 

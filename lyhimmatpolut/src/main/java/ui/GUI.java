@@ -91,8 +91,8 @@ public class GUI extends Application {
                 if (!laskennanTulos.onnistui()) {
                     System.out.println("Polkua ei voitu muodostaa!");
                 }
-                this.piirtaja.piirraPolku(laskennanTulos.getPolku());
-                this.valikonRakentaja.asetaTulokset(laskennanTulos.getPituus(), laskennanTulos.getAika());
+                this.piirtaja.piirraPolku(laskennanTulos.getPolku(), algoritmi.haeTutkitut());
+                this.valikonRakentaja.asetaTulokset(laskennanTulos);
             }
         });
 
@@ -119,6 +119,7 @@ public class GUI extends Application {
             piirraKartta();
             this.asettelu.setCenter(karttataulu);
             alustaPaatepisteidenValinta();
+            this.valikonRakentaja.nollaaTulokset();
         });
     }
 
