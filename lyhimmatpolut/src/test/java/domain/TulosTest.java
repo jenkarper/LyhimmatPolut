@@ -41,4 +41,17 @@ public class TulosTest {
         assertTrue(tulos.getPolku().tyhja());
         assertTrue(!tulos.onnistui());
     }
+    
+    @Test
+    public void pyoristaaLiukuluvutOikein() {
+        double pituus = 12.345678;
+        double aika = 0.87654321;
+        Tulos tulos = new Tulos("testi", new Lista(), pituus, aika, true);
+        
+        double odotettuPyoristettyPituus = 12.35;
+        double odotettuPyoristettyAika = 0.8765;
+        
+        assertTrue(odotettuPyoristettyPituus == tulos.getPituus());
+        assertTrue(odotettuPyoristettyAika == tulos.getAika());
+    }
 }

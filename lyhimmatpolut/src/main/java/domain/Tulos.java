@@ -30,8 +30,8 @@ public class Tulos {
     public Tulos(String algoritmi, Lista polku, double pituus, double aika, boolean onnistui) {
         this.algoritmi = algoritmi;
         this.polku = polku;
-        this.pituus = pituus;
-        this.aika = aika;
+        this.pituus = pyorista(pituus, 100);
+        this.aika = pyorista(aika, 10000);
         this.onnistui = onnistui;
     }
 
@@ -44,11 +44,11 @@ public class Tulos {
     }
     
     public double getPituus() {
-        return pituus;
+        return this.pituus;
     }
 
     public double getAika() {
-        return aika;
+        return this.aika;
     }
     
     /**
@@ -57,5 +57,10 @@ public class Tulos {
      */
     public boolean onnistui() {
         return onnistui;
+    }
+    
+    private double pyorista(double liukuluku, int kerroin) {
+        double palautettava = Math.round(liukuluku * kerroin);
+        return palautettava / kerroin;
     }
 }
