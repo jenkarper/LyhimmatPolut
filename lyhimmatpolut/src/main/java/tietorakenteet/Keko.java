@@ -10,12 +10,19 @@ public class Keko {
     private Solmu[] keko;
     private int viimeinen;
     
+    /**
+     * Luo uuden keon oletuskoolla.
+     */
     public Keko() {
         this.keko = new Solmu[10];
         this.viimeinen = 0;
         this.keko[0] = new Solmu(0, 0, 0, -1);
     }
     
+    /**
+     * Lisää uuden solmun kekoon ja päivittää kekoehdon.
+     * @param s lisättävä solmu
+     */
     public void lisaa(Solmu s) {
         this.viimeinen++;
         
@@ -32,6 +39,10 @@ public class Keko {
         }
     }
     
+    /**
+     * Poistaa ykkösindeksissä olevan solmun ja päivittää kekoehdon.
+     * @return poistettu eli pienin solmu
+     */
     public Solmu poistaPienin() {
         Solmu pienin = this.keko[1];
         this.keko[1] = this.keko[viimeinen];
@@ -47,10 +58,6 @@ public class Keko {
             uusiKeko[i] = keko[i];
         }
         keko = uusiKeko;
-    }
-    
-    public Solmu[] haeKeko() {
-        return this.keko;
     }
 
     private void korjaaKekoehto(int indeksi) {
@@ -78,7 +85,7 @@ public class Keko {
         if (paikka == 1) {
             return 0;
         }
-        return paikka/2;
+        return paikka / 2;
     }
     
     private int vasemmanLapsenIndeksi(int paikka) {
@@ -103,14 +110,26 @@ public class Keko {
         keko[b] = vanhempi;
     }
     
+    /**
+     * Palauttaa keossa olevien solmujen määrän.
+     * @return solmujen lkm
+     */
     public int koko() {
         return this.viimeinen;
     }
     
+    /**
+     * Palauttaa keon kapasiteetin.
+     * @return keon käyttämän taulukon koko
+     */
     public int kapasiteetti() {
         return this.keko.length - 1;
     }
     
+    /**
+     * Palauttaa true, jos keossa on solmuja, muutoin false.
+     * @return boolean-arvo
+     */
     public boolean tyhja() {
         return this.viimeinen == 0;
     }

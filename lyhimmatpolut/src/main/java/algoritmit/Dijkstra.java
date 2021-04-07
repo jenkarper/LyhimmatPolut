@@ -6,7 +6,7 @@ import tietorakenteet.Lista;
 import domain.Solmu;
 import domain.Tulos;
 import static java.lang.Math.sqrt;
-import java.util.PriorityQueue;
+import tietorakenteet.Keko;
 
 /**
  * Luokka etsii polun kartalta Dijkstran algoritmia käyttäen.
@@ -35,13 +35,18 @@ public class Dijkstra implements Algoritmi {
     public Dijkstra(Kartta valittuKartta) {
         alusta(valittuKartta);
     }
+    
+    @Override
+    public boolean[][] haeTutkitut() {
+        return this.vierailtu;
+    }
 
     /**
-     * Laskee lyhimman polun annettujen pisteiden välillä.
+     * Laskee lyhimmän polun annettujen pisteiden välillä.
      *
      * @param alku lähtösolmu
      * @param loppu maalisolmu
-     * @return löydetty polku listana
+     * @return haun tulokset sisältävä olio
      */
     @Override
     public Tulos laskeReitti(final Solmu alku, final Solmu loppu) {
@@ -50,36 +55,25 @@ public class Dijkstra implements Algoritmi {
         alku.setEtaisyys(0);
         etaisyys[alku.getY()][alku.getX()] = 0;
 
-        PriorityQueue<Solmu> keko = new PriorityQueue<>();
-        keko.add(alku);
+        Keko keko = new Keko();
+        keko.lisaa(alku);
 
-        while (!keko.isEmpty()) {
-            Solmu u = keko.poll();
-            int uy = u.getY();
-            int ux = u.getX();
+        while (!keko.tyhja()) {
+            Solmu u = keko.poistaPienin();
 
             if (u.samaSolmu(loppu)) {
-                vierailtu[uy][ux] = true;
-                tutkittujaRuutuja++;
+                vieraile(u);
                 break;
             }
 
-            if (!vierailtu[uy][ux]) {
-
-                vierailtu[uy][ux] = true;
-                tutkittujaRuutuja++;
+            if (!vierailtu[u.getY()][u.getX()]) {
+                vieraile(u);
                 Lista naapurit = haeNaapurit(u);
 
                 for (int i = naapurit.getViimeinen(); i >= 0; i--) {
                     Solmu n = naapurit.haeSolmu(i);
-                    int ny = n.getY();
-                    int nx = n.getX();
-
-                    if (etaisyys[ny][nx] > etaisyys[uy][ux] + n.getPaino()) {
-                        n.setEtaisyys(etaisyys[uy][ux] + n.getPaino()); // päivitetään uusi, parempi etäisyysarvo
-                        etaisyys[ny][nx] = n.getEtaisyys();
-                        edeltaja[ny][nx] = u;
-                        keko.add(n);
+                    if (kasitteleNaapuri(u, n)) {
+                        keko.lisaa(n);
                     }
                 }
             }
@@ -93,81 +87,76 @@ public class Dijkstra implements Algoritmi {
         return muodostaTulos(alku, loppu, true);
     }
 
+    /**
+     * Käy läpi kaikki kahdeksan naapuriruutua ja poimii ehdokkaat listalle.
+     *
+     * @param s solmu, jonka naapureita haetaan
+     * @return lista valideista naapurisolmuista
+     */
     private Lista haeNaapurit(Solmu s) {
         Lista naapurit = new Lista();
-        int x = s.getX();
-        int y = s.getY();
+        int sy = s.getY();
+        int sx = s.getX();
+        
+        for (int i = -1; i <= 1; i++) {
+            int y = sy + i;
+            for (int j = -1; j <= 1; j++) {
+                int x = sx + j;
 
-        boolean yla = false;
-        boolean ala = false;
-        boolean oikea = false;
-        boolean vasen = false;
+                if (!sallittuSolmu(y, x) || (i == 0 && j == 0)) {
+                    continue;
+                }
 
-        // suoraan yläpuolella oleva naapuri
-        if (kartalla(y - 1, x) && kartta[y - 1][x] == '.') {
-            Solmu ylaNaapuri = new Solmu(x, y - 1, 1);
-            yla = true;
-            naapurit.lisaa(ylaNaapuri);
-        }
-
-        // suoraan oikealla oleva naapuri
-        if (kartalla(y, x + 1) && kartta[y][x + 1] == '.') {
-            Solmu oikeaNaapuri = new Solmu(x + 1, y, 1);
-            oikea = true;
-            naapurit.lisaa(oikeaNaapuri);
-        }
-
-        // suoraan alapuolella oleva naapuri
-        if (kartalla(y + 1, x) && kartta[y + 1][x] == '.') {
-            Solmu alaNaapuri = new Solmu(x, y + 1, 1);
-            ala = true;
-            naapurit.lisaa(alaNaapuri);
-        }
-
-        // suoraan vasemmlla oleva naapuri
-        if (kartalla(y, x - 1) && kartta[y][x - 1] == '.') {
-            Solmu vasenNaapuri = new Solmu(x - 1, y, 1);
-            vasen = true;
-            naapurit.lisaa(vasenNaapuri);
-        }
-
-        // vasemmalla ylhäällä oleva naapuri
-        if (kartalla(y - 1, x - 1) && kartta[y - 1][x - 1] == '.') {
-            Solmu ylaVasenNaapuri = new Solmu(x - 1, y - 1, sqrt(2));
-            if (yla && vasen) {
-                naapurit.lisaa(ylaVasenNaapuri);
+                if ((y == sy) || (x == sx)) { // samalla rivilla/samassa sarakkeessa kuin s
+                    Solmu naapuri = new Solmu(x, y, 1);
+                    naapurit.lisaa(naapuri);
+                } else { // diagonaalisiirtymä
+                    if (sallittuSolmu(sy, sx + j) && sallittuSolmu(sy + i, sx)) {
+                        Solmu naapuri = new Solmu(x, y, sqrt(2));
+                        naapurit.lisaa(naapuri);
+                    }
+                }
             }
         }
-
-        // oikealla ylhäällä oleva naapuri
-        if (kartalla(y - 1, x + 1) && kartta[y - 1][x + 1] == '.') {
-            Solmu ylaOikeaNaapuri = new Solmu(x + 1, y - 1, sqrt(2));
-            if (yla && oikea) {
-                naapurit.lisaa(ylaOikeaNaapuri);
-            }
-        }
-
-        // vasemmalla alhaalla oleva naapuri
-        if (kartalla(y + 1, x - 1) && kartta[y + 1][x - 1] == '.') {
-            Solmu alaVasenNaapuri = new Solmu(x - 1, y + 1, sqrt(2));
-            if (ala && vasen) {
-                naapurit.lisaa(alaVasenNaapuri);
-            }
-        }
-
-        // oikealla alhaalla oleva naapuri
-        if (kartalla(y + 1, x + 1) && kartta[y + 1][x + 1] == '.') {
-            Solmu alaOikeaNaapuri = new Solmu(x + 1, y + 1, sqrt(2));
-            if (oikea && ala) {
-                naapurit.lisaa(alaOikeaNaapuri);
-            }
-        }
-
         return naapurit;
+    }
+    
+    /**
+     * Päivittää tarvittaessa naapurisolmun etäisyysarvon.
+     * @param s käsittelyssä oleva solmu
+     * @param naapuri käsittelyssä oleva naapuri
+     * @return true, jos löytyi uusi etäisyys, false muuten
+     */
+    private boolean kasitteleNaapuri(Solmu s, Solmu naapuri) {
+        double vanhaEtaisyys = this.etaisyys[naapuri.getY()][naapuri.getX()];
+        double uusiEtaisyys = this.etaisyys[s.getY()][s.getX()] + naapuri.getPaino();
+
+        if (vanhaEtaisyys > uusiEtaisyys) {
+            naapuri.setEtaisyys(uusiEtaisyys);
+            this.etaisyys[naapuri.getY()][naapuri.getX()] = uusiEtaisyys;
+            this.edeltaja[naapuri.getY()][naapuri.getX()] = s;
+
+            return true;
+        }
+        return false;
+    }
+
+    private boolean sallittuSolmu(int rivi, int sarake) {
+
+        if (kartalla(rivi, sarake)) {
+            return this.kartta[rivi][sarake] == '.';
+        }
+
+        return false;
     }
 
     private boolean kartalla(int rivi, int sarake) {
         return (rivi >= 0 && rivi < this.rivit) && (sarake >= 0 && sarake < this.sarakkeet);
+    }
+
+    private void vieraile(Solmu s) {
+        this.vierailtu[s.getY()][s.getX()] = true;
+        this.tutkittujaRuutuja++;
     }
 
     private Lista muodostaPolku(final Solmu alku, final Solmu loppu) {
@@ -201,16 +190,6 @@ public class Dijkstra implements Algoritmi {
     }
 
     /**
-     * Hakee löydetyn polun pituuden etäisyystaulukosta.
-     *
-     * @param loppu maalisolmu
-     * @return maalisolmun etäisyys lähtösolmusta
-     */
-    public double getPolunPituus(Solmu loppu) {
-        return this.etaisyys[loppu.getY()][loppu.getX()];
-    }
-
-    /**
      * Alustaa muuttujat uuden reitin laskemista varten.
      *
      * @param valittuKartta uusi valittu kartta
@@ -226,11 +205,6 @@ public class Dijkstra implements Algoritmi {
         alustaTaulukot();
     }
 
-    @Override
-    public boolean[][] haeTutkitut() {
-        return this.vierailtu;
-    }
-
     private void alustaTaulukot() {
         this.vierailtu = new boolean[rivit][sarakkeet];
         this.etaisyys = new double[rivit][sarakkeet];
@@ -242,39 +216,4 @@ public class Dijkstra implements Algoritmi {
             }
         }
     }
-
-    /**
-     * Käy läpi kaikki kahdeksan naapuriruutua ja poimii ehdokkaat listalle.
-     *
-     * @param s solmu, jonka naapureita haetaan
-     * @return lista valideista naapurisolmuista
-     */
-//    private Lista haeNaapurit(Solmu s) {
-//        Lista naapurit = new Lista();
-//        for (int i = -1; i <= 1; i++) {
-//            int rivi = s.getY() + i;
-//            for (int j = -1; j <= 1; j++) {
-//                int sarake = s.getX() + j;
-//
-//                if (!kartalla(rivi, sarake)) { // ovatko indeksit valideja
-//                    continue;
-//                }
-//
-//                if (i == 0 && j == 0) { // onko kyseessä solmu s
-//                    continue;
-//                }
-//
-//                if (kartta[rivi][sarake] == '.') { // tässä kohdassa karttaa on reitti
-//                    if (rivi == s.getY() || sarake == s.getX()) { // sama rivi/sarake kuin solmulla s
-//                        Solmu naapuri = new Solmu(sarake, rivi, 1);
-//                        naapurit.lisaa(naapuri);
-//                    } else {
-//                        Solmu naapuri = new Solmu(sarake, rivi, sqrt(2)); // diagonaalisiirtymä
-//                        naapurit.lisaa(naapuri);
-//                    }
-//                }
-//            }
-//        }
-//        return naapurit; // naapurisolmuilla on tässä vaiheessa x- ja y-koordinaatit sekä paino, mutta etäisyys on vielä INF
-//    }
 }

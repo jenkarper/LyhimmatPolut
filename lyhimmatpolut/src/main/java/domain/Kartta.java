@@ -43,10 +43,6 @@ public class Kartta {
         return korkeus;
     }
     
-    public String getNimi() {
-        return nimi;
-    }
-    
     public int getVapaitaRuutuja() {
         return vapaitaRuutuja;
     }
