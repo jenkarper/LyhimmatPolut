@@ -45,4 +45,4 @@ Suoritettavan jar-tiedoston paketointi:
 
 `mvn package`
 
-Jar-tiedosto muodostuu projektin juuressa olevaan target-hakemistoon nimellä _LyhimmatPolut-1.0-SNAPSHOT.jar_. Jar-tiedoston voi tallentaa haluamaansa sijaintiin ja ajaa komennolla `java -jar LyhimmatPolut-1.0-SNAPSHOT.jar`. Tämä kuitenkin edellyttää, että aineistona käytettävät kartat sijaitsevat samassa hakemistossa jar-tiedoston kanssa kansiossa _kartat_. Myös komento tulee ajaa samassa hakemistossa.
+Jar-tiedosto muodostuu projektin juuressa olevaan target-hakemistoon nimellä _LyhimmatPolut-1.0-SNAPSHOT.jar_. Jar-tiedoston voi tallentaa haluamaansa sijaintiin ja ajaa komennolla `java -jar LyhimmatPolut-1.0-SNAPSHOT.jar`. Kartta-aineisto paketoidaan jar-tiedostoon mukaan.
