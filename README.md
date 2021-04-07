@@ -13,9 +13,11 @@ Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen opp
 
 ## Viikkoraportit
 
-- [Viikko 1](https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/viikkoraportit/viikko_1.md)
+- [Viikko 1](dokumentaatio/viikkoraportit/viikko_1.md)
 
-- [Viikko 2](https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/viikkoraportit/viikko_2.md)
+- [Viikko 2](dokumentaatio/viikkoraportit/viikko_2.md)
+
+- [Viikko 3](dokumentaatio/viikkoraportit/viikko_3.md)
 
 ## Komentorivikomennot
 
