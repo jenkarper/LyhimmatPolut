@@ -33,7 +33,7 @@ public class Keko {
         this.keko[viimeinen] = s; // lisätään ensimmäiseen vapaaseen kohtaan
         int p = viimeinen;
         
-        while (p > 1 && keko[p].lahempanaKuin(keko[vanhemmanIndeksi(p)])) { // ei olla indeksissä 1 eli juuressa, ja lisättävä solmu on prioriteettijärjestyksessä ennen sen tämänhetkistä vanhempaa
+        while (p > 1 && keko[p].pienempiKuin(keko[vanhemmanIndeksi(p)])) { // ei olla indeksissä 1 eli juuressa, ja lisättävä solmu on prioriteettijärjestyksessä ennen sen tämänhetkistä vanhempaa
             vaihdaPaikkaa(p, vanhemmanIndeksi(p));
             p = vanhemmanIndeksi(p);
         }
@@ -68,14 +68,14 @@ public class Keko {
         } else if (vasemmanLapsenIndeksi(indeksi) == viimeinen) { // vain vasen lapsi, joka on keon viimeinen alkio
             pienempiLapsi = vasemmanLapsenIndeksi(indeksi);
         } else {
-            if (this.keko[vasemmanLapsenIndeksi(indeksi)].lahempanaKuin(this.keko[oikeanLapsenIndeksi(indeksi)])) {
+            if (this.keko[vasemmanLapsenIndeksi(indeksi)].pienempiKuin(this.keko[oikeanLapsenIndeksi(indeksi)])) {
                 pienempiLapsi = vasemmanLapsenIndeksi(indeksi);
             } else {
                 pienempiLapsi = oikeanLapsenIndeksi(indeksi);
             }
         }
         
-        if (this.keko[pienempiLapsi].lahempanaKuin(this.keko[indeksi])) {
+        if (this.keko[pienempiLapsi].pienempiKuin(this.keko[indeksi])) {
             vaihdaPaikkaa(indeksi, pienempiLapsi);
             korjaaKekoehto(pienempiLapsi);
         }

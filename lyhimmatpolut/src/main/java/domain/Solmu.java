@@ -8,10 +8,10 @@ public class Solmu {
     private final int x;
     private final int y;
     private double paino;
-    private double etaisyys;
+    private double vertailuarvo;
     
     /**
-     * Luo uuden solmuolion annetuilla koordinaateilla ja alustaa painon ja etäisyyden.
+     * Luo uuden solmuolion annetuilla koordinaateilla ja alustaa painon ja vertailuarvon.
      * @param x solmun x-koordinaatti
      * @param y solmun y-koordinaatti
      */
@@ -20,7 +20,7 @@ public class Solmu {
     }
     
     /**
-     * Luo uuden solmuolion annetuilla koordinaateilla ja painolla ja alustaa etäisyyden.
+     * Luo uuden solmuolion annetuilla koordinaateilla ja painolla ja alustaa vertailuarvon.
      * @param x solmun x-koordinaatti
      * @param y solmun y-koordinaatti
      * @param paino solmun etäisyys polun edelliseen solmuun
@@ -34,13 +34,13 @@ public class Solmu {
      * @param x solmun x-koordinaatti
      * @param y solmun y-koordinaatti
      * @param paino solmun etäisyys polun edelliseen solmuun
-     * @param etaisyys solmun etäisyys alkusolmuun
+     * @param vertailuarvo solmun prioriteetti keossa
      */
-    public Solmu(final int x, final int y, final double paino, final double etaisyys) {
+    public Solmu(final int x, final int y, final double paino, final double vertailuarvo) {
         this.x = x;
         this.y = y;
         this.paino = paino;
-        this.etaisyys = etaisyys;
+        this.vertailuarvo = vertailuarvo;
     }
     
     /**
@@ -64,20 +64,20 @@ public class Solmu {
         return this.paino;
     }
     
-    public double getEtaisyys() {
-        return this.etaisyys;
+    public double getVertailuarvo() {
+        return this.vertailuarvo;
     }
     
-    public void setEtaisyys(double etaisyys) {
-        this.etaisyys = etaisyys;
+    public void setVertailuarvo(double vertailuarvo) {
+        this.vertailuarvo = vertailuarvo;
     }
     
     /**
      * Keko-olion tarvitsema vertailumetodi.
      * @param s kutsuvaan solmuun verrattava solmu
-     * @return true, jos kutsuvan solmun etäisyysarvo on pienempi kuin verrattavan
+     * @return true, jos kutsuvan solmun vertailuarvo on pienempi kuin verrattavan
      */
-    public boolean lahempanaKuin(Solmu s) {
-        return this.etaisyys < s.getEtaisyys();
+    public boolean pienempiKuin(Solmu s) {
+        return this.vertailuarvo < s.getVertailuarvo();
     }
 }

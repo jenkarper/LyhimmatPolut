@@ -11,11 +11,11 @@ public interface Algoritmi {
     
     /**
      * Käynnistää reitin laskennan annettujen solmujen välillä.
-     * @param lahto lähtösolmu
-     * @param maali maalisolmu
+     * @param alku lähtösolmu
+     * @param loppu maalisolmu
      * @return laskennan tulos
      */
-    Tulos laskeReitti(Solmu lahto, Solmu maali);
+    Tulos laskeReitti(Solmu alku, Solmu loppu);
     
     /**
      * Hakee algoritmin rakentaman taulukon vierailluista solmuista.

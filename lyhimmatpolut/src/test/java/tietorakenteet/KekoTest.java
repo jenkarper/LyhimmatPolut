@@ -64,7 +64,7 @@ public class KekoTest {
         
         while (keko.koko() > 1) {
             Solmu seuraava = keko.poistaPienin();
-            assertTrue(edellinen.lahempanaKuin(seuraava));
+            assertTrue(edellinen.pienempiKuin(seuraava));
             edellinen = seuraava;
         }
         
