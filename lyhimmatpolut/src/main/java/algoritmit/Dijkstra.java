@@ -52,7 +52,7 @@ public class Dijkstra implements Algoritmi {
     public Tulos laskeReitti(final Solmu alku, final Solmu loppu) {
         ajanottaja.kaynnista();
 
-        alku.setEtaisyys(0);
+        alku.setVertailuarvo(0);
         etaisyys[alku.getY()][alku.getX()] = 0;
 
         Keko keko = new Keko();
@@ -122,7 +122,7 @@ public class Dijkstra implements Algoritmi {
     }
     
     /**
-     * Päivittää tarvittaessa naapurisolmun etäisyysarvon.
+     * Päivittää tarvittaessa naapurisolmun vertailuarvon.
      * @param s käsittelyssä oleva solmu
      * @param naapuri käsittelyssä oleva naapuri
      * @return true, jos löytyi uusi etäisyys, false muuten
@@ -132,7 +132,7 @@ public class Dijkstra implements Algoritmi {
         double uusiEtaisyys = this.etaisyys[s.getY()][s.getX()] + naapuri.getPaino();
 
         if (vanhaEtaisyys > uusiEtaisyys) {
-            naapuri.setEtaisyys(uusiEtaisyys);
+            naapuri.setVertailuarvo(uusiEtaisyys);
             this.etaisyys[naapuri.getY()][naapuri.getX()] = uusiEtaisyys;
             this.edeltaja[naapuri.getY()][naapuri.getX()] = s;
 
