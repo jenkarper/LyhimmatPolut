@@ -100,7 +100,7 @@ public class DijkstraTest {
         Tulos tulos = algoritmi.laskeReitti(new Solmu(0, 0), maali);
         Lista loydettyPolku = tulos.getPolku();
         double odotettuPituus = 4.0;
-        double loydettyPituus = algoritmi.getPolunPituus(maali);
+        double loydettyPituus = tulos.getPituus();
         
         assertTrue(odotettuPituus == loydettyPituus);
     }

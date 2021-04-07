@@ -6,7 +6,6 @@ import tietorakenteet.Lista;
 import domain.Solmu;
 import domain.Tulos;
 import static java.lang.Math.sqrt;
-import java.util.PriorityQueue;
 import tietorakenteet.Keko;
 
 /**
@@ -36,13 +35,18 @@ public class Dijkstra implements Algoritmi {
     public Dijkstra(Kartta valittuKartta) {
         alusta(valittuKartta);
     }
+    
+    @Override
+    public boolean[][] haeTutkitut() {
+        return this.vierailtu;
+    }
 
     /**
-     * Laskee lyhimman polun annettujen pisteiden välillä.
+     * Laskee lyhimmän polun annettujen pisteiden välillä.
      *
      * @param alku lähtösolmu
      * @param loppu maalisolmu
-     * @return löydetty polku listana
+     * @return haun tulokset sisältävä olio
      */
     @Override
     public Tulos laskeReitti(final Solmu alku, final Solmu loppu) {
@@ -202,16 +206,6 @@ public class Dijkstra implements Algoritmi {
     }
 
     /**
-     * Hakee löydetyn polun pituuden etäisyystaulukosta.
-     *
-     * @param loppu maalisolmu
-     * @return maalisolmun etäisyys lähtösolmusta
-     */
-    public double getPolunPituus(Solmu loppu) {
-        return this.etaisyys[loppu.getY()][loppu.getX()];
-    }
-
-    /**
      * Alustaa muuttujat uuden reitin laskemista varten.
      *
      * @param valittuKartta uusi valittu kartta
@@ -225,11 +219,6 @@ public class Dijkstra implements Algoritmi {
         this.tutkittujaRuutuja = 0;
 
         alustaTaulukot();
-    }
-
-    @Override
-    public boolean[][] haeTutkitut() {
-        return this.vierailtu;
     }
 
     private void alustaTaulukot() {

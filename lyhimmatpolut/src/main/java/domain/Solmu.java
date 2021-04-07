@@ -4,7 +4,7 @@ package domain;
  * Kartan yksittäistä solmua vastaava luokka.
  * @author pertjenn
  */
-public class Solmu implements Comparable<Solmu> {
+public class Solmu {
     private final int x;
     private final int y;
     private double paino;
@@ -79,17 +79,5 @@ public class Solmu implements Comparable<Solmu> {
      */
     public boolean lahempanaKuin(Solmu s) {
         return this.etaisyys < s.getEtaisyys();
-    }
-
-    // Javan valmiiden tietorakenteiden kanssa tarvittavat metodit
-    
-    /**
-     * Antaa solmujen järjestyksen minimikeon toiminnallisuutta varten.
-     * @param s verrattava solmu
-     * @return lukuarvo, joka osoittaa solmujen järjestyksen
-     */
-    @Override
-    public int compareTo(Solmu s) {
-        return Double.compare(this.etaisyys, s.getEtaisyys());
     }
 }

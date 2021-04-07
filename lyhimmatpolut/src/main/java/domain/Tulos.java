@@ -60,10 +60,6 @@ public class Tulos {
         return this.tutkittujaRuutuja;
     }
     
-    public boolean getOnnistui() {
-        return this.onnistui;
-    }
-    
     /**
      * Palauttaa tiedon laskennan onnistumisesta.
      * @return true, jos onnistui, muutoin false
