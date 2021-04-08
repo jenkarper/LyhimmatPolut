@@ -25,9 +25,6 @@ public class PaavalikonRakentaja {
     private Label loppu;
     private VBox laskennanKaynnistysValikko;
     private VBox tulokset;
-//    private Label reitinPituus;
-//    private Label laskennanKesto;
-//    private Label tutkittujaRuutuja;
     private String valittuKartta;
     private ToggleGroup algoritmiNapit;
 
@@ -114,6 +111,10 @@ public class PaavalikonRakentaja {
         d.setSelected(true);
         a.setToggleGroup(algoritmiNapit);
         j.setToggleGroup(algoritmiNapit);
+        
+        // Asetetaan toteuttamattomat algoritmit ei-valittaviksi
+        a.setDisable(true);
+        j.setDisable(true);
     }
 
     /**
@@ -148,12 +149,11 @@ public class PaavalikonRakentaja {
             Label kesto = new Label("Käytetty aika (s): " + tulos.getAika());
             Label tutkittuja = new Label("Vapaista ruuduista tutkittu (%): " + tulos.getTutkittujaRuutuja());
             this.tulokset = new VBox(10, pituus, kesto, tutkittuja);
-            this.valikko.getChildren().add(tulokset);
         } else {
             Label eiTulosta = new Label("Antamiesi pisteiden välille ei voitu muodostaa polkua!");
             this.tulokset = new VBox(eiTulosta);
         }
-
+        this.valikko.getChildren().add(tulokset);
     }
     
     /**
