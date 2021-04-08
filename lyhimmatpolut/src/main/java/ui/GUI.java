@@ -88,10 +88,9 @@ public class GUI extends Application {
                 Algoritmi algoritmi = asetaAlgoritmi(kartta);
                 Tulos laskennanTulos = algoritmi.laskeReitti(alku, loppu);
                 
-                if (!laskennanTulos.onnistui()) {
-                    System.out.println("Polkua ei voitu muodostaa!");
+                if (laskennanTulos.onnistui()) {
+                    this.piirtaja.piirraPolku(laskennanTulos.getPolku(), algoritmi.haeTutkitut());
                 }
-                this.piirtaja.piirraPolku(laskennanTulos.getPolku(), algoritmi.haeTutkitut());
                 this.valikonRakentaja.asetaTulokset(laskennanTulos);
             }
         });
