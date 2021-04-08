@@ -96,13 +96,24 @@ public class DijkstraTest {
     @Test
     public void laskeePolunPituudenOikeinHelpossaKartassa() {
         this.algoritmi = new Dijkstra(helppo);
+        Solmu lahto = new Solmu(0, 0);
         Solmu maali = new Solmu(0, 4);
-        Tulos tulos = algoritmi.laskeReitti(new Solmu(0, 0), maali);
+        Tulos tulos = algoritmi.laskeReitti(lahto, maali);
         Lista loydettyPolku = tulos.getPolku();
         double odotettuPituus = 4.0;
         double loydettyPituus = tulos.getPituus();
         
         assertTrue(odotettuPituus == loydettyPituus);
+    }
+    
+    @Test
+    public void eiLoydaPolkuaVaikeastaKartastaKunSitaEiOle() {
+        this.algoritmi = new Dijkstra(vaikeaBerliini);
+        Solmu lahto = new Solmu(19, 3);
+        Solmu maali = new Solmu(652, 486);
+        Tulos tulos = algoritmi.laskeReitti(lahto, maali);
+        
+        assertTrue(!tulos.onnistui());
     }
     
     @Test

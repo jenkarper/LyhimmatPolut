@@ -1,5 +1,6 @@
 package ui;
 
+import algoritmit.AStar;
 import algoritmit.Algoritmi;
 import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
@@ -154,7 +155,7 @@ public class GUI extends Application {
         if (valittuAlgoritmi.equals("Dijkstra")) {
             return new Dijkstra(kartta);
         } else if (valittuAlgoritmi.equals("A*")) {
-            System.out.println("A* valittu!");
+            return new AStar(kartta);
         } else if (valittuAlgoritmi.equals("Jump Point Search")) {
             System.out.println("JPS valittu!");
         } else {
