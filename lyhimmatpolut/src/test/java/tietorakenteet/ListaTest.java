@@ -49,4 +49,20 @@ public class ListaTest {
         
         assertTrue(lista.haeSolmu(0).samaSolmu(odotettu));
     }
+    
+    @Test
+    public void tyhjentaaListanPyydettaessa() {
+        Lista lista = new Lista();
+        
+        for (int i = 0; i < 5; i++) {
+            Solmu s = new Solmu(i, i);
+            lista.lisaa(s);
+        }
+        assertTrue(lista.koko() == 5);
+        
+        lista.tyhjenna();
+        
+        assertTrue(lista.koko() == 0);
+        assertTrue(lista.getViimeinen() == -1);
+    }
 }
