@@ -44,11 +44,22 @@ public class Keko {
      * @return poistettu eli pienin solmu
      */
     public Solmu poistaPienin() {
-        Solmu pienin = this.keko[1];
-        this.keko[1] = this.keko[viimeinen];
-        viimeinen--;
-        korjaaKekoehto(1);
         
+        if (viimeinen == 0) {
+            return null;
+        }
+
+        Solmu pienin = this.keko[1];
+
+        if (viimeinen == 1) {
+            this.keko[1] = null;
+            viimeinen--;
+        } else {
+            this.keko[1] = this.keko[viimeinen];
+            viimeinen--;
+            korjaaKekoehto(1);
+        }
+
         return pienin;
     }
 
