@@ -9,7 +9,9 @@ Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen opp
 
 ## Dokumentaatio
 
-[Määrittelydokumentti](https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/maarittelydokumentti.md)
+[Määrittelydokumentti](dokumentaatio/maarittelydokumentti.md)
+
+[Testausdokumentti](dokumentaatio/testausdokumentti.md)
 
 ## Viikkoraportit
 
