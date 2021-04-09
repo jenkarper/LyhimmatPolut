@@ -128,7 +128,7 @@ public class AStar implements Algoritmi {
         double uusiEtaisyys = this.etaisyys[s.getY()][s.getX()] + naapuri.getPaino();
 
         if (vanhaEtaisyys > uusiEtaisyys) {
-            double vertailuarvo = uusiEtaisyys + euklidinenEtaisyys(naapuri, loppu);
+            double vertailuarvo = uusiEtaisyys + this.heuristiikka.euklidinenEtaisyys(s, loppu);
             naapuri.setVertailuarvo(vertailuarvo);
             this.etaisyys[naapuri.getY()][naapuri.getX()] = uusiEtaisyys;
             this.edeltaja[naapuri.getY()][naapuri.getX()] = s;
@@ -214,13 +214,4 @@ public class AStar implements Algoritmi {
             }
         }
     }
-
-    private double manhattanEtaisyys(Solmu s, Solmu loppu) {
-        return this.heuristiikka.manhattanEtaisyys(s, loppu);
-    }
-    
-    private double euklidinenEtaisyys(Solmu s, Solmu loppu) {
-        return this.heuristiikka.euklidinenEtaisyys(s, loppu);
-    }
-
 }
