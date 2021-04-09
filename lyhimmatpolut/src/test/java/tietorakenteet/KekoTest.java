@@ -72,4 +72,22 @@ public class KekoTest {
         
         assertTrue(suurin.samaSolmu(odotettuSuurin));
     }
+    
+    @Test
+    public void toimiiOikeinKunYrittääPoistaaTyhjastaKeosta() {
+        Keko keko = new Keko();
+        
+        for (int i = 0; i < 5; i++) {
+            keko.lisaa(new Solmu(i, i, 1, i+i));
+        }
+        
+        assertTrue(keko.koko() == 5);
+        
+        while (!keko.tyhja()) {
+            keko.poistaPienin();
+        }
+        
+        assertTrue(keko.koko() == 0);
+        assertTrue(keko.poistaPienin() == null);
+    }
 }
