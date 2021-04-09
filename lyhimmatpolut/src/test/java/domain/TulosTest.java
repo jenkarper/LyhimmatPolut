@@ -26,7 +26,7 @@ public class TulosTest {
         Tulos tulos = a.laskeReitti(new Solmu(0, 0), new Solmu(4, 4));
         
         assertTrue(tulos.getAlgoritmi().equals("Dijkstra"));
-        assertTrue(tulos.getAika() > 0);
+        assertTrue(tulos.getAika() != -1);
         assertTrue(tulos.getPituus() > 0);
         assertTrue(!tulos.getPolku().tyhja());
         assertTrue(tulos.onnistui());

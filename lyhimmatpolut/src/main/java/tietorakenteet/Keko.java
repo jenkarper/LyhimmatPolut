@@ -45,7 +45,7 @@ public class Keko {
      */
     public Solmu poistaPienin() {
         
-        if (viimeinen == 0) {
+        if (viimeinen < 1) {
             return null;
         }
 
