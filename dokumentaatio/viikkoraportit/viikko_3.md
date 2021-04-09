@@ -8,6 +8,8 @@ Tein omien tietorakenteiden oikeellisuutta tarkastelevat yksikkötestit automaat
 
 Lisäsin uuden Tulos-luokan, joka kokoaa laskennan tulokset käyttöliittymän tarvitsemaan muotoon. Muokkasin algoritmia niin, että se pitää kirjaa myös tutkittujen ruutujen määrästä, jotta Dijkstran ja muiden algoritmien vertailussa näkyisi myös tämä ero. Tulos-luokassa on siten oliomuuttujana tutkittujen ruutujen prosentuaalinen osuus käytetyn kartan kaikista vapaista ruuduista.
 
+Aloitin testausdokumentin kirjoittamisen ja lisäsin kuvakaappauksen JaCoCon generoimasta testikattavuusraportista.
+
 ### Pulmatilanteita
 
 En ole vielä aloittanut muiden algoritmien kirjoittamista, koska graafiseen käyttöliittymään ja vieruslistan hakuun tuhrautui niin paljon aikaa. Olen pettynyt siihen, että minun oli niin hankala hahmottaa naapurien läpikäyntiä 2d-taulukossa! Tällaiset tehtävät olivat minulle Tirassakin vaikeita,ja vaikka sain ne yleensä kuitenkin ratkaistua, vuoden takaiset opit näyttävät olevan ruosteessa. Toivon, etten ajaudu hankaluuksiin monimutkaisemman JPS-algoritmin kanssa.
@@ -31,5 +33,6 @@ Olen pyöritellyt 2d-taulukkoa nyt niin monella eri tavalla, että se ei tunnu e
 |  1.4. |  5  | Uuden vieruslistanhakumetodin toteutus, käyttöliittymän täydennys, pakkausrakenteen muokkaus ja uusien luokkien luominen ajanottoa ja tulosten keruuta varten |
 |  6.4. | 5.5 | Parannuksia käyttöliittymään, oman keon lisääminen ohjelmaan |
 |  7.4. |  2  | Vieruslistanhakumetodin siistiminen, koodin siistiminen |
+|  9.4. |  1  | Testausdokumentin aloittaminen |
 |       |     | |
-|**YHT**|**21.5**| |
+|**YHT**|**22.5**| |
