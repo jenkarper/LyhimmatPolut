@@ -1,10 +1,9 @@
 package ui;
 
-import algoritmit.AStar;
+import algoritmit.DijkstraStar;
 import algoritmit.Algoritmi;
 import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
-import algoritmit.Dijkstra;
 import domain.Kartta;
 import domain.Solmu;
 import domain.Tulos;
@@ -46,29 +45,29 @@ public class GUI extends Application {
         muodostaPaavalikko();
         muodostaKarttavalikko("kartat");
         muodostaAsetteluJaNakyma();
-        
+
         ikkuna.setScene(this.nakyma);
         ikkuna.show();
     }
-    
+
     private void muodostaPaavalikko() {
         this.valikonRakentaja = new PaavalikonRakentaja();
         this.tiedotJaTulokset = valikonRakentaja.luoValikko();
         muodostaLaskennanKaynnistysNappi();
     }
-    
+
     private void muodostaKarttavalikko(String hakemisto) {
         KarttalistanRakentaja rakentaja = new KarttalistanRakentaja(hakemisto);
         this.karttalista = rakentaja.luoKarttalista();
         this.valikonRakentaja.lisaaKarttalista(karttalista);
-        
+
         this.karttalista.getSelectionModel().selectFirst();
         lueKartta((String) karttalista.getSelectionModel().getSelectedItem());
         piirraKartta();
         alustaKartanValinta();
         alustaPaatepisteidenValinta();
     }
-    
+
     private void muodostaAsetteluJaNakyma() {
         Insets ulkoreunat = new Insets(20, 20, 20, 20);
         this.asettelu = new BorderPane();
@@ -78,7 +77,7 @@ public class GUI extends Application {
         this.asettelu.setRight(tiedotJaTulokset);
         this.nakyma = new Scene(asettelu);
     }
-    
+
     private void muodostaLaskennanKaynnistysNappi() {
         Button laske = new Button("Laske!");
 
@@ -98,19 +97,19 @@ public class GUI extends Application {
 
         this.valikonRakentaja.getLaskennanKaynnistysValikko().getChildren().add(laske);
     }
-    
+
     private void lueKartta(String karttatiedosto) {
         this.lukija = new Kartanlukija();
         lukija.lue("kartat/" + karttatiedosto);
         this.kartta = lukija.haeKartta();
     }
-    
+
     private void piirraKartta() {
         this.piirtaja = new Kartanpiirtaja(this.kartta);
         this.piirtaja.piirraKartta();
         this.karttataulu = this.piirtaja.getAlusta();
     }
-    
+
     private void alustaKartanValinta() {
         this.karttalista.setOnAction(e -> {
             nollaaPisteidenValinta();
@@ -127,7 +126,7 @@ public class GUI extends Application {
         this.karttataulu.setOnMouseClicked((event -> {
             int x = (int) event.getX();
             int y = (int) event.getY();
-            
+
             if (this.alku == null) {
                 if (this.piirtaja.valitsePaatepiste(x, y)) {
                     this.alku = new Solmu(x, y);
@@ -151,18 +150,18 @@ public class GUI extends Application {
 
     private Algoritmi asetaAlgoritmi(Kartta kartta) {
         String valittuAlgoritmi = this.valikonRakentaja.haeValittuAlgoritmi();
-        
-        if (valittuAlgoritmi.equals("Dijkstra")) {
-            return new Dijkstra(kartta);
-        } else if (valittuAlgoritmi.equals("A*")) {
-            return new AStar(kartta);
-        } else if (valittuAlgoritmi.equals("Jump Point Search")) {
-            System.out.println("JPS valittu!");
-        } else {
-            System.out.println(valittuAlgoritmi);
+
+        switch (valittuAlgoritmi) {
+            case "Dijkstra":
+                return new DijkstraStar(kartta, true);
+            case "A*":
+                return new DijkstraStar(kartta, false);
+            case "Jump Point Search":
+                System.out.println("JPS valittu!");
+            default:
+                // Käytetään oletusarvoisesti Dijkstraa.
+                return new DijkstraStar(kartta, true);
         }
-        
-        return new Dijkstra(kartta);
     }
 
     private void naytaPaatepisteidenValintaVaroitus(boolean valittu) {
@@ -177,7 +176,7 @@ public class GUI extends Application {
         }
         huomautus.show();
     }
-    
+
     private void nollaaPisteidenValinta() {
         this.alku = null;
         this.loppu = null;

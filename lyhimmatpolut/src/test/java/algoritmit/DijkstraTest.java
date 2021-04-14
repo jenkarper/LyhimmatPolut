@@ -16,7 +16,7 @@ import org.junit.Before;
  * @author pertjenn
  */
 public class DijkstraTest {
-    private Dijkstra algoritmi;
+    private DijkstraStar algoritmi;
     private final TiedostonlukijaIO lukija;
     private final Kartta helppo;
     private final Kartta vaikeaBerliini;
@@ -51,7 +51,7 @@ public class DijkstraTest {
     
     @Test
     public void loytaaPolunHelpostaKartasta() {
-        this.algoritmi = new Dijkstra(helppo);
+        this.algoritmi = new DijkstraStar(helppo, true);
         Tulos tulos = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(4, 4));
         Lista loydettyPolku = tulos.getPolku();
         
@@ -61,7 +61,7 @@ public class DijkstraTest {
     
     @Test
     public void eiLoydaPolkuaHelpostaKartastaKunSitaEiOle() {
-        this.algoritmi = new Dijkstra(helppo);
+        this.algoritmi = new DijkstraStar(helppo, true);
         Tulos tulos = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(0, 7));
         Lista loydettyPolku = tulos.getPolku();
         
@@ -70,7 +70,7 @@ public class DijkstraTest {
     
     @Test
     public void loytaaOikeanLyhimmanPolunHelpostaKartasta() {
-        this.algoritmi = new Dijkstra(helppo);
+        this.algoritmi = new DijkstraStar(helppo, true);
         Tulos tulos = algoritmi.laskeReitti(new Solmu(0, 0), new Solmu(4, 4));
         Lista loydettyPolku = tulos.getPolku();
         ArrayList<Solmu> odotettuPolku = new ArrayList<>() {{
@@ -95,7 +95,7 @@ public class DijkstraTest {
     
     @Test
     public void laskeePolunPituudenOikeinHelpossaKartassa() {
-        this.algoritmi = new Dijkstra(helppo);
+        this.algoritmi = new DijkstraStar(helppo, true);
         Solmu lahto = new Solmu(0, 0);
         Solmu maali = new Solmu(0, 4);
         Tulos tulos = algoritmi.laskeReitti(lahto, maali);
@@ -108,7 +108,7 @@ public class DijkstraTest {
     
     @Test
     public void eiLoydaPolkuaVaikeastaKartastaKunSitaEiOle() {
-        this.algoritmi = new Dijkstra(vaikeaBerliini);
+        this.algoritmi = new DijkstraStar(vaikeaBerliini, true);
         Solmu lahto = new Solmu(19, 3);
         Solmu maali = new Solmu(652, 486);
         Tulos tulos = algoritmi.laskeReitti(lahto, maali);
@@ -118,7 +118,7 @@ public class DijkstraTest {
     
     @Test
     public void laskeePolunPituudenOikeinVaikeassaKartassa() {
-        this.algoritmi = new Dijkstra(vaikeaBerliini);
+        this.algoritmi = new DijkstraStar(vaikeaBerliini, true);
         Solmu lahto = new Solmu(19, 3);
         Solmu maali = new Solmu(1005, 1002);
         Tulos saatuTulos = algoritmi.laskeReitti(lahto, maali);

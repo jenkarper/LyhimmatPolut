@@ -2,7 +2,7 @@ package domain;
 
 import tietorakenteet.Lista;
 import algoritmit.Algoritmi;
-import algoritmit.Dijkstra;
+import algoritmit.DijkstraStar;
 import dao.Kartanlukija;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -18,7 +18,7 @@ public class TulosTest {
     public TulosTest() {
         this.lukija = new Kartanlukija();
         lukija.lue("kartat/testikartat/testikartta_2.map");
-        this.a = new Dijkstra(lukija.haeKartta());
+        this.a = new DijkstraStar(lukija.haeKartta(), true);
     }
     
     @Test

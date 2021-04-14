@@ -113,7 +113,7 @@ public class PaavalikonRakentaja {
         j.setToggleGroup(algoritmiNapit);
         
         // Asetetaan toteuttamattomat algoritmit ei-valittaviksi
-        j.setDisable(true);
+        //j.setDisable(true);
     }
 
     /**
