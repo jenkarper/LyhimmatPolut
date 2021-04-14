@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  * @author pertjenn
  */
 public class AStarTest {
-    private AStar algoritmi;
+    private DijkstraStar algoritmi;
     private final TiedostonlukijaIO lukija;
     private final Kartta vaikeaBerliini;
     private final Kartta vaikeaLontoo;
@@ -31,7 +31,7 @@ public class AStarTest {
     
     @Test
     public void eiLoydaPolkuaVaikeastaKartastaKunSitaEiOle() {
-        this.algoritmi = new AStar(vaikeaBerliini);
+        this.algoritmi = new DijkstraStar(vaikeaBerliini, false);
         Solmu lahto = new Solmu(19, 3);
         Solmu maali = new Solmu(652, 486);
         Tulos tulos = algoritmi.laskeReitti(lahto, maali);
@@ -41,7 +41,7 @@ public class AStarTest {
     
     @Test
     public void laskeePolunPituudenOikeinVaikeassaKartassa() {
-        this.algoritmi = new AStar(vaikeaBerliini);
+        this.algoritmi = new DijkstraStar(vaikeaBerliini, false);
         Solmu lahto = new Solmu(19, 3);
         Solmu maali = new Solmu(1005, 1002);
         Tulos saatuTulos = algoritmi.laskeReitti(lahto, maali);

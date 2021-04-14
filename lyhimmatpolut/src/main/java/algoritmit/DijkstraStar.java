@@ -2,19 +2,19 @@ package algoritmit;
 
 import domain.Ajanottaja;
 import domain.Kartta;
-import tietorakenteet.Lista;
 import domain.Solmu;
 import domain.Tulos;
 import static java.lang.Math.sqrt;
 import tietorakenteet.Keko;
+import tietorakenteet.Lista;
 
 /**
- * Luokka etsii polun kartalta Dijkstran algoritmia käyttäen.
+ * Luokka etsii lyhimmän polun A*-algoritmia käyttäen.
  *
  * @author pertjenn
  */
-public class Dijkstra implements Algoritmi {
-
+public class DijkstraStar implements Algoritmi {
+    
     private char[][] kartta;
     private int sarakkeet; // x
     private int rivit; // y
@@ -24,6 +24,9 @@ public class Dijkstra implements Algoritmi {
     private Ajanottaja ajanottaja;
     private int vapaitaRuutuja;
     private int tutkittujaRuutuja;
+    private Heuristiikka heuristiikka;
+    private final boolean dijkstra;
+    private final String nimi;
 
     private static final int INF = 999999999;
 
@@ -31,25 +34,21 @@ public class Dijkstra implements Algoritmi {
      * Alustaa uuden algoritmiolion valitulle kartalle.
      *
      * @param valittuKartta käyttäjän valitsema kartta
+     * @param dijkstra halutaanko luoda Dijkstra vai A*
      */
-    public Dijkstra(Kartta valittuKartta) {
+    public DijkstraStar(Kartta valittuKartta, boolean dijkstra) {
+        this.dijkstra = dijkstra;
+        if (dijkstra) {
+            this.nimi = "Dijkstra";
+        } else {
+            this.nimi = "A*";
+        }
         alusta(valittuKartta);
-    }
-    
-    @Override
-    public boolean[][] haeTutkitut() {
-        return this.vierailtu;
+        
     }
 
-    /**
-     * Laskee lyhimmän polun annettujen pisteiden välillä.
-     *
-     * @param alku lähtösolmu
-     * @param loppu maalisolmu
-     * @return haun tulokset sisältävä olio
-     */
     @Override
-    public Tulos laskeReitti(final Solmu alku, final Solmu loppu) {
+    public Tulos laskeReitti(Solmu alku, Solmu loppu) {
         ajanottaja.kaynnista();
 
         alku.setVertailuarvo(0);
@@ -66,13 +65,13 @@ public class Dijkstra implements Algoritmi {
                 break;
             }
 
-            if (!vierailtu[u.getY()][u.getX()]) {
+            if (!this.vierailtu[u.getY()][u.getX()]) {
                 vieraile(u);
                 Lista naapurit = haeNaapurit(u);
 
                 for (int i = naapurit.getViimeinen(); i >= 0; i--) {
                     Solmu n = naapurit.haeSolmu(i);
-                    if (kasitteleNaapuri(u, n)) {
+                    if (kasitteleNaapuri(u, n, loppu)) {
                         keko.lisaa(n);
                     }
                 }
@@ -87,6 +86,11 @@ public class Dijkstra implements Algoritmi {
         return muodostaTulos(alku, loppu, true);
     }
 
+    @Override
+    public boolean[][] haeTutkitut() {
+        return this.vierailtu;
+    }
+
     /**
      * Käy läpi kaikki kahdeksan naapuriruutua ja poimii ehdokkaat listalle.
      *
@@ -97,7 +101,7 @@ public class Dijkstra implements Algoritmi {
         Lista naapurit = new Lista();
         int sy = s.getY();
         int sx = s.getX();
-        
+
         for (int i = -1; i <= 1; i++) {
             int y = sy + i;
             for (int j = -1; j <= 1; j++) {
@@ -120,19 +124,22 @@ public class Dijkstra implements Algoritmi {
         }
         return naapurit;
     }
-    
+
     /**
      * Päivittää tarvittaessa naapurisolmun vertailuarvon.
-     * @param s käsittelyssä oleva solmu
-     * @param naapuri käsittelyssä oleva naapuri
-     * @return true, jos löytyi uusi etäisyys, false muuten
+     *
+     * @param s solmu jossa ollaan nyt
+     * @param naapuri solmun käsittelyssä oleva naapuri
+     * @param loppu maalisolmu, jota tarvitaan manhattanetäisyyden laskemisessa
+     * @return true, jos löytyi pienempi vertailuarvo, false muuten
      */
-    private boolean kasitteleNaapuri(Solmu s, Solmu naapuri) {
+    private boolean kasitteleNaapuri(Solmu s, Solmu naapuri, Solmu loppu) {
         double vanhaEtaisyys = this.etaisyys[naapuri.getY()][naapuri.getX()];
         double uusiEtaisyys = this.etaisyys[s.getY()][s.getX()] + naapuri.getPaino();
 
         if (vanhaEtaisyys > uusiEtaisyys) {
-            naapuri.setVertailuarvo(uusiEtaisyys);
+            double vertailuarvo = uusiEtaisyys + arvioituEtaisyysLoppuun(s, loppu);
+            naapuri.setVertailuarvo(vertailuarvo);
             this.etaisyys[naapuri.getY()][naapuri.getX()] = uusiEtaisyys;
             this.edeltaja[naapuri.getY()][naapuri.getX()] = s;
 
@@ -158,6 +165,13 @@ public class Dijkstra implements Algoritmi {
         this.vierailtu[s.getY()][s.getX()] = true;
         this.tutkittujaRuutuja++;
     }
+    
+    private double arvioituEtaisyysLoppuun(Solmu s, Solmu loppu) {
+        if (this.dijkstra) {
+            return 0.0;
+        }
+        return this.heuristiikka.euklidinenEtaisyys(s, loppu);
+    }
 
     private Lista muodostaPolku(final Solmu alku, final Solmu loppu) {
         Solmu s = loppu;
@@ -172,6 +186,7 @@ public class Dijkstra implements Algoritmi {
     }
 
     private Tulos muodostaTulos(final Solmu alku, final Solmu loppu, boolean onnistui) {
+        String algoritmi = "";
 
         if (onnistui) {
             Lista polku = muodostaPolku(alku, loppu);
@@ -179,10 +194,10 @@ public class Dijkstra implements Algoritmi {
             double aika = ajanottaja.getAika();
             double tutkittuja = haeTutkittujenOsuus();
 
-            return new Tulos("Dijkstra", polku, pituus, aika, tutkittuja, true);
+            return new Tulos(this.nimi, polku, pituus, aika, tutkittuja, true);
         }
 
-        return new Tulos("Dijkstra");
+        return new Tulos(this.nimi);
     }
 
     private double haeTutkittujenOsuus() {
@@ -201,6 +216,7 @@ public class Dijkstra implements Algoritmi {
         this.ajanottaja = new Ajanottaja();
         this.vapaitaRuutuja = valittuKartta.getVapaitaRuutuja();
         this.tutkittujaRuutuja = 0;
+        this.heuristiikka = new Heuristiikka();
 
         alustaTaulukot();
     }
