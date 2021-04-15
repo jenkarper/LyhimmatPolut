@@ -19,10 +19,18 @@ public class JPS implements Algoritmi {
     private Lista hyppypisteet;
     private Suunta[] suunnat;
 
+    /**
+     * Luo uuden algoritmiolion valitulle kartalle.
+     * @param valittuKartta 
+     */
     public JPS(Kartta valittuKartta) {
         alusta(valittuKartta);
     }
 
+    /**
+     * Palauttaa haussa löydetyt hyppypisteet listana (käytetään hyppypisteiden visualisointiin).
+     * @return hyppypisteet listana
+     */
     public Lista getHyppypisteet() {
         return hyppypisteet;
     }
@@ -31,7 +39,7 @@ public class JPS implements Algoritmi {
     public Tulos laskeReitti(Solmu alku, Solmu loppu) {
 
         // Tällä hetkellä algoritmi vain tekee suorahaun neljään suuntaan
-        // alkupisteestä alkaen alaspäin, kunnes törmätään esteeseen.
+        // alkupisteestä alkaen alas ja oikealle, kunnes törmätään esteeseen.
         Solmu s = alku;
 
         while (sallittuSolmu(s)) {
@@ -39,7 +47,7 @@ public class JPS implements Algoritmi {
             for (Suunta suunta : this.suunnat) {
                 suoraHaku(s, suunta);
             }
-            s = new Solmu(s.getX(), s.getY() + 1);
+            s = new Solmu(s.getX() + 1, s.getY() + 1);
         }
         if (this.hyppypisteet.koko() == 0) {
             System.out.println("Hyppypisteitä ei löytynyt.");
@@ -47,6 +55,11 @@ public class JPS implements Algoritmi {
         return new Tulos("JPS", new Lista(), hyppypisteet, -1, -1, -1, true);
     }
 
+    /**
+     * Algoritmin osa, joka suorittaa akselien mukaisen haun annettuun suuntaan.
+     * @param s tarkasteltavana oleva solmu
+     * @param suunta suunta, johon haku on etenemässä
+     */
     public void suoraHaku(Solmu s, Suunta suunta) {
 
         int x = s.getX();
@@ -77,6 +90,13 @@ public class JPS implements Algoritmi {
         }
     }
 
+    /**
+     * Tutkii, onko nykyisellä solmulla pakotettuja naapureita.
+     * @param nykyinen tarkasteluvuorossa oleva solmu
+     * @param seuraava tarkasteluvuorossa olevan solmun lähin naapuri parametrin mukaisessa suunnassa
+     * @param suunta suunta, johon haku on etenemässä
+     * @return true, jos pakotettuja naapureita löytyi
+     */
     private boolean etsiPakotetutNaapurit(Solmu nykyinen, Solmu seuraava, Suunta suunta) {
 
         int nx = nykyinen.getX();
@@ -136,4 +156,10 @@ public class JPS implements Algoritmi {
         return new boolean[1][1];
     }
 
+//    private void tulostaHyppypisteet() {
+//        for (int i = 0; i < this.hyppypisteet.koko(); i++) {
+//            Solmu hp = hyppypisteet.haeSolmu(i);
+//            System.out.println("Hyppypiste: " + hp.getX() + " " + hp.getY());
+//        }
+//    }
 }
