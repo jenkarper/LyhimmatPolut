@@ -1,4 +1,4 @@
-package lyhimmatpolut;
+package main;
 
 import ui.GUI;
 

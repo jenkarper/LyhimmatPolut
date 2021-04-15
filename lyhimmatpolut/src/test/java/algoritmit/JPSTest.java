@@ -5,6 +5,7 @@ import dao.TiedostonlukijaIO;
 import domain.Kartta;
 import domain.Solmu;
 import domain.Suunta;
+import algoritmit.JPS;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

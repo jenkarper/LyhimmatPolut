@@ -2,9 +2,9 @@ package algoritmit;
 
 import domain.Ajanottaja;
 import domain.Kartta;
+import domain.Laskin;
 import domain.Solmu;
 import domain.Tulos;
-import static java.lang.Math.sqrt;
 import tietorakenteet.Keko;
 import tietorakenteet.Lista;
 
@@ -24,7 +24,7 @@ public class DijkstraStar implements Algoritmi {
     private Ajanottaja ajanottaja;
     private int vapaitaRuutuja;
     private int tutkittujaRuutuja;
-    private Heuristiikka heuristiikka;
+    private Laskin laskin;
     private final boolean dijkstra;
     private final String nimi;
 
@@ -116,7 +116,7 @@ public class DijkstraStar implements Algoritmi {
                     naapurit.lisaa(naapuri);
                 } else { // diagonaalisiirtymä
                     if (sallittuSolmu(sy, sx + j) && sallittuSolmu(sy + i, sx)) {
-                        Solmu naapuri = new Solmu(x, y, sqrt(2));
+                        Solmu naapuri = new Solmu(x, y, laskin.neliojuuri(2));
                         naapurit.lisaa(naapuri);
                     }
                 }
@@ -170,7 +170,7 @@ public class DijkstraStar implements Algoritmi {
         if (this.dijkstra) {
             return 0.0;
         }
-        return this.heuristiikka.euklidinenEtaisyys(s, loppu);
+        return this.laskin.euklidinenEtaisyys(s, loppu);
     }
 
     private Lista muodostaPolku(final Solmu alku, final Solmu loppu) {
@@ -216,7 +216,7 @@ public class DijkstraStar implements Algoritmi {
         this.ajanottaja = new Ajanottaja();
         this.vapaitaRuutuja = valittuKartta.getVapaitaRuutuja();
         this.tutkittujaRuutuja = 0;
-        this.heuristiikka = new Heuristiikka();
+        this.laskin = new Laskin();
 
         alustaTaulukot();
     }

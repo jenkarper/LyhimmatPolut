@@ -1,5 +1,5 @@
 /**
- * Tietorakenteet toteuttavat luokat.
+ * Tietorakenteiden toteuttamisesta vastaavat luokat.
  */
 
 package tietorakenteet;
