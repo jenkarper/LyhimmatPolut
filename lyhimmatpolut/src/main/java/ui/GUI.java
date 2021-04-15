@@ -2,6 +2,7 @@ package ui;
 
 import algoritmit.DijkstraStar;
 import algoritmit.Algoritmi;
+import algoritmit.JPS;
 import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
 import domain.Kartta;
@@ -87,9 +88,14 @@ public class GUI extends Application {
             } else {
                 Algoritmi algoritmi = asetaAlgoritmi(kartta);
                 Tulos laskennanTulos = algoritmi.laskeReitti(alku, loppu);
-                
+
                 if (laskennanTulos.onnistui()) {
-                    this.piirtaja.piirraPolku(laskennanTulos.getPolku(), algoritmi.haeTutkitut());
+                    if (laskennanTulos.getPolku().getViimeinen() == -1) {
+                        this.piirtaja.piirraHyppypisteet(laskennanTulos.getHyppypisteet());
+                    } else {
+                        this.piirtaja.piirraPolku(laskennanTulos.getPolku(), algoritmi.haeTutkitut());
+                    }
+
                 }
                 this.valikonRakentaja.asetaTulokset(laskennanTulos);
             }
@@ -157,7 +163,7 @@ public class GUI extends Application {
             case "A*":
                 return new DijkstraStar(kartta, false);
             case "Jump Point Search":
-                System.out.println("JPS valittu!");
+                return new JPS(kartta);
             default:
                 // Käytetään oletusarvoisesti Dijkstraa.
                 return new DijkstraStar(kartta, true);

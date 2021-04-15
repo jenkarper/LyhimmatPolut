@@ -14,6 +14,8 @@ public class Tulos {
     private final double tutkittujaRuutuja;
     private boolean onnistui;
     
+    private final Lista hyppypisteet;
+    
     /**
      * Luo tyhjän tulosolion, jos polkua ei löytynyt.
      * @param algoritmi valitun algoritmin nimi
@@ -23,7 +25,7 @@ public class Tulos {
     }
     
     /**
-     * Luo uuden tulosolion annetuilla parametreilla.
+     * Luo uuden Dijkstra/A*-tulosolion annetuilla parametreilla.
      * @param algoritmi valitun algoritmin nimi
      * @param polku algoritmin löytämä polku solmulistana
      * @param pituus löydetyn polun pituus
@@ -32,8 +34,23 @@ public class Tulos {
      * @param onnistui onnistuiko laskenta
      */
     public Tulos(String algoritmi, Lista polku, double pituus, double aika, double tutkittuja, boolean onnistui) {
+        this(algoritmi, polku, new Lista(), pituus, aika, tutkittuja, onnistui);
+    }
+    
+    /**
+     * Luo uuden JPS-tulosolion annetuilla parametreilla.
+     * @param algoritmi valitun algoritmin nimi
+     * @param polku algoritmin löytämä polku solmulistana
+     * @param hyppypisteet algoritmin tunnistamat hyppypisteet
+     * @param pituus löydetyn polun pituus
+     * @param aika laskentaan käytetty aika
+     * @param tutkittuja tutkittujen ruutujen osuus vapaista
+     * @param onnistui onnistuiko laskenta
+     */
+    public Tulos(String algoritmi, Lista polku, Lista hyppypisteet, double pituus, double aika, double tutkittuja, boolean onnistui) {
         this.algoritmi = algoritmi;
         this.polku = polku;
+        this.hyppypisteet = hyppypisteet;
         this.pituus = pyorista(pituus, 100);
         this.aika = pyorista(aika, 10000);
         this.tutkittujaRuutuja = pyorista(tutkittuja, 100);
@@ -58,6 +75,10 @@ public class Tulos {
     
     public double getTutkittujaRuutuja() {
         return this.tutkittujaRuutuja;
+    }
+    
+    public Lista getHyppypisteet() {
+        return this.hyppypisteet;
     }
     
     /**

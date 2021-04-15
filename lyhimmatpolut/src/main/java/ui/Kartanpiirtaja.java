@@ -23,6 +23,7 @@ public class Kartanpiirtaja {
     private static final Color ESTE = Color.DARKGREEN;
     private static final Color POLKU = Color.FUCHSIA;
     private static final Color TUTKITTU = Color.MISTYROSE;
+    private static final Color HYPPYPISTE = Color.YELLOWGREEN;
 
     public Kartanpiirtaja(Kartta kartta) {
         this.kartta = kartta;
@@ -72,6 +73,14 @@ public class Kartanpiirtaja {
             return true;
         }
         return false;
+    }
+    
+    public void piirraHyppypisteet(Lista hyppypisteet) {
+        for (int i = 0; i < hyppypisteet.koko(); i++) {
+            Solmu hp = hyppypisteet.haeSolmu(i);
+            piirturi.setFill(HYPPYPISTE);
+            piirturi.fillOval(hp.getX()-5, hp.getY()-5, 10, 10);
+        }
     }
 
     public Canvas getAlusta() {
