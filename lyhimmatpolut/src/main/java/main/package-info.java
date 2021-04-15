@@ -2,4 +2,4 @@
  * Pääohjelmaluokka.
  */
 
-package lyhimmatpolut;
+package main;

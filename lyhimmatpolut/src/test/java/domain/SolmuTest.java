@@ -1,5 +1,6 @@
 package domain;
 
+import domain.Solmu;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

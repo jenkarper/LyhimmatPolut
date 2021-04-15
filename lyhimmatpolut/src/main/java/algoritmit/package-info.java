@@ -1,5 +1,5 @@
 /**
- * Algoritmit toteuttava luokat.
+ * Algoritmien toteuttamisesta vastaavat luokat.
  */
 
 package algoritmit;

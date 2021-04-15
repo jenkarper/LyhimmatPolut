@@ -1,5 +1,5 @@
 /**
- * Algoritmit toteuttava luokat.
+ * Algoritmien toteuttamisesta vastaavat luokat.
  */
 
 package algoritmit;
@@ -24,9 +24,9 @@ package domain;
 
 package lyhimmatpolut;
 
- /**
-  * Tietorakenteet toteuttavat luokat.
-  */
+/**
+ * Tietorakenteiden toteuttamisesta vastaavat luokat.
+ */
 
 package tietorakenteet;
 
