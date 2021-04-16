@@ -13,6 +13,8 @@ Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen opp
 
 [Testausdokumentti](dokumentaatio/testausdokumentti.md)
 
+[Käyttöohje](dokumentaatio/kayttoohje.md)
+
 ## Viikkoraportit
 
 - [Viikko 1](dokumentaatio/viikkoraportit/viikko_1.md)
@@ -20,6 +22,8 @@ Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen opp
 - [Viikko 2](dokumentaatio/viikkoraportit/viikko_2.md)
 
 - [Viikko 3](dokumentaatio/viikkoraportit/viikko_3.md)
+
+- [Viikko 4](dokumentaatio/viikkoraportit/viikko_4.md)
 
 ## Komentorivikomennot
 
