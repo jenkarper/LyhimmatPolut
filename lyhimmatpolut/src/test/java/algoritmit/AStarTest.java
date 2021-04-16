@@ -21,11 +21,11 @@ public class AStarTest {
     
     public AStarTest() {
         this.lukija = new Kartanlukija();
-        lukija.lue("kartat/Berlin_0_1024.map");
+        lukija.lueKartta("kartat/Berlin_0_1024.map");
         this.vaikeaBerliini = lukija.haeKartta();
-        lukija.lue("kartat/London_0_1024.map");
+        lukija.lueKartta("kartat/London_0_1024.map");
         this.vaikeaLontoo = lukija.haeKartta();
-        lukija.lue("kartat/Milan_1_1024.map");
+        lukija.lueKartta("kartat/Milan_1_1024.map");
         this.vaikeaMilano = lukija.haeKartta();
     }
     
