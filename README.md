@@ -25,7 +25,7 @@ Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen opp
 
 Sovelluksen käynnistys:
 
-`mvn compile exec:java -Dexec.mainClass=lyhimmatpolut.Main`
+`mvn compile exec:java -Dexec.mainClass=main.Main`
 
 Testien ajaminen ja testikattavuusraportin luominen:
 
