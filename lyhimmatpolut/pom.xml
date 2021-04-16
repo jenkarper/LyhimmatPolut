@@ -26,7 +26,8 @@
                 <configuration>
                     <excludes>
                         <exclude>ui/*</exclude>
-                        <exclude>lyhimmatpolut/*</exclude>
+                        <exclude>main/*</exclude>
+                        <exclude>suorituskykytestaus/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
