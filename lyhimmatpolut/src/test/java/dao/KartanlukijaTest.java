@@ -3,6 +3,8 @@ package dao;
 import domain.Kartta;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import suorituskykytestaus.Reittikuvaus;
+import suorituskykytestaus.Skenaario;
 
 /**
  *
@@ -37,5 +39,15 @@ public class KartanlukijaTest {
     @Test
     public void lukijaTunnistaaVirheellisenTiedoston() {
         assertTrue(!this.lukija.lueKartta("kartat/olematonkartta.map"));
+    }
+    
+    @Test
+    public void lukijaMuodostaaSkenaarionOikein() {
+        this.lukija.lueSkenaario("kartat/London_0_1024.map");
+        Skenaario skenaario = this.lukija.haeSkenaario();
+        Reittikuvaus odotettu = new Reittikuvaus(415, 51, 147, 842, 1603.24090728);
+        Reittikuvaus loydetty = skenaario.haeReittikuvaus(skenaario.reittejaLuettu() - 1);
+        
+        assertEquals(odotettu.toString(), loydetty.toString());
     }
 }

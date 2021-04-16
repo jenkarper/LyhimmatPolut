@@ -19,6 +19,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import suorituskykytestaus.Testaaja;
 
 /**
  * Graafisen käyttöliittymän rakentava luokka.
@@ -55,6 +56,7 @@ public class GUI extends Application {
         this.valikonRakentaja = new PaavalikonRakentaja();
         this.tiedotJaTulokset = valikonRakentaja.luoValikko();
         muodostaLaskennanKaynnistysNappi();
+        muodostaSuorituskykytestienKaynnistysNappi();
     }
 
     private void muodostaKarttavalikko(String hakemisto) {
@@ -102,6 +104,18 @@ public class GUI extends Application {
         });
 
         this.valikonRakentaja.getLaskennanKaynnistysValikko().getChildren().add(laske);
+    }
+    
+    private void muodostaSuorituskykytestienKaynnistysNappi() {
+        Button testaa = new Button("Käynnistä!");
+        
+        testaa.setOnAction((event) -> {
+            Testaaja testaaja = new Testaaja();
+            testaaja.suoritaTestit("kartat/Boston_2_1024.map", 5);
+            testaaja.naytaTulokset();
+        });
+        
+        this.valikonRakentaja.getSuorituskykytestienKaynnistysValikko().getChildren().add(testaa);
     }
 
     private void lueKartta(String karttatiedosto) {

@@ -11,6 +11,14 @@ public class Reittikuvaus {
     private final Solmu loppu;
     private final double reitinPituus;
     
+    /**
+     * Luo uuden reittikuvauksen skenaariotiedoston tiedoista.
+     * @param alkuX alkusolmun x-koordinaatti
+     * @param alkuY alkusolmun y-koordinaatti
+     * @param loppuX loppusolmun x-koordinaatti
+     * @param loppuY loppusolmun y-koordinaatti
+     * @param pituus optimaalinen pituus
+     */
     public Reittikuvaus(int alkuX, int alkuY, int loppuX, int loppuY, double pituus) {
         this.alku = new Solmu(alkuX, alkuY);
         this.loppu = new Solmu(loppuX, loppuY);
