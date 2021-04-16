@@ -24,10 +24,15 @@ public class Testaaja {
     private ArrayList<Testitulos> tulokset;
     private Reittikuvaus[] testireitit;
         
-    public void suoritaTestit(String valittuKartta, int toistoja) {
+    /**
+     * Suorittaa suorituskykytestit valitulla kartalla n reitillä.
+     * @param valittuKartta karttatiedoston polku
+     * @param n kuinka monta reittiä arvotaan
+     */
+    public void suoritaTestit(String valittuKartta, int n) {
         
         lueTiedostot(valittuKartta);
-        arvoReitit(toistoja);
+        arvoReitit(n);
         this.tulokset = new ArrayList<>();
         
         for (Reittikuvaus rk : this.testireitit) {
@@ -75,6 +80,9 @@ public class Testaaja {
         this.tulokset.add(tulos);
     }
     
+    /**
+     * Tulostaa saadut tulokset käyttäjän nähtäville.
+     */
     public void naytaTulokset() {
         for (Testitulos tulos : tulokset) {
             System.out.println("");

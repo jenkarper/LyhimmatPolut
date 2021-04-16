@@ -164,7 +164,7 @@ public class PaavalikonRakentaja {
         if (tulos.onnistui()) {
             this.pituus.setText("Reitin pituus: " + tulos.getPituus());
             this.kesto.setText("Käytetty aika (ms): " + tulos.getAika());
-            this.tutkittuja .setText("Vapaista ruuduista tutkittu (%): " + tulos.getTutkittujaRuutuja());
+            this.tutkittuja.setText("Vapaista ruuduista tutkittu (%): " + tulos.getTutkittujaRuutuja());
         } else {
             this.pituus.setText("Antamiesi pisteiden välille ei voitu muodostaa polkua!");
         }
