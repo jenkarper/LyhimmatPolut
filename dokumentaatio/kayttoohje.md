@@ -4,6 +4,8 @@ Kloonaa repositorio koneellesi. Sen jälkeen voit suorittaa sen komentoriviltä 
 
 Sovellus aukeaa ikkunaan, jossa näkyy oletusvalintana Berliinin historiallista keskustaa esittävä kartta sekä toimintavalikko.
 
+<img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/kayttoliittyma.png" width="1000">
+
 **1. Valitse laskennassa käytettävä algoritmi**
 
 Oletusarvoisesti valittuna on Dijkstra. Voit vaihtaa algoritmia klikkaamalla vaihtoehtoa. Huom! Jump Point Search ei tällä hetkellä etsi lainkaan polkua, koska koko algoritmia ei vielä ole toteutettu! Jos valitset Jump Point Searchin laskentaan, karttaan piirtyy polun sijasta valitusta alkupisteestä lähtevän haun löytämät hyppypisteet ([kts. kommentti](https://github.com/jenkarper/LyhimmatPolut/blob/cf9f119b70eb1adabefd04b0f22e1be8d7124383/lyhimmatpolut/src/main/java/algoritmit/JPS.java#L41)).
