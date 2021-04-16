@@ -24,8 +24,8 @@ public class AStarTest {
         this.testaaja.suoritaTestit(this.testikartta, 10);
         ArrayList<Testitulos> tulokset = this.testaaja.getTulokset();
         
-        for (Testitulos tulos : tulokset) {
+        tulokset.forEach((tulos) -> {
             assertTrue(tulos.haeOikeellisuustulosAStarille());
-        }
+        });
     }
 }
