@@ -90,4 +90,8 @@ public class Testaaja {
             System.out.println("");
         }
     }
+
+    public ArrayList<Testitulos> getTulokset() {
+        return tulokset;
+    }
 }
