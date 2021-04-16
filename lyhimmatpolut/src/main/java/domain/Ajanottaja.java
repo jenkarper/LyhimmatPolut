@@ -27,6 +27,6 @@ public class Ajanottaja {
      * @return kulunut aika
      */
     public double getAika() {
-        return (loppu - alku) / 1e9;
+        return (loppu - alku) / 1000000;
     }
 }

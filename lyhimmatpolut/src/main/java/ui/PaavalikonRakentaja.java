@@ -145,7 +145,7 @@ public class PaavalikonRakentaja {
 
         if (tulos.onnistui()) {
             Label pituus = new Label("Reitin pituus: " + tulos.getPituus());
-            Label kesto = new Label("Käytetty aika (s): " + tulos.getAika());
+            Label kesto = new Label("Käytetty aika (ms): " + tulos.getAika());
             Label tutkittuja = new Label("Vapaista ruuduista tutkittu (%): " + tulos.getTutkittujaRuutuja());
             this.tulokset = new VBox(10, pituus, kesto, tutkittuja);
         } else {

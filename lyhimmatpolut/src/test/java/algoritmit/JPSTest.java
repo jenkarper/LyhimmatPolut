@@ -22,9 +22,9 @@ public class JPSTest {
     
     public JPSTest() {
         this.lukija = new Kartanlukija();
-        lukija.lue("kartat/testikartat/testikartta_1.map");
+        lukija.lueKartta("kartat/testikartat/testikartta_1.map");
         this.helppo1 = lukija.haeKartta();
-        lukija.lue("kartat/testikartat/testikartta_3.map");
+        lukija.lueKartta("kartat/testikartat/testikartta_3.map");
         this.helppo3 = lukija.haeKartta();
         this.suunnat = new Suunta[]{new Suunta(1, 0), new Suunta(-1, 0), new Suunta(0, 1), new Suunta(0, -1)};
     }

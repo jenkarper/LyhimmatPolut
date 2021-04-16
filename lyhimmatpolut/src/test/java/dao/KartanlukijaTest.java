@@ -17,7 +17,7 @@ public class KartanlukijaTest {
 
     @Test
     public void lukijaMuodostaaKartanOikein() {
-        this.lukija.lue("kartat/testikartat/testikartta_1.map");
+        this.lukija.lueKartta("kartat/testikartat/testikartta_1.map");
         Kartta testikartta = this.lukija.haeKartta();
         String testikartanRivi = new String(testikartta.getKarttataulu()[0]);
         String odotettuRivi = "....@@..@..@@@@.....";
@@ -27,7 +27,7 @@ public class KartanlukijaTest {
     
     @Test
     public void lukijaPoimiiKartanKoonOikein() {
-        this.lukija.lue("kartat/testikartat/testikartta_1.map");
+        this.lukija.lueKartta("kartat/testikartat/testikartta_1.map");
         Kartta testikartta = this.lukija.haeKartta();
         
         assertEquals(20, testikartta.getKorkeus());
@@ -36,6 +36,6 @@ public class KartanlukijaTest {
     
     @Test
     public void lukijaTunnistaaVirheellisenTiedoston() {
-        assertTrue(!this.lukija.lue("kartat/olematonkartta.map"));
+        assertTrue(!this.lukija.lueKartta("kartat/olematonkartta.map"));
     }
 }

@@ -106,7 +106,7 @@ public class GUI extends Application {
 
     private void lueKartta(String karttatiedosto) {
         this.lukija = new Kartanlukija();
-        lukija.lue("kartat/" + karttatiedosto);
+        lukija.lueKartta("kartat/" + karttatiedosto);
         this.kartta = lukija.haeKartta();
     }
 

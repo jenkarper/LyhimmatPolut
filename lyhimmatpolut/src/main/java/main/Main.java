@@ -1,5 +1,6 @@
 package main;
 
+import suorituskykytestaus.Testaaja;
 import ui.GUI;
 
 /**

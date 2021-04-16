@@ -17,7 +17,7 @@ public class TulosTest {
     
     public TulosTest() {
         this.lukija = new Kartanlukija();
-        lukija.lue("kartat/testikartat/testikartta_2.map");
+        lukija.lueKartta("kartat/testikartat/testikartta_2.map");
         this.a = new DijkstraStar(lukija.haeKartta(), true);
     }
     
