@@ -18,9 +18,9 @@ Ajantasaisen testikattavuusraportin voi generoida Javan testikattavuuskirjaston 
 
 Testikattavuuden ulkopuolelle on rajattu pakkaukset ui ja suorituskykytestaus. Niiden oikeellisuutta ei siis testata automaattisesti, vaan pelkästään järjestelmätestauksessa. Käyttöliittymän rakentavassa koodissa käytetään lähinnä JavaFX-kirjaston komponentteja, joiden oikeellisuutta sinänsä ei ole tarvetta testata. Suorituskykytestauksen koodi ei ole toiminnaltaan kovin monimutkaista, ja algoritmien oikeellisuustesteissä osa näiden luokkien metodeista tulee myös integraatiotestauksen piiriin.
 
-Testikattavuus koko projektin tasolla (9.4.2021):
+Testikattavuus koko projektin tasolla (16.4.2021):
 
-<img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/testikattavuus_kaikki.png" width="1000">
+<img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/testikattavuus_kaikki_1604.png" width="1000">
 
 ## Järjestelmätestaus
 
