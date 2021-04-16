@@ -25,6 +25,10 @@ public class PaavalikonRakentaja {
     private Label loppu;
     private VBox laskennanKaynnistysValikko;
     private VBox tulokset;
+    private Label pituus;
+    private Label kesto;
+    private Label tutkittuja;
+    private VBox suorituskykytestienKaynnistysValikko;
     private String valittuKartta;
     private ToggleGroup algoritmiNapit;
 
@@ -47,6 +51,7 @@ public class PaavalikonRakentaja {
         luoPisteidenValinta();
         luoLaskennanKaynnistys();
         luoTulostenNaytto();
+        luoSuorituskykytestienKaynnistys();
 
         valikko.setSpacing(20);
         valikko.setPadding(new Insets(10, 10, 10, 10));
@@ -97,7 +102,20 @@ public class PaavalikonRakentaja {
     private void luoTulostenNaytto() {
         Label tulosOtsikko = new Label("5. Tulokset:");
         muotoileOtsikko(tulosOtsikko);
-        valikko.getChildren().addAll(tulosOtsikko);
+        this.pituus = new Label("");
+        this.kesto = new Label("");
+        this.tutkittuja = new Label("");
+        this.tulokset = new VBox(10, pituus, kesto, tutkittuja);
+        valikko.getChildren().addAll(tulosOtsikko, tulokset);
+    }
+    
+    private void luoSuorituskykytestienKaynnistys() {
+        Label testausOtsikko = new Label("Käynnistä suorituskykytestit");
+        muotoileOtsikko(testausOtsikko);
+        Label selitys = new Label("(Tulokset tulostuvat toistaiseksi vain komentoriville/NetBeansin Output-ikkunaan!)");
+        this.suorituskykytestienKaynnistysValikko = new VBox(10, testausOtsikko, selitys);
+        suorituskykytestienKaynnistysValikko.setMargin(testausOtsikko, new Insets(200, 0, 0, 0));
+        valikko.getChildren().add(suorituskykytestienKaynnistysValikko);
     }
 
     private void muotoileOtsikko(Label otsikko) {
@@ -144,22 +162,21 @@ public class PaavalikonRakentaja {
     public void asetaTulokset(Tulos tulos) {
 
         if (tulos.onnistui()) {
-            Label pituus = new Label("Reitin pituus: " + tulos.getPituus());
-            Label kesto = new Label("Käytetty aika (ms): " + tulos.getAika());
-            Label tutkittuja = new Label("Vapaista ruuduista tutkittu (%): " + tulos.getTutkittujaRuutuja());
-            this.tulokset = new VBox(10, pituus, kesto, tutkittuja);
+            this.pituus.setText("Reitin pituus: " + tulos.getPituus());
+            this.kesto.setText("Käytetty aika (ms): " + tulos.getAika());
+            this.tutkittuja .setText("Vapaista ruuduista tutkittu (%): " + tulos.getTutkittujaRuutuja());
         } else {
-            Label eiTulosta = new Label("Antamiesi pisteiden välille ei voitu muodostaa polkua!");
-            this.tulokset = new VBox(eiTulosta);
+            this.pituus.setText("Antamiesi pisteiden välille ei voitu muodostaa polkua!");
         }
-        this.valikko.getChildren().add(tulokset);
     }
     
     /**
      * Nollaa valikon näyttämät tulokset uutta laskentaa varten.
      */
     public void nollaaTulokset() {
-        this.valikko.getChildren().remove(this.tulokset);
+        this.pituus.setText("");
+        this.kesto.setText("");
+        this.tutkittuja.setText("");
     }
 
     public HBox getKarttalistanKehys() {
@@ -168,6 +185,10 @@ public class PaavalikonRakentaja {
 
     public VBox getLaskennanKaynnistysValikko() {
         return this.laskennanKaynnistysValikko;
+    }
+    
+    public VBox getSuorituskykytestienKaynnistysValikko() {
+        return this.suorituskykytestienKaynnistysValikko;
     }
 
     /**

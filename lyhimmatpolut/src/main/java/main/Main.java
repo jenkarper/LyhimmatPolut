@@ -1,6 +1,8 @@
 package main;
 
+import java.util.ArrayList;
 import suorituskykytestaus.Testaaja;
+import suorituskykytestaus.Testitulos;
 import ui.GUI;
 
 /**

@@ -5,54 +5,100 @@ package suorituskykytestaus;
  * @author pertjenn
  */
 public class Testitulos {
+    private final String kartta;
     private final Reittikuvaus reitti;
-    private final double dijkstra;
-    private final double aStar;
-    private final boolean pituusTasmaa;
+    private final double dijkstraAika;
+    private final double aStarAika;
+    private final double jpsAika;
+    private final boolean aStarLoysiPolun;
+    private final boolean jpsLoysiPolun;
     
-    public Testitulos(Reittikuvaus reitti, double dijkstra, double aStar, boolean pituusTasmaa) {
+    public Testitulos(String kartta, Reittikuvaus reitti, double dijkstraAika, double aStarAika, double jpsAika, boolean aStarLoysiPolun, boolean jpsLoysiPolun) {
+        this.kartta = kartta;
         this.reitti = reitti;
-        this.dijkstra = dijkstra;
-        this.aStar = aStar;
-        this.pituusTasmaa = pituusTasmaa;
+        this.dijkstraAika = dijkstraAika;
+        this.aStarAika = aStarAika;
+        this.jpsAika = jpsAika;
+        this.aStarLoysiPolun = aStarLoysiPolun;
+        this.jpsLoysiPolun = jpsLoysiPolun;
+    }
+
+    public String getKartta() {
+        return kartta;
+    }
+
+    public Reittikuvaus getReitti() {
+        return reitti;
+    }
+
+    public double getDijkstraAika() {
+        return dijkstraAika;
+    }
+
+    public double getaStarAika() {
+        return aStarAika;
+    }
+
+    public double getJpsAika() {
+        return jpsAika;
     }
     
-    public String haeTulos() {
+    private String laskeAStarEro() {
+        double ero = dijkstraAika - aStarAika;
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nA* oli ").append(ero).append(" ms ");
+        
+        if (ero > 0) {
+            sb.append("nopeampi kuin Dijkstra.");
+        } else {
+            sb.append("hitaampi kuin Dijkstra.");
+        }
+        
+        return sb.toString();
+    }
+    
+        private String laskeJPSEro() {
+        double ero = dijkstraAika - jpsAika;
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nJump Point Search oli ").append(ero).append(" ms ");
+        
+        if (ero > 0) {
+            sb.append("nopeampi kuin Dijkstra.");
+        } else {
+            sb.append("hitaampi kuin Dijkstra.");
+        }
+        
+        return sb.toString();
+    }
+    
+    public String haeSuorituskykytulos() {
         StringBuilder tulos = new StringBuilder();
-        tulos.append("Dijkstran suoritusaika: ").append(dijkstra)
-                .append("\nA* suoriutui");
+        tulos.append("Käytetty kartta: ").append(kartta)
+                .append("\nHaetun polun pituus: ").append(reitti.getReitinPituus())
+                .append("\nDijkstran käyttämä aika: ").append(dijkstraAika);
+        
+        if (aStarLoysiPolun) {
+            tulos.append("\nA*-algoritmin käyttämä aika: ").append(aStarAika)
+                    .append(laskeAStarEro());
+        } else {
+            tulos.append("\nA* ei löytänyt oikeaa polkua");
+        }
+        
+        if (jpsLoysiPolun) {
+            tulos.append("\nJump Point Search -algoritmin käyttämä aika: ").append(jpsAika)
+                    .append(laskeJPSEro());
+        } else {
+            tulos.append("\nJump Point Search -algoritmi ei löytänyt oikeaa polkua");
+        }
         
         return tulos.toString();
     }
     
-//    private final String algoritmi;
-//    private final int polkuLoytyi;
-//    private final double suoritusaika;
-//    
-//    public Testitulos(String algoritmi, int polkuLoytyi, double kokonaisaika, int toistoja) {
-//        this.algoritmi = algoritmi;
-//        this.polkuLoytyi = polkuLoytyi;
-//        this.suoritusaika = kokonaisaika / toistoja;
-//    }
-//
-//    public String getAlgoritmi() {
-//        return algoritmi;
-//    }
-//
-//    public int getPolkuLoytyi() {
-//        return polkuLoytyi;
-//    }
-//
-//    public double getSuoritusaika() {
-//        return suoritusaika;
-//    }
-//    
-//    public String haeTulos() {
-//        StringBuilder tulos = new StringBuilder();
-//        tulos.append(this.algoritmi).append("\n")
-//                .append("Polku löytyi ").append(polkuLoytyi).append(" haussa")
-//                .append("\nKeskimääräinen suoritusaika: ").append(suoritusaika);
-//        
-//        return tulos.toString();
-//    }
+    public boolean haeOikeellisuustulosAStarille() {
+        return this.aStarLoysiPolun;
+    }
+    
+    public boolean haeOikeellisuustulosJPSlle() {
+        return this.jpsLoysiPolun;
+    }
 }

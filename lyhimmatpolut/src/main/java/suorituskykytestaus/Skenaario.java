@@ -21,4 +21,12 @@ public class Skenaario {
         int indeksi = (int) (Math.random() * skenaario.size() + 1) - 1;
         return skenaario.get(indeksi);
     }
+    
+    public Reittikuvaus haeReittikuvaus(int i) {
+        return skenaario.get(i);
+    }
+    
+    public int reittejaLuettu() {
+        return this.skenaario.size();
+    }
 }
