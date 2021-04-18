@@ -22,7 +22,8 @@ public class Reittikuvaus {
     public Reittikuvaus(int alkuX, int alkuY, int loppuX, int loppuY, double pituus) {
         this.alku = new Solmu(alkuX, alkuY);
         this.loppu = new Solmu(loppuX, loppuY);
-        this.reitinPituus = pituus;
+        double rp = Math.round(pituus * 10000);
+        this.reitinPituus = rp / 10000;
     }
 
     public Solmu getAlku() {
@@ -41,7 +42,7 @@ public class Reittikuvaus {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Alku: ").append(alku.getX()).append(" ").append(alku.getY())
-                .append("\nLoppu: ").append(loppu.getX()).append(loppu.getY())
+                .append("\nLoppu: ").append(loppu.getX()).append(" ").append(loppu.getY())
                 .append("\nPituus: ").append(reitinPituus)
                 .append("\n");
         

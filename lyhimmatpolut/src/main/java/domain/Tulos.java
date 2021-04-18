@@ -51,7 +51,7 @@ public class Tulos {
         this.algoritmi = algoritmi;
         this.polku = polku;
         this.hyppypisteet = hyppypisteet;
-        this.pituus = pyorista(pituus, 100);
+        this.pituus = pyorista(pituus, 10000);
         this.aika = pyorista(aika, 10000);
         this.tutkittujaRuutuja = pyorista(tutkittuja, 100);
         this.onnistui = onnistui;
