@@ -1,5 +1,7 @@
 package suorituskykytestaus;
 
+import domain.Tulos;
+
 /**
  * Suorituskykytestauksen tulokset kokoava luokka.
  *
@@ -14,6 +16,9 @@ public class Testitulos {
     private final double jpsAika;
     private final boolean aStarLoysiPolun;
     private final boolean jpsLoysiPolun;
+    
+    // Väliaikainen muuttuja debuggaukseen.
+    private Tulos a;
 
     /**
      * Muodostaa uuden suorituskykytestituloksen.
@@ -26,7 +31,7 @@ public class Testitulos {
      * @param aStarLoysiPolun toimiko A* oikein
      * @param jpsLoysiPolun toimiko JPS oikein
      */
-    public Testitulos(String kartta, Reittikuvaus reitti, double dijkstraAika, double aStarAika, double jpsAika, boolean aStarLoysiPolun, boolean jpsLoysiPolun) {
+    public Testitulos(String kartta, Reittikuvaus reitti, double dijkstraAika, double aStarAika, double jpsAika, boolean aStarLoysiPolun, boolean jpsLoysiPolun, Tulos a) {
         this.kartta = kartta;
         this.reitti = reitti;
         this.dijkstraAika = dijkstraAika;
@@ -34,6 +39,7 @@ public class Testitulos {
         this.jpsAika = jpsAika;
         this.aStarLoysiPolun = aStarLoysiPolun;
         this.jpsLoysiPolun = jpsLoysiPolun;
+        this.a = a;
     }
 
     public String getKartta() {
@@ -54,6 +60,11 @@ public class Testitulos {
 
     public double getJpsAika() {
         return jpsAika;
+    }
+    
+    // Väliaikainen metodi debuggaukseen.
+    public Tulos getA() {
+        return a;
     }
 
     /**
@@ -122,7 +133,7 @@ public class Testitulos {
 
     /**
      * Palauttaa tiedon, toimiko A* oikein verrattuna Dijkstraan (käytetään yksikkötesteissä).
-     * @return true, jos A* ja Dijkstra löysovät saman polun
+     * @return true, jos A* ja Dijkstra löysivät saman polun
      */
     public boolean haeOikeellisuustulosAStarille() {
         return this.aStarLoysiPolun;
@@ -130,7 +141,7 @@ public class Testitulos {
 
     /**
      * Palauttaa tiedon, toimiko JPS oikein verrattuna Dijkstraan (käytetään yksikkötesteissä).
-     * @return true, jos A* ja Dijkstra löysovät saman polun
+     * @return true, jos A* ja Dijkstra löysivät saman polun
      */
     public boolean haeOikeellisuustulosJPSlle() {
         return this.jpsLoysiPolun;

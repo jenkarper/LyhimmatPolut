@@ -70,13 +70,14 @@ public class Testaaja {
         this.jps = new JPS(this.kartta);
     }
 
+    // Testitulokseen liittyy väliaikaisesti A*:n palauttama tulosolio, jota tarvitaan debuggaukseen.
     private void muodostaTestitulos(Reittikuvaus reitti, Tulos dijkstra, Tulos aStar) {
         String kartanNimi = this.kartta.getNimi();
         double dijkstraAika = dijkstra.getAika();
         double aStarEro = dijkstraAika - aStar.getAika();
         boolean aStarLoysiPolun = (dijkstra.getPituus() == aStar.getPituus());
         
-        Testitulos tulos = new Testitulos(kartanNimi, reitti, dijkstraAika, aStarEro, 0.0, aStarLoysiPolun, false);
+        Testitulos tulos = new Testitulos(kartanNimi, reitti, dijkstraAika, aStarEro, 0.0, aStarLoysiPolun, false, aStar);
         this.tulokset.add(tulos);
     }
     
