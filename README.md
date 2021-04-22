@@ -11,6 +11,8 @@ Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen opp
 
 [Määrittelydokumentti](dokumentaatio/maarittelydokumentti.md)
 
+[Toteutusdokumentti](dokumentaatio/toteutusdokumentti.md)
+
 [Testausdokumentti](dokumentaatio/testausdokumentti.md)
 
 [Käyttöohje](dokumentaatio/kayttoohje.md)
