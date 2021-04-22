@@ -16,9 +16,6 @@ public class Testitulos {
     private final double jpsAika;
     private final boolean aStarLoysiPolun;
     private final boolean jpsLoysiPolun;
-    
-    // Väliaikainen muuttuja debuggaukseen.
-    private Tulos a;
 
     /**
      * Muodostaa uuden suorituskykytestituloksen.
@@ -31,7 +28,7 @@ public class Testitulos {
      * @param aStarLoysiPolun toimiko A* oikein
      * @param jpsLoysiPolun toimiko JPS oikein
      */
-    public Testitulos(String kartta, Reittikuvaus reitti, double dijkstraAika, double aStarAika, double jpsAika, boolean aStarLoysiPolun, boolean jpsLoysiPolun, Tulos a) {
+    public Testitulos(String kartta, Reittikuvaus reitti, double dijkstraAika, double aStarAika, double jpsAika, boolean aStarLoysiPolun, boolean jpsLoysiPolun) {
         this.kartta = kartta;
         this.reitti = reitti;
         this.dijkstraAika = dijkstraAika;
@@ -39,7 +36,6 @@ public class Testitulos {
         this.jpsAika = jpsAika;
         this.aStarLoysiPolun = aStarLoysiPolun;
         this.jpsLoysiPolun = jpsLoysiPolun;
-        this.a = a;
     }
 
     public String getKartta() {
@@ -60,11 +56,6 @@ public class Testitulos {
 
     public double getJpsAika() {
         return jpsAika;
-    }
-    
-    // Väliaikainen metodi debuggaukseen.
-    public Tulos getA() {
-        return a;
     }
 
     /**

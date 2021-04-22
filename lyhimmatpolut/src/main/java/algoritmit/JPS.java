@@ -52,7 +52,8 @@ public class JPS implements Algoritmi {
         if (this.hyppypisteet.koko() == 0) {
             System.out.println("Hyppypisteitä ei löytynyt.");
         }
-        return new Tulos("JPS", new Lista(), hyppypisteet, -1, -1, -1, true);
+        
+        return new Tulos("JPS", new Lista(), hyppypisteet, -1, -1);
     }
 
     /**

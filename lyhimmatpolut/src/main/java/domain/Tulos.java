@@ -4,24 +4,23 @@ import tietorakenteet.Lista;
 
 /**
  * Laskennan tulokset kokoava luokka.
+ * Tarjoaa kolme konstruktoria: tyhjälle tulosoliolle, Dijkstran/A*:n tulokselle (ei hyppypisteitä)
+ * ja JPS:n tulokselle (hyppypisteet).
  * @author pertjenn
  */
 public class Tulos {
     private final String algoritmi;
     private final Lista polku;
+    private final Lista hyppypisteet;
     private final double pituus;
     private final double aika;
-    private final double tutkittujaRuutuja;
-    private boolean onnistui;
-    
-    private final Lista hyppypisteet;
     
     /**
      * Luo tyhjän tulosolion, jos polkua ei löytynyt.
      * @param algoritmi valitun algoritmin nimi
      */
     public Tulos(String algoritmi) {
-        this(algoritmi, new Lista(), -1, -1, -1, false);
+        this(algoritmi, new Lista(), new Lista(), -1, -1);
     }
     
     /**
@@ -29,12 +28,10 @@ public class Tulos {
      * @param algoritmi valitun algoritmin nimi
      * @param polku algoritmin löytämä polku solmulistana
      * @param pituus löydetyn polun pituus
-     * @param aika laskentaan käytetty aika
-     * @param tutkittuja tutkittujen ruutujen osuus vapaista
-     * @param onnistui onnistuiko laskenta
+     * @param nanoaika laskentaan käytetty aika nanosekunteina
      */
-    public Tulos(String algoritmi, Lista polku, double pituus, double aika, double tutkittuja, boolean onnistui) {
-        this(algoritmi, polku, new Lista(), pituus, aika, tutkittuja, onnistui);
+    public Tulos(String algoritmi, Lista polku, double pituus, long nanoaika) {
+        this(algoritmi, polku, new Lista(), pituus, nanoaika);
     }
     
     /**
@@ -43,18 +40,14 @@ public class Tulos {
      * @param polku algoritmin löytämä polku solmulistana
      * @param hyppypisteet algoritmin tunnistamat hyppypisteet
      * @param pituus löydetyn polun pituus
-     * @param aika laskentaan käytetty aika
-     * @param tutkittuja tutkittujen ruutujen osuus vapaista
-     * @param onnistui onnistuiko laskenta
+     * @param nanoaika laskentaan käytetty aika nanosekunteina
      */
-    public Tulos(String algoritmi, Lista polku, Lista hyppypisteet, double pituus, double aika, double tutkittuja, boolean onnistui) {
+    public Tulos(String algoritmi, Lista polku, Lista hyppypisteet, double pituus, long nanoaika) {
         this.algoritmi = algoritmi;
         this.polku = polku;
         this.hyppypisteet = hyppypisteet;
-        this.pituus = pyorista(pituus, 10000);
-        this.aika = pyorista(aika, 10000);
-        this.tutkittujaRuutuja = pyorista(tutkittuja, 100);
-        this.onnistui = onnistui;
+        this.pituus = pituus;
+        this.aika = muunna(nanoaika);
     }
 
     public String getAlgoritmi() {
@@ -66,19 +59,15 @@ public class Tulos {
     }
     
     public double getPituus() {
-        return this.pituus;
+        return pituus;
     }
 
     public double getAika() {
-        return this.aika;
-    }
-    
-    public double getTutkittujaRuutuja() {
-        return this.tutkittujaRuutuja;
+        return aika;
     }
     
     public Lista getHyppypisteet() {
-        return this.hyppypisteet;
+        return hyppypisteet;
     }
     
     /**
@@ -86,11 +75,21 @@ public class Tulos {
      * @return true, jos onnistui, muutoin false
      */
     public boolean onnistui() {
-        return onnistui;
+        // väliaikainen ratkaisu, koska toistaiseksi JPS ei muodosta polkua, mutta haluan hyppypisteet näkyviin
+        if (this.algoritmi.equals("JPS")) {
+            return true;
+        }
+        return !this.polku.tyhja();
     }
     
-    private double pyorista(double liukuluku, int kerroin) {
-        double palautettava = Math.round(liukuluku * kerroin);
-        return palautettava / kerroin;
+    /**
+     * Muuntaa saadun keston millisekunneiksi ja pyöristää sen neljään desimaaliin.
+     * @param nanoaika algoritmin laskema aika longina
+     * @return millisekuntiaika pyöristettynä
+     */
+    private double muunna(long nanoaika) {
+        double milliaika = nanoaika / 1000000;
+        double pyoristettava = Math.round(milliaika * 10000);
+        return pyoristettava / 10000;
     }
 }

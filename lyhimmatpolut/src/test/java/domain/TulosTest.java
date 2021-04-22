@@ -1,6 +1,5 @@
 package domain;
 
-import tietorakenteet.Lista;
 import algoritmit.Algoritmi;
 import algoritmit.DijkstraStar;
 import dao.Kartanlukija;
@@ -37,25 +36,9 @@ public class TulosTest {
         Tulos tulos = a.laskeReitti(new Solmu(0, 0), new Solmu(4, 0));
         
         assertTrue(tulos.getAlgoritmi().equals("Dijkstra"));
-        assertTrue(tulos.getAika() == -1);
+        assertTrue(tulos.getAika() == 0.0);
         assertTrue(tulos.getPituus() == -1);
         assertTrue(tulos.getPolku().tyhja());
         assertTrue(!tulos.onnistui());
-    }
-    
-    @Test
-    public void pyoristaaLiukuluvutOikein() {
-        double pituus = 12.345678;
-        double aika = 0.87654321;
-        double tutkittuja = 87.654321;
-        Tulos tulos = new Tulos("testi", new Lista(), pituus, aika, tutkittuja, true);
-        
-        double odotettuPyoristettyPituus = 12.3457;
-        double odotettuPyoristettyAika = 0.8765;
-        double odotettuPyoristettyTutkittuja = 87.65;
-        
-        assertTrue(odotettuPyoristettyPituus == tulos.getPituus());
-        assertTrue(odotettuPyoristettyAika == tulos.getAika());
-        assertTrue(odotettuPyoristettyTutkittuja == tulos.getTutkittujaRuutuja());
     }
 }

@@ -8,6 +8,7 @@ import domain.Suunta;
 import algoritmit.JPS;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import tietorakenteet.Lista;
 
 /**
  *
@@ -40,9 +41,12 @@ public class JPSTest {
         for (Suunta suunta : suunnat) {
             algoritmi.suoraHaku(alku, suunta);
         }
-        assertTrue(algoritmi.getHyppypisteet().koko() == 2);
-        assertTrue(odotetutHyppypisteet[0].samaSolmu(algoritmi.getHyppypisteet().haeSolmu(0)));
-        assertTrue(odotetutHyppypisteet[1].samaSolmu(algoritmi.getHyppypisteet().haeSolmu(1)));
+        
+        Lista loydetytHyppypisteet = algoritmi.getHyppypisteet();
+        
+        assertTrue(loydetytHyppypisteet.koko() == 2);
+        assertTrue(odotetutHyppypisteet[0].samaSolmu(loydetytHyppypisteet.haeSolmu(0)));
+        assertTrue(odotetutHyppypisteet[1].samaSolmu(loydetytHyppypisteet.haeSolmu(1)));
     }
     
     @Test

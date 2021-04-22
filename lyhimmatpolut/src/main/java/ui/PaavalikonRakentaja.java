@@ -27,7 +27,6 @@ public class PaavalikonRakentaja {
     private VBox tulokset;
     private Label pituus;
     private Label kesto;
-    private Label tutkittuja;
     private VBox suorituskykytestienKaynnistysValikko;
     private String valittuKartta;
     private ToggleGroup algoritmiNapit;
@@ -104,8 +103,7 @@ public class PaavalikonRakentaja {
         muotoileOtsikko(tulosOtsikko);
         this.pituus = new Label("");
         this.kesto = new Label("");
-        this.tutkittuja = new Label("");
-        this.tulokset = new VBox(10, pituus, kesto, tutkittuja);
+        this.tulokset = new VBox(10, pituus, kesto);
         valikko.getChildren().addAll(tulosOtsikko, tulokset);
     }
     
@@ -164,7 +162,6 @@ public class PaavalikonRakentaja {
         if (tulos.onnistui()) {
             this.pituus.setText("Reitin pituus: " + tulos.getPituus());
             this.kesto.setText("Käytetty aika (ms): " + tulos.getAika());
-            this.tutkittuja.setText("Vapaista ruuduista tutkittu (%): " + tulos.getTutkittujaRuutuja());
         } else {
             this.pituus.setText("Antamiesi pisteiden välille ei voitu muodostaa polkua!");
         }
@@ -176,7 +173,6 @@ public class PaavalikonRakentaja {
     public void nollaaTulokset() {
         this.pituus.setText("");
         this.kesto.setText("");
-        this.tutkittuja.setText("");
     }
 
     public HBox getKarttalistanKehys() {

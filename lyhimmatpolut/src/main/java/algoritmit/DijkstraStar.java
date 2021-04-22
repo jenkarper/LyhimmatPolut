@@ -1,30 +1,22 @@
 package algoritmit;
 
-import domain.Ajanottaja;
 import domain.Kartta;
-import domain.Laskin;
 import domain.Solmu;
 import domain.Tulos;
 import tietorakenteet.Keko;
 import tietorakenteet.Lista;
 
 /**
- * Luokka etsii lyhimmän polun A*-algoritmia käyttäen.
+ * Luokka etsii lyhimmän polun Dijkstran tai A*-algoritmia käyttäen.
  *
  * @author pertjenn
  */
 public class DijkstraStar implements Algoritmi {
-    
+
     private char[][] kartta;
-    private int sarakkeet; // x
-    private int rivit; // y
     private boolean[][] vierailtu;
     private double[][] etaisyys;
     private Solmu[][] edeltaja;
-    private Ajanottaja ajanottaja;
-    private int vapaitaRuutuja;
-    private int tutkittujaRuutuja;
-    private Laskin laskin;
     private final boolean dijkstra;
     private final String nimi;
 
@@ -44,12 +36,12 @@ public class DijkstraStar implements Algoritmi {
             this.nimi = "A*";
         }
         alusta(valittuKartta);
-        
+
     }
 
     @Override
     public Tulos laskeReitti(Solmu alku, Solmu loppu) {
-        ajanottaja.kaynnista();
+        long aikaAlkaa = System.nanoTime();
 
         alku.setVertailuarvo(0);
         etaisyys[alku.getY()][alku.getX()] = 0;
@@ -61,34 +53,34 @@ public class DijkstraStar implements Algoritmi {
             Solmu u = keko.poistaPienin();
 
             if (u.samaSolmu(loppu)) {
-                vieraile(u);
-                break;
+                long kesto = System.nanoTime() - aikaAlkaa;
+                double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
+                Lista polku = muodostaPolku(alku, loppu);
+
+                return new Tulos(this.nimi, polku, pituus, kesto);
             }
 
             if (!this.vierailtu[u.getY()][u.getX()]) {
-                vieraile(u);
+                this.vierailtu[u.getY()][u.getX()] = true;
                 Lista naapurit = haeNaapurit(u);
 
                 for (int i = naapurit.getViimeinen(); i >= 0; i--) {
                     Solmu n = naapurit.haeSolmu(i);
-                    if (kasitteleNaapuri(u, n, loppu)) {
+                    double vanhaEtaisyys = this.etaisyys[n.getY()][n.getX()];
+                    double uusiEtaisyys = this.etaisyys[u.getY()][u.getX()] + n.getPaino();
+
+                    if (vanhaEtaisyys > uusiEtaisyys) {
+                        double vertailuarvo = uusiEtaisyys + arvioituEtaisyysLoppuun(n, loppu);
+                        n.setVertailuarvo(vertailuarvo);
+                        this.etaisyys[n.getY()][n.getX()] = uusiEtaisyys;
+                        this.edeltaja[n.getY()][n.getX()] = u;
                         keko.lisaa(n);
                     }
                 }
             }
         }
-        if (!vierailtu[loppu.getY()][loppu.getX()]) { // varmistetaan vielä, onko loppuun päästy
-            return muodostaTulos(alku, loppu, false);
-        }
 
-        ajanottaja.pysayta();
-
-        return muodostaTulos(alku, loppu, true);
-    }
-
-    @Override
-    public boolean[][] haeTutkitut() {
-        return this.vierailtu;
+        return new Tulos(this.nimi);
     }
 
     /**
@@ -99,24 +91,23 @@ public class DijkstraStar implements Algoritmi {
      */
     private Lista haeNaapurit(Solmu s) {
         Lista naapurit = new Lista();
-        int sy = s.getY();
-        int sx = s.getX();
+
+        int y = s.getY();
+        int x = s.getX();
 
         for (int i = -1; i <= 1; i++) {
-            int y = sy + i;
             for (int j = -1; j <= 1; j++) {
-                int x = sx + j;
 
-                if (!sallittuSolmu(y, x) || (i == 0 && j == 0)) {
+                if (!sallittuSolmu(y + i, x + j) || (i == 0 && j == 0)) {
                     continue;
                 }
 
-                if ((y == sy) || (x == sx)) { // samalla rivilla/samassa sarakkeessa kuin s
-                    Solmu naapuri = new Solmu(x, y, 1);
+                if ((y + i == y) || (x + j == x)) { // samalla rivillä/samassa sarakkeessa kuin s
+                    Solmu naapuri = new Solmu(x + j, y + i, 1);
                     naapurit.lisaa(naapuri);
                 } else { // diagonaalisiirtymä
-                    if (sallittuSolmu(sy, sx + j) && sallittuSolmu(sy + i, sx)) {
-                        Solmu naapuri = new Solmu(x, y, laskin.neliojuuri(2));
+                    if (sallittuSolmu(y, x + j) && sallittuSolmu(y + i, x)) {
+                        Solmu naapuri = new Solmu(x + j, y + i, Math.sqrt(2));
                         naapurit.lisaa(naapuri);
                     }
                 }
@@ -126,53 +117,42 @@ public class DijkstraStar implements Algoritmi {
     }
 
     /**
-     * Päivittää tarvittaessa naapurisolmun vertailuarvon.
-     *
-     * @param s solmu jossa ollaan nyt
-     * @param naapuri solmun käsittelyssä oleva naapuri
-     * @param loppu maalisolmu, jota tarvitaan manhattanetäisyyden laskemisessa
-     * @return true, jos löytyi pienempi vertailuarvo, false muuten
+     * Tarkistaa, ovatko koordinaatit kartan rajoissa ja onko niiden kohdalla vapaata maastoa.
+     * @param rivi käsillä olevan solmun y-koordinaatti
+     * @param sarake käsillä olevan solmun x-koordiaatti
+     * @return true, jos solmuun voidaan siirtyä
      */
-    private boolean kasitteleNaapuri(Solmu s, Solmu naapuri, Solmu loppu) {
-        double vanhaEtaisyys = this.etaisyys[naapuri.getY()][naapuri.getX()];
-        double uusiEtaisyys = this.etaisyys[s.getY()][s.getX()] + naapuri.getPaino();
-
-        if (vanhaEtaisyys > uusiEtaisyys) {
-            double vertailuarvo = uusiEtaisyys + arvioituEtaisyysLoppuun(s, loppu);
-            naapuri.setVertailuarvo(vertailuarvo);
-            this.etaisyys[naapuri.getY()][naapuri.getX()] = uusiEtaisyys;
-            this.edeltaja[naapuri.getY()][naapuri.getX()] = s;
-
-            return true;
-        }
-        return false;
-    }
-
     private boolean sallittuSolmu(int rivi, int sarake) {
 
-        if (kartalla(rivi, sarake)) {
-            return this.kartta[rivi][sarake] == '.';
+        if ((rivi >= 0 && rivi < this.kartta.length) && (sarake >= 0 && sarake < this.kartta[0].length)) { // ollaan kartan rajojen sisällä
+            return this.kartta[rivi][sarake] == '.'; // solmu on vapaata maastoa
         }
 
         return false;
     }
 
-    private boolean kartalla(int rivi, int sarake) {
-        return (rivi >= 0 && rivi < this.rivit) && (sarake >= 0 && sarake < this.sarakkeet);
-    }
-
-    private void vieraile(Solmu s) {
-        this.vierailtu[s.getY()][s.getX()] = true;
-        this.tutkittujaRuutuja++;
-    }
-    
+    /**
+     * Laskee arvioidun etäisyyden loppuun sen perusteella, onko suorituksessa Dijkstra vai A*.
+     * @param s käsillä oleva solmu
+     * @param loppu etsittävän polun loppusolmu
+     * @return euklidinen etäisyys s-loppu, jos suorituksessa on A*, muutoin 0
+     */
     private double arvioituEtaisyysLoppuun(Solmu s, Solmu loppu) {
         if (this.dijkstra) {
             return 0.0;
         }
-        return this.laskin.euklidinenEtaisyys(s, loppu);
+        double xErotus = s.getX() - loppu.getX();
+        double yErotus = s.getY() - loppu.getY();
+
+        return Math.sqrt((xErotus * xErotus) + (yErotus * yErotus));
     }
 
+    /**
+     * Muodostaa löydetyn polun rekursiivisesti käymällä läpi edeltäjätaulukkoa.
+     * @param alku haetun polun alku
+     * @param loppu haetun polun loppu
+     * @return polun solmut Lista-oliona (loppusolmu indeksissä 0)
+     */
     private Lista muodostaPolku(final Solmu alku, final Solmu loppu) {
         Solmu s = loppu;
         Lista polku = new Lista();
@@ -185,23 +165,9 @@ public class DijkstraStar implements Algoritmi {
         return polku;
     }
 
-    private Tulos muodostaTulos(final Solmu alku, final Solmu loppu, boolean onnistui) {
-        String algoritmi = "";
-
-        if (onnistui) {
-            Lista polku = muodostaPolku(alku, loppu);
-            double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
-            double aika = ajanottaja.getAika();
-            double tutkittuja = haeTutkittujenOsuus();
-
-            return new Tulos(this.nimi, polku, pituus, aika, tutkittuja, true);
-        }
-
-        return new Tulos(this.nimi);
-    }
-
-    private double haeTutkittujenOsuus() {
-        return (tutkittujaRuutuja * 100) / vapaitaRuutuja;
+    @Override
+    public boolean[][] haeTutkitut() {
+        return this.vierailtu;
     }
 
     /**
@@ -211,17 +177,8 @@ public class DijkstraStar implements Algoritmi {
      */
     public final void alusta(Kartta valittuKartta) {
         this.kartta = valittuKartta.getKarttataulu();
-        this.sarakkeet = valittuKartta.getLeveys();
-        this.rivit = valittuKartta.getKorkeus();
-        this.ajanottaja = new Ajanottaja();
-        this.vapaitaRuutuja = valittuKartta.getVapaitaRuutuja();
-        this.tutkittujaRuutuja = 0;
-        this.laskin = new Laskin();
-
-        alustaTaulukot();
-    }
-
-    private void alustaTaulukot() {
+        int rivit = this.kartta.length;
+        int sarakkeet = this.kartta[0].length;
         this.vierailtu = new boolean[rivit][sarakkeet];
         this.etaisyys = new double[rivit][sarakkeet];
         this.edeltaja = new Solmu[rivit][sarakkeet];

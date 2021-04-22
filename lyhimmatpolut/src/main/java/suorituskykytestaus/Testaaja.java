@@ -22,7 +22,7 @@ public class Testaaja {
     private Skenaario skenaario;
     private TiedostonlukijaIO lukija;
     private ArrayList<Testitulos> tulokset;
-    private Reittikuvaus[] testireitit;
+    private ArrayList<Reittikuvaus> testireitit;
         
     /**
      * Suorittaa suorituskykytestit valitulla kartalla n reitillä.
@@ -44,10 +44,14 @@ public class Testaaja {
             Tulos d = this.dijkstra.laskeReitti(alku, loppu);
             Tulos a = this.aStar.laskeReitti(alku, loppu);
             
-            muodostaTestitulos(rk, d, a);
+            this.tulokset.add(muodostaTestitulos(rk, d, a));
         }
     }
 
+    /**
+     * Lukee karttatiedoston ja vastaavan skenaarion reittien arpomista varten.
+     * @param valittuKartta karttatiedoston polku
+     */
     private void lueTiedostot(String valittuKartta) {
         this.lukija = new Kartanlukija();
         lukija.lueKartta(valittuKartta);
@@ -56,29 +60,44 @@ public class Testaaja {
         this.skenaario = lukija.haeSkenaario();
     }
 
+    /**
+     * Arpoo parametrin mukaisen määrän reittejä skenaariosta.
+     * @param toistoja kuinka monta reittiä arvotaan
+     */
     private void arvoReitit(int toistoja) {
-        this.testireitit = new Reittikuvaus[toistoja];
-        for (int i = 0; i < toistoja; i++) {
+        this.testireitit = new ArrayList<>();
+        
+        while (this.testireitit.size() < toistoja) {
             Reittikuvaus rk = this.skenaario.arvoReittikuvaus();
-            this.testireitit[i] = rk;
+            if (!this.testireitit.contains(rk) && rk.getReitinPituus() > 150.0) { // kaikkein lyhimmät reitit karsitaan
+                this.testireitit.add(rk);
+            }
         }
     }
 
+    /**
+     * Luo uudet algoritmioliot testausta varten.
+     */
     private void alustaAlgoritmit() {
         this.dijkstra = new DijkstraStar(this.kartta, true);
         this.aStar = new DijkstraStar(this.kartta, false);
         this.jps = new JPS(this.kartta);
     }
 
-    // Testitulokseen liittyy väliaikaisesti A*:n palauttama tulosolio, jota tarvitaan debuggaukseen.
-    private void muodostaTestitulos(Reittikuvaus reitti, Tulos dijkstra, Tulos aStar) {
+    /**
+     * Muodostaa uuden testituloksen alogritmien palauttamista tuloksista.
+     * @param reitti skenaariotiedostosta arvottu reitti
+     * @param dijkstra Dijkstran laskema tulos
+     * @param aStar A*:n laskema tulos
+     * @return uusi testitulosolio
+     */
+    private Testitulos muodostaTestitulos(Reittikuvaus reitti, Tulos dijkstra, Tulos aStar) {
         String kartanNimi = this.kartta.getNimi();
         double dijkstraAika = dijkstra.getAika();
         double aStarEro = dijkstraAika - aStar.getAika();
         boolean aStarLoysiPolun = (dijkstra.getPituus() == aStar.getPituus());
         
-        Testitulos tulos = new Testitulos(kartanNimi, reitti, dijkstraAika, aStarEro, 0.0, aStarLoysiPolun, false, aStar);
-        this.tulokset.add(tulos);
+        return new Testitulos(kartanNimi, reitti, dijkstraAika, aStarEro, 0.0, aStarLoysiPolun, false);
     }
     
     /**

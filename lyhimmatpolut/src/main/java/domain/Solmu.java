@@ -4,7 +4,7 @@ package domain;
  * Kartan yksittäistä solmua vastaava luokka.
  * @author pertjenn
  */
-public class Solmu {
+public class Solmu implements Comparable<Solmu> {
     private final int x;
     private final int y;
     private double paino;
@@ -64,6 +64,10 @@ public class Solmu {
         return this.paino;
     }
     
+    public void setPaino(double paino) {
+        this.paino = paino;
+    }
+    
     public double getVertailuarvo() {
         return this.vertailuarvo;
     }
@@ -80,4 +84,11 @@ public class Solmu {
     public boolean pienempiKuin(Solmu s) {
         return this.vertailuarvo < s.getVertailuarvo();
     }
+
+    @Override
+    public int compareTo(Solmu t) {
+        return Double.compare(this.vertailuarvo, t.getVertailuarvo());
+    }
+    
+    
 }
