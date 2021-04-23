@@ -27,6 +27,8 @@ Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen opp
 
 - [Viikko 4](dokumentaatio/viikkoraportit/viikko_4.md)
 
+- [Viikko 5](dokumentaatio/viikkoraportit/viikko_5.md)
+
 ## Komentorivikomennot
 
 Sovelluksen käynnistys:
