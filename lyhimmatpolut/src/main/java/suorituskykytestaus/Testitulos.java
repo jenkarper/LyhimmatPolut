@@ -1,7 +1,5 @@
 package suorituskykytestaus;
 
-import domain.Tulos;
-
 /**
  * Suorituskykytestauksen tulokset kokoava luokka.
  *

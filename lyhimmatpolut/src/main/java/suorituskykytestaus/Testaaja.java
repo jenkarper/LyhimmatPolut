@@ -1,6 +1,5 @@
 package suorituskykytestaus;
 
-import algoritmit.Algoritmi;
 import algoritmit.DijkstraStar;
 import algoritmit.JPS;
 import dao.Kartanlukija;
@@ -9,6 +8,7 @@ import domain.Kartta;
 import domain.Solmu;
 import domain.Tulos;
 import java.util.ArrayList;
+import algoritmit.Algoritmi;
 
 /**
  * Algoritmien suorituskykyä testaava luokka.

@@ -9,49 +9,27 @@ import tietorakenteet.Lista;
  * @author pertjenn
  */
 public class Tulos {
-    private final String algoritmi;
     private final Lista polku;
-    private final Lista hyppypisteet;
     private final double pituus;
     private final double aika;
     
     /**
      * Luo tyhjän tulosolion, jos polkua ei löytynyt.
-     * @param algoritmi valitun algoritmin nimi
      */
-    public Tulos(String algoritmi) {
-        this(algoritmi, new Lista(), new Lista(), -1, -1);
+    public Tulos() {
+        this(new Lista(), -1, -1);
     }
     
     /**
-     * Luo uuden Dijkstra/A*-tulosolion annetuilla parametreilla.
-     * @param algoritmi valitun algoritmin nimi
+     * Luo uuden tulosolion annetuilla parametreilla.
      * @param polku algoritmin löytämä polku solmulistana
      * @param pituus löydetyn polun pituus
      * @param nanoaika laskentaan käytetty aika nanosekunteina
      */
-    public Tulos(String algoritmi, Lista polku, double pituus, long nanoaika) {
-        this(algoritmi, polku, new Lista(), pituus, nanoaika);
-    }
-    
-    /**
-     * Luo uuden JPS-tulosolion annetuilla parametreilla.
-     * @param algoritmi valitun algoritmin nimi
-     * @param polku algoritmin löytämä polku solmulistana
-     * @param hyppypisteet algoritmin tunnistamat hyppypisteet
-     * @param pituus löydetyn polun pituus
-     * @param nanoaika laskentaan käytetty aika nanosekunteina
-     */
-    public Tulos(String algoritmi, Lista polku, Lista hyppypisteet, double pituus, long nanoaika) {
-        this.algoritmi = algoritmi;
+    public Tulos(Lista polku, double pituus, long nanoaika) {
         this.polku = polku;
-        this.hyppypisteet = hyppypisteet;
         this.pituus = pituus;
         this.aika = muunna(nanoaika);
-    }
-
-    public String getAlgoritmi() {
-        return algoritmi;
     }
 
     public Lista getPolku() {
@@ -66,19 +44,11 @@ public class Tulos {
         return aika;
     }
     
-    public Lista getHyppypisteet() {
-        return hyppypisteet;
-    }
-    
     /**
      * Palauttaa tiedon laskennan onnistumisesta.
      * @return true, jos onnistui, muutoin false
      */
     public boolean onnistui() {
-        // väliaikainen ratkaisu, koska toistaiseksi JPS ei muodosta polkua, mutta haluan hyppypisteet näkyviin
-        if (this.algoritmi.equals("JPS")) {
-            return true;
-        }
         return !this.polku.tyhja();
     }
     
