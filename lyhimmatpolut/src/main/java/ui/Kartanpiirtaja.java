@@ -56,6 +56,8 @@ public class Kartanpiirtaja {
             Solmu s = polku.haeSolmu(i);
             piirturi.fillRect(s.getX(), s.getY(), 2, 2);
         }
+        
+        // piirretään päätepisteet uudelleen, jotta ne näkyvät kunnolla
         valitsePaatepiste(polku.haeSolmu(0).getX(), polku.haeSolmu(0).getY());
         valitsePaatepiste(polku.haeSolmu(polku.getViimeinen()).getX(), polku.haeSolmu(polku.getViimeinen()).getY());
     }

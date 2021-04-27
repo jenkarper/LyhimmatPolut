@@ -18,7 +18,6 @@ public class DijkstraStar implements Algoritmi {
     private double[][] etaisyys;
     private Solmu[][] edeltaja;
     private final boolean dijkstra;
-    private final String nimi;
 
     private static final int INF = 999999999;
 
@@ -30,18 +29,12 @@ public class DijkstraStar implements Algoritmi {
      */
     public DijkstraStar(Kartta valittuKartta, boolean dijkstra) {
         this.dijkstra = dijkstra;
-        if (dijkstra) {
-            this.nimi = "Dijkstra";
-        } else {
-            this.nimi = "A*";
-        }
         alusta(valittuKartta);
-
     }
 
     @Override
     public Tulos laskeReitti(Solmu alku, Solmu loppu) {
-        long aikaAlkaa = System.nanoTime();
+        long aikaAlussa = System.nanoTime();
 
         alku.setVertailuarvo(0);
         etaisyys[alku.getY()][alku.getX()] = 0;
@@ -53,11 +46,11 @@ public class DijkstraStar implements Algoritmi {
             Solmu u = keko.poistaPienin();
 
             if (u.samaSolmu(loppu)) {
-                long kesto = System.nanoTime() - aikaAlkaa;
+                long kesto = System.nanoTime() - aikaAlussa;
                 double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
                 Lista polku = muodostaPolku(alku, loppu);
 
-                return new Tulos(this.nimi, polku, pituus, kesto);
+                return new Tulos(polku, pituus, kesto);
             }
 
             if (!this.vierailtu[u.getY()][u.getX()]) {
@@ -80,7 +73,7 @@ public class DijkstraStar implements Algoritmi {
             }
         }
 
-        return new Tulos(this.nimi);
+        return new Tulos();
     }
 
     /**
@@ -177,14 +170,12 @@ public class DijkstraStar implements Algoritmi {
      */
     public final void alusta(Kartta valittuKartta) {
         this.kartta = valittuKartta.getKarttataulu();
-        int rivit = this.kartta.length;
-        int sarakkeet = this.kartta[0].length;
-        this.vierailtu = new boolean[rivit][sarakkeet];
-        this.etaisyys = new double[rivit][sarakkeet];
-        this.edeltaja = new Solmu[rivit][sarakkeet];
+        this.vierailtu = new boolean[kartta.length][kartta[0].length];
+        this.etaisyys = new double[kartta.length][kartta[0].length];
+        this.edeltaja = new Solmu[kartta.length][kartta[0].length];
 
-        for (int i = 0; i < rivit; i++) {
-            for (int j = 0; j < sarakkeet; j++) {
+        for (int i = 0; i < kartta.length; i++) {
+            for (int j = 0; j < kartta[0].length; j++) {
                 this.etaisyys[i][j] = INF;
             }
         }

@@ -1,7 +1,6 @@
 package ui;
 
 import algoritmit.DijkstraStar;
-import algoritmit.Algoritmi;
 import algoritmit.JPS;
 import dao.Kartanlukija;
 import dao.TiedostonlukijaIO;
@@ -20,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import suorituskykytestaus.Testaaja;
+import algoritmit.Algoritmi;
 
 /**
  * Graafisen käyttöliittymän rakentava luokka.
@@ -92,12 +92,7 @@ public class GUI extends Application {
                 Tulos laskennanTulos = algoritmi.laskeReitti(alku, loppu);
 
                 if (laskennanTulos.onnistui()) {
-                    if (laskennanTulos.getPolku().getViimeinen() == -1) {
-                        this.piirtaja.piirraHyppypisteet(laskennanTulos.getHyppypisteet());
-                    } else {
-                        this.piirtaja.piirraPolku(laskennanTulos.getPolku(), algoritmi.haeTutkitut());
-                    }
-
+                    this.piirtaja.piirraPolku(laskennanTulos.getPolku(), algoritmi.haeTutkitut());
                 }
                 this.valikonRakentaja.asetaTulokset(laskennanTulos);
             }
@@ -105,16 +100,16 @@ public class GUI extends Application {
 
         this.valikonRakentaja.getLaskennanKaynnistysValikko().getChildren().add(laske);
     }
-    
+
     private void muodostaSuorituskykytestienKaynnistysNappi() {
         Button testaa = new Button("Käynnistä!");
-        
+
         testaa.setOnAction((event) -> {
             Testaaja testaaja = new Testaaja();
             testaaja.suoritaTestit("kartat/Boston_2_1024.map", 5);
             testaaja.naytaTulokset();
         });
-        
+
         this.valikonRakentaja.getSuorituskykytestienKaynnistysValikko().getChildren().add(testaa);
     }
 
