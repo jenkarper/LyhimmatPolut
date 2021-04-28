@@ -41,6 +41,8 @@ Dijkstran aikavaativuus on tunnetusti O(n + m log n), jossa *n* on solmujen luku
 ```
 Pseudokoodista nähdään, että while-silmukan ympärillä sekä sen sisällä tehdään vain vakioaikaista laskentaa. Naapurit hakevassa metodissa on kaksi sisäkkäistä for-silmukkaa, mutta niiden suorituskertojen määrä on aina vakio. Koska keosta poimitaan seuraavaksi aina solmu, jonka arvioitu etäisyys loppuun on pieni, polun pää tulee nopeammin vastaan.
 
+JPS on tässä työssä toteutettu niin, että se käyttää A*:n tapaan heuristiikkaa solmujen järjestyksen määrittelyyn keossa. Karkealla tasolla algoritmi etenee samoin kuin Dijkstra ja A*: poimitaan keosta lupaavin solmu, haetaan sen naapurit, valitaan seuraava kekoon pantava solmu, päivitetään sen etäisyysarvo ja edeltäjä ja pannaan se lopuksi kekoon. Tätä silmukkaa suoritetaan, kunnes loppusolmu löytyy tai keossa ei enää ole solmuja. JPS ei kuitenkaan pane kaikkia naapurisolmuja kekoon kuten Dijkstra ja A*, vaan tiedustelee ensin, mihin naapurisolmuista on mahdollista päästä, ja tekee päätöksen vasta sitten. Se hyödyntää tietoa, että verkossa voi olla useita symmetrisiä polkuja, eli polkuja, jotka kulkevat lähtösolmusta maalisolmuun eri solmujen kautta mutta jotka tekevät yhtä monta suoraa ja diagonaalisiirtymää. JPS:n toteutus pohjautuu Haraborin ja Grastienin artikkeliin vuodelta 2011.[1]
+
 ### JPS:n pseudokoodi
 
 ```java
@@ -80,9 +82,24 @@ Pseudokoodista nähdään, että while-silmukan ympärillä sekä sen sisällä 
 34               return seuraava
 35       return hyppää(seuraava, suunta)
 ```
+Pseudokoodissa nähtävä metodi haeNaapurit sisältää Dijsktran ja A*:n tapaan vakioaikaista laskentaa. Laskennan alussa, kun käsiteltävänä on alkusolmu, haetaan kaikki sen vapaat naapurit kahdella sisäkkäisellä for-silmukalla kuten A*:ssa. Myöhemmin naapurit haetaan sen perusteella, mihin suuntaan ollaan etenemässä, ja tällöin naapurihaussa tehdään vain tarkistuksia suunnan ja koordinaattien perusteella. Hyppymetodin kutsun ulkopuolella JPS:n laskeReitti on siis hyvin samankaltainen kuin A*.
+
+Hyppymetodia kutsutaan kaikille keosta poimituille solmuille. Se suorittaa JPS:n tehokkuuden perustana olevan tiedustelun, jonka tarkoitus on selvittää, kannattaako käsittelyssä olevasta solmusta edetä johonkin tiettyyn suuntaan. Hyppymetodi palauttaa joko seuraavan hyppypisteen solmuoliona tai null, jos uutta hyppypistettä ei löydy. JPS:n tuoma tehokkuusetu riippuu pitkälti kartasta, jossa polkuja etsitään. Jos kartassa on verraten paljon vapaita alueita siinä on myös paljon symmetrisiä polkuja, jolloin algoritmi saattaa tiedustelun avulla jättää huomiotta suurempia kartan alueita kerrallaan. Jos taas isoja vapaita alueita ei juuri ole, JPS:n tuoma etu heikkenee.
+
+Tässä JPS:n toteutuksessa hyppymetodi palauttaa siis aina täsmälleen yhden hyppypisteen tai ei yhtäkään. Jos hyppy etenee diagonaalisti, tehdään tiedusteluja aina ensin vaaka- ja pystysuuntaan, koska suora siirtymä on halvempi kuin viisto. Jos vaaka- tai pystyhaku tuottaa mahdollisen hyppypisteen (pseudokoodissa rivit 30 ja 33), palautetaan se solmu, josta vaaka- ja pystyhaku tehtiin. Harabor ja Grastien ovat sittemmin julkaisseet myös algoritmin parannellun version, jossa tiedustelun aikana rekursiota ei päätetä heti uuden hyppypisteen löydyttyä, vaan tällaiset diagonaalihypyn sisällä löytyneet vaaka- ja pystyhypyn tuottamat hyppypisteet kerätään listaan, ja kaikki löytyneet hyppypisteet palautetaan kerralla.
 
 ## Suorituskyky- ja O-analyysivertailu
 
+*Tulossa!*
+
 ## Työhön jääneet puutteet ja parannusehdotukset
 
+Kaiken kaikkiaan olen melko tyytyväinen ohjelman rakenteeseen. Käyttöliittymän rakentava koodi varmasti hyötyisi refaktoroinnista, mutta se on ollut työssä sivuosassa. Jump Point Search -algoritmista olisi ollut kiinnostavaa toteuttaa alkuperäisen version lisäksi tai sijasta saman rekursion aikana useita hyppypisteitä keräävä versio. Suorituskykyvertailun olisi voinut toteuttaa käyttäjän kannalta mielekkäämmin: käyttäjälle voisi antaa mahdollisuuden valita kartan, jolla algoritmeja testataan, ja testitulokset voisi jollakin lailla visualisoida graafiseen käyttöliittymään.
+
+Halusin pitää käyttöliittymäkoodin ja sovelluslogiikkakoodin toisistaan erillään, ja käyttäjä näkeekin algoritmien toiminnasta vain lopputuloksen. Olisi kuitenkin voinut olla mielenkiintoista toteuttaa myös sellainen vaihtoehto, että käyttäjä voi seurata laskennan etenemistä ja polun muodostumista käyttöliittymässä. Tällaisessa tapauksessa algoritmien toimintaa olisi voinut sopivasti hidastaa.
+
+*Jatkuu!*
+
 ### Lähteet
+
+[1] D. Harabor & A. Grastien. ["Online Graph Pruning for Pathfinding on Grid Maps"](http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-aaai11.pdf), 2011. Luettu 27.4.2021.
