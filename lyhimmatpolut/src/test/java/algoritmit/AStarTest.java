@@ -30,6 +30,7 @@ public class AStarTest {
         ArrayList<Testitulos> tulokset = this.testaaja.getTulokset();
 
         for (Testitulos tulos : tulokset) {
+            
             assertTrue(tulos.haeOikeellisuustulosAStarille());
         }
     }

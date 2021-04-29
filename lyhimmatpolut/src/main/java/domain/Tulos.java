@@ -55,16 +55,19 @@ public class Tulos {
         return aika;
     }
     
+    /**
+     * Laskee laskennassa tutkittujen solmujen osuuden kaikista vapaista.
+     * @return osuus prosentteina kahden desimaalin tarkkuudella
+     */
     public double laskeTutkittujenOsuus() {
         double osuus = (double) this.tutkittujaSolmuja / (double) this.vapaitaRuutuja;
-        System.out.println(osuus);
         double pyoristettava = Math.round(osuus * 10000);
         return pyoristettava / 100;
     }
     
     /**
      * Pyöristää lasketun pituuden graafista käyttöliittymää varten.
-     * @return 
+     * @return pituus kahden desimaalin tarkkuudella
      */
     public double getPyoristettyPituus() {
         double pyoristettava = Math.round(this.pituus * 100);

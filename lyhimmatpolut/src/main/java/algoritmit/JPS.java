@@ -58,6 +58,7 @@ public class JPS implements Algoritmi {
                 long kesto = System.nanoTime() - aikaAlkaa;
                 double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
                 Lista polku = muodostaPolku(alku, loppu);
+                
                 return new Tulos(polku, pituus, kesto, this.vierailtu, tutkittujaSolmuja, this.vapaitaRuutuja);
             }
 
@@ -247,12 +248,10 @@ public class JPS implements Algoritmi {
                 }
 
                 if ((y + i == y) || (x + j == x)) { // samalla rivillä/samassa sarakkeessa kuin s
-                    Solmu naapuri = new Solmu(x + j, y + i, 1);
-                    naapurit.lisaa(naapuri);
+                    naapurit.lisaa(new Solmu(x + j, y + i, 1));
                 } else { // diagonaalisiirtymä
                     if (sallittuSolmu(y, x + j) && sallittuSolmu(y + i, x)) {
-                        Solmu naapuri = new Solmu(x + j, y + i, Math.sqrt(2));
-                        naapurit.lisaa(naapuri);
+                        naapurit.lisaa(new Solmu(x + j, y + i, Math.sqrt(2)));
                     }
                 }
             }
@@ -319,8 +318,7 @@ public class JPS implements Algoritmi {
     }
 
     /**
-     * Muodostaa löydetyn polun rekursiivisesti käymällä läpi edeltäjätaulukkoa. Ulommassa silmukassa edetään hyppypisteestä seuraavaan,
-     * sisempi generoi hyppypisteiden väliin jäävät solmut.
+     * Muodostaa löydetyn polun rekursiivisesti käymällä läpi edeltäjätaulukkoa.
      *
      * @param alku haetun polun alku
      * @param loppu haetun polun loppu

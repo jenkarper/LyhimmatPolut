@@ -100,7 +100,7 @@ public class Testaaja {
         boolean aStarLoysiPolun = (dijkstra.getPituus() == aStar.getPituus());
         boolean jpsLoysiPolun = laskeJpsOikeellisuus(dijkstra, jps);
         
-        return new Testitulos(kartanNimi, reitti, dijkstraAika, aStarEro, 0.0, aStarLoysiPolun, jpsLoysiPolun, jps, dijkstra);
+        return new Testitulos(kartanNimi, reitti, dijkstraAika, aStarEro, 0.0, aStarLoysiPolun, jpsLoysiPolun);
     }
     
     /**

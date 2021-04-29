@@ -1,7 +1,5 @@
 package suorituskykytestaus;
 
-import domain.Tulos;
-
 /**
  * Suorituskykytestauksen tulokset kokoava luokka.
  *
@@ -16,9 +14,6 @@ public class Testitulos {
     private final double jpsAika;
     private final boolean aStarLoysiPolun;
     private final boolean jpsLoysiPolun;
-    
-    private final Tulos dijkstra;
-    private final Tulos jps;
 
     /**
      * Muodostaa uuden suorituskykytestituloksen.
@@ -31,7 +26,7 @@ public class Testitulos {
      * @param aStarLoysiPolun toimiko A* oikein
      * @param jpsLoysiPolun toimiko JPS oikein
      */
-    public Testitulos(String kartta, Reittikuvaus reitti, double dijkstraAika, double aStarAika, double jpsAika, boolean aStarLoysiPolun, boolean jpsLoysiPolun, Tulos jps, Tulos dijkstra) {
+    public Testitulos(String kartta, Reittikuvaus reitti, double dijkstraAika, double aStarAika, double jpsAika, boolean aStarLoysiPolun, boolean jpsLoysiPolun) {
         this.kartta = kartta;
         this.reitti = reitti;
         this.dijkstraAika = dijkstraAika;
@@ -39,9 +34,6 @@ public class Testitulos {
         this.jpsAika = jpsAika;
         this.aStarLoysiPolun = aStarLoysiPolun;
         this.jpsLoysiPolun = jpsLoysiPolun;
-        
-        this.jps = jps;
-        this.dijkstra = dijkstra;
     }
 
     public String getKartta() {
@@ -62,14 +54,6 @@ public class Testitulos {
 
     public double getJpsAika() {
         return jpsAika;
-    }
-    
-    public Tulos getJps() {
-        return jps;
-    }
-    
-    public Tulos getDijkstra() {
-        return dijkstra;
     }
 
     /**

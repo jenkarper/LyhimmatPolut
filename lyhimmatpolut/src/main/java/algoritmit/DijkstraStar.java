@@ -61,7 +61,6 @@ public class DijkstraStar implements Algoritmi {
                 long kesto = System.nanoTime() - aikaAlussa;
                 double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
                 Lista polku = muodostaPolku(alku, loppu);
-                System.out.println(tutkittujaSolmuja);
 
                 return new Tulos(polku, pituus, kesto, this.vierailtu, tutkittujaSolmuja, this.vapaitaRuutuja);
             }
@@ -110,12 +109,10 @@ public class DijkstraStar implements Algoritmi {
                 }
 
                 if ((y + i == y) || (x + j == x)) { // samalla rivillä/samassa sarakkeessa kuin s
-                    Solmu naapuri = new Solmu(x + j, y + i, 1);
-                    naapurit.lisaa(naapuri);
+                    naapurit.lisaa(new Solmu(x + j, y + i, 1));
                 } else { // diagonaalisiirtymä
                     if (sallittuSolmu(y, x + j) && sallittuSolmu(y + i, x)) {
-                        Solmu naapuri = new Solmu(x + j, y + i, Math.sqrt(2));
-                        naapurit.lisaa(naapuri);
+                        naapurit.lisaa(new Solmu(x + j, y + i, Math.sqrt(2)));
                     }
                 }
             }
@@ -183,7 +180,6 @@ public class DijkstraStar implements Algoritmi {
         this.etaisyys = new double[kartta.length][kartta[0].length];
         this.edeltaja = new Solmu[kartta.length][kartta[0].length];
         this.vapaitaRuutuja = valittuKartta.getVapaitaRuutuja();
-        System.out.println(vapaitaRuutuja);
 
         for (int i = 0; i < kartta.length; i++) {
             for (int j = 0; j < kartta[0].length; j++) {
