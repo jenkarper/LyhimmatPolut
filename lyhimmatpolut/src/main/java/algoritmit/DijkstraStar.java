@@ -13,11 +13,22 @@ import tietorakenteet.Lista;
  */
 public class DijkstraStar implements Algoritmi {
 
+    /**
+     * Algoritmin tarvitsemat oliomuuttujat.
+     * char-taulukko kartan muodostavista merkeistä
+     * boolean-taulukko pitämään kirjaa, mitä solmuja on jo tutkittu
+     * double-taulukko pitämään kirjaa etäisyyksistä alkusolmuun
+     * Solmu-taulukko pitämään kirjaa edeltäjistä polulla
+     * boolean-arvo kertomaan, halutaanko käyttää Dijkstraa vai A*:ia
+     * int-arvo kertomaan, montako vaapaata ruutua kartassa on
+     * int-arvo etäisyystaulukon alustamiseen
+     */
     private char[][] kartta;
     private boolean[][] vierailtu;
     private double[][] etaisyys;
     private Solmu[][] edeltaja;
     private final boolean dijkstra;
+    private int vapaitaRuutuja;
 
     private static final int INF = 999999999;
 
@@ -35,6 +46,7 @@ public class DijkstraStar implements Algoritmi {
     @Override
     public Tulos laskeReitti(Solmu alku, Solmu loppu) {
         long aikaAlussa = System.nanoTime();
+        int tutkittujaSolmuja = 0;
 
         alku.setVertailuarvo(0);
         etaisyys[alku.getY()][alku.getX()] = 0;
@@ -49,8 +61,9 @@ public class DijkstraStar implements Algoritmi {
                 long kesto = System.nanoTime() - aikaAlussa;
                 double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
                 Lista polku = muodostaPolku(alku, loppu);
+                System.out.println(tutkittujaSolmuja);
 
-                return new Tulos(polku, pituus, kesto);
+                return new Tulos(polku, pituus, kesto, this.vierailtu, tutkittujaSolmuja, this.vapaitaRuutuja);
             }
 
             if (!this.vierailtu[u.getY()][u.getX()]) {
@@ -68,6 +81,7 @@ public class DijkstraStar implements Algoritmi {
                         this.etaisyys[n.getY()][n.getX()] = uusiEtaisyys;
                         this.edeltaja[n.getY()][n.getX()] = u;
                         keko.lisaa(n);
+                        tutkittujaSolmuja++;
                     }
                 }
             }
@@ -77,7 +91,7 @@ public class DijkstraStar implements Algoritmi {
     }
 
     /**
-     * Käy läpi kaikki kahdeksan naapuriruutua ja poimii ehdokkaat listalle.
+     * Käy läpi kaikki kahdeksan naapurisolmua ja poimii ehdokkaat listalle. Ei salli oikaisua esteen kulmalla.
      *
      * @param s solmu, jonka naapureita haetaan
      * @return lista valideista naapurisolmuista
@@ -128,7 +142,7 @@ public class DijkstraStar implements Algoritmi {
      * Laskee arvioidun etäisyyden loppuun sen perusteella, onko suorituksessa Dijkstra vai A*.
      * @param s käsillä oleva solmu
      * @param loppu etsittävän polun loppusolmu
-     * @return euklidinen etäisyys s-loppu, jos suorituksessa on A*, muutoin 0
+     * @return euklidinen etäisyys s --> loppu, jos suorituksessa on A*, muutoin 0
      */
     private double arvioituEtaisyysLoppuun(Solmu s, Solmu loppu) {
         if (this.dijkstra) {
@@ -158,11 +172,6 @@ public class DijkstraStar implements Algoritmi {
         return polku;
     }
 
-    @Override
-    public boolean[][] haeTutkitut() {
-        return this.vierailtu;
-    }
-
     /**
      * Alustaa muuttujat uuden reitin laskemista varten.
      *
@@ -173,6 +182,8 @@ public class DijkstraStar implements Algoritmi {
         this.vierailtu = new boolean[kartta.length][kartta[0].length];
         this.etaisyys = new double[kartta.length][kartta[0].length];
         this.edeltaja = new Solmu[kartta.length][kartta[0].length];
+        this.vapaitaRuutuja = valittuKartta.getVapaitaRuutuja();
+        System.out.println(vapaitaRuutuja);
 
         for (int i = 0; i < kartta.length; i++) {
             for (int j = 0; j < kartta[0].length; j++) {

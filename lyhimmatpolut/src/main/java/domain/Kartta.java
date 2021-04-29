@@ -5,6 +5,15 @@ package domain;
  * @author pertjenn
  */
 public class Kartta {
+    
+    /**
+     * Kartan tarvitsemat oliomuuttujat.
+     * char-taulukko kartan muodostavista merkeistä
+     * kartan leveys
+     * kartan korkeus
+     * kartan nimi
+     * kuinka monessa kartan ruudussa ei ole estettä
+     */
     private final char[][] karttataulu;
     private final int leveys;
     private final int korkeus;
@@ -50,13 +59,4 @@ public class Kartta {
     public int getVapaitaRuutuja() {
         return vapaitaRuutuja;
     }
-    
-//    public void tulosta() {
-//        for (int i = 0; i < korkeus; i++) {
-//            for (int j = 0; j < leveys; j++) {
-//                System.out.print(karttataulu[i][j]);
-//            }
-//            System.out.println("");
-//        }
-//    }
 }

@@ -7,6 +7,12 @@ import domain.Solmu;
  * @author pertjenn
  */
 public class Keko {
+    
+    /**
+     * Keon tarvitsemat oliomuuttujat.
+     * Solmu-taulukko solmujen säilömiseen
+     * keon viimeistä solmua osoittava muuttuja
+     */
     private Solmu[] keko;
     private int viimeinen;
     
@@ -30,10 +36,10 @@ public class Keko {
             kasvata();
         }
         
-        this.keko[viimeinen] = s; // lisätään ensimmäiseen vapaaseen kohtaan
+        this.keko[viimeinen] = s;
         int p = viimeinen;
         
-        while (p > 1 && keko[p].pienempiKuin(keko[vanhemmanIndeksi(p)])) { // ei olla indeksissä 1 eli juuressa, ja lisättävä solmu on prioriteettijärjestyksessä ennen sen tämänhetkistä vanhempaa
+        while (p > 1 && keko[p].pienempiKuin(keko[vanhemmanIndeksi(p)])) {
             vaihdaPaikkaa(p, vanhemmanIndeksi(p));
             p = vanhemmanIndeksi(p);
         }
@@ -63,6 +69,9 @@ public class Keko {
         return pienin;
     }
 
+    /**
+     * Kasvattaa keon kokoa kopioimalla alkuperäisen taulukon uuteen, isompaan taulukkoon.
+     */
     private void kasvata() {
         Solmu[] uusiKeko = new Solmu[keko.length * 2];
         for (int i = 0; i < viimeinen; i++) {
@@ -71,6 +80,10 @@ public class Keko {
         keko = uusiKeko;
     }
 
+    /**
+     * Siirtelee solmuja keossa niin, että kekoehto palaa voimaan poiston jälkeen.
+     * @param indeksi sen solmun indeksi, joka poiston jälkeen on väärässä paikassa
+     */
     private void korjaaKekoehto(int indeksi) {
         int pienempiLapsi = 0;
         

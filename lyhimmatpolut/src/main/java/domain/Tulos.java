@@ -4,20 +4,21 @@ import tietorakenteet.Lista;
 
 /**
  * Laskennan tulokset kokoava luokka.
- * Tarjoaa kolme konstruktoria: tyhjälle tulosoliolle, Dijkstran/A*:n tulokselle (ei hyppypisteitä)
- * ja JPS:n tulokselle (hyppypisteet).
  * @author pertjenn
  */
 public class Tulos {
     private final Lista polku;
     private final double pituus;
     private final double aika;
+    private final boolean[][] tutkitut;
+    private final int tutkittujaSolmuja;
+    private final int vapaitaRuutuja;
     
     /**
      * Luo tyhjän tulosolion, jos polkua ei löytynyt.
      */
     public Tulos() {
-        this(new Lista(), -1, -1);
+        this(new Lista(), -1, -1, null, -1, -1);
     }
     
     /**
@@ -25,11 +26,17 @@ public class Tulos {
      * @param polku algoritmin löytämä polku solmulistana
      * @param pituus löydetyn polun pituus
      * @param nanoaika laskentaan käytetty aika nanosekunteina
+     * @param tutkitut boolean-taulukko laskennan aikana tutkituista solmuista
+     * @param tutkittujaSolmuja kuinka monta solmua laskennan aikana tutkittiin
+     * @param vapaitaRuutuja kuinka monta vapaata ruutua kartassa on
      */
-    public Tulos(Lista polku, double pituus, long nanoaika) {
+    public Tulos(Lista polku, double pituus, long nanoaika, boolean[][] tutkitut, int tutkittujaSolmuja, int vapaitaRuutuja) {
         this.polku = polku;
         this.pituus = pituus;
         this.aika = muunna(nanoaika);
+        this.tutkitut = tutkitut;
+        this.tutkittujaSolmuja = tutkittujaSolmuja;
+        this.vapaitaRuutuja = vapaitaRuutuja;
     }
 
     public Lista getPolku() {
@@ -39,9 +46,29 @@ public class Tulos {
     public double getPituus() {
         return pituus;
     }
+    
+    public boolean[][] getTutkitut() {
+        return tutkitut;
+    }
 
     public double getAika() {
         return aika;
+    }
+    
+    public double laskeTutkittujenOsuus() {
+        double osuus = (double) this.tutkittujaSolmuja / (double) this.vapaitaRuutuja;
+        System.out.println(osuus);
+        double pyoristettava = Math.round(osuus * 10000);
+        return pyoristettava / 100;
+    }
+    
+    /**
+     * Pyöristää lasketun pituuden graafista käyttöliittymää varten.
+     * @return 
+     */
+    public double getPyoristettyPituus() {
+        double pyoristettava = Math.round(this.pituus * 100);
+        return pyoristettava / 100;
     }
     
     /**

@@ -43,8 +43,9 @@ public class Testaaja {
             
             Tulos d = this.dijkstra.laskeReitti(alku, loppu);
             Tulos a = this.aStar.laskeReitti(alku, loppu);
+            Tulos j = this.jps.laskeReitti(alku, loppu);
             
-            this.tulokset.add(muodostaTestitulos(rk, d, a));
+            this.tulokset.add(muodostaTestitulos(rk, d, a, j));
         }
     }
 
@@ -91,13 +92,15 @@ public class Testaaja {
      * @param aStar A*:n laskema tulos
      * @return uusi testitulosolio
      */
-    private Testitulos muodostaTestitulos(Reittikuvaus reitti, Tulos dijkstra, Tulos aStar) {
+    private Testitulos muodostaTestitulos(Reittikuvaus reitti, Tulos dijkstra, Tulos aStar, Tulos jps) {
         String kartanNimi = this.kartta.getNimi();
         double dijkstraAika = dijkstra.getAika();
         double aStarEro = dijkstraAika - aStar.getAika();
+        double jpsEro = dijkstraAika - jps.getAika();
         boolean aStarLoysiPolun = (dijkstra.getPituus() == aStar.getPituus());
+        boolean jpsLoysiPolun = laskeJpsOikeellisuus(dijkstra, jps);
         
-        return new Testitulos(kartanNimi, reitti, dijkstraAika, aStarEro, 0.0, aStarLoysiPolun, false);
+        return new Testitulos(kartanNimi, reitti, dijkstraAika, aStarEro, 0.0, aStarLoysiPolun, jpsLoysiPolun, jps, dijkstra);
     }
     
     /**
@@ -113,5 +116,17 @@ public class Testaaja {
 
     public ArrayList<Testitulos> getTulokset() {
         return tulokset;
+    }
+
+    private boolean laskeJpsOikeellisuus(Tulos dijkstra, Tulos jps) {
+        double dijkstranPituus = dijkstra.getPituus();
+        double jpsPituus = jps.getPituus();
+        double erotus = Math.abs(dijkstranPituus - jpsPituus);
+        
+        return (erotus < 0.0000001);
+    }
+    
+    public Kartta getKartta() {
+        return kartta;
     }
 }

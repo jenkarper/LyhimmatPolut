@@ -8,23 +8,31 @@ import tietorakenteet.Keko;
 import tietorakenteet.Lista;
 
 /**
- * Luokka etsii lyhimmän polun JPS-algoritmia käyttäen (kesken!).
+ * Luokka etsii lyhimmän polun JPS-algoritmia käyttäen.
  *
  * @author pertjenn
  */
 public class JPS implements Algoritmi {
 
+    /**
+     * Algoritmin tarvitsemat oliomuuttujat.
+     * char-taulukko kartan muodostavista merkeistä
+     * boolean-taulukko pitämään kirjaa, mitä solmuja on jo tutkittu
+     * double-taulukko pitämään kirjaa etäisyyksistä alkusolmuun
+     * Solmu-taulukko pitämään kirjaa edeltäjistä polulla
+     * int-arvo kertomaan, montako vapaata ruutua kartassa on
+     * int-arvo etäisyystaulukon alustamiseen
+     */
     private char[][] kartta;
+    private boolean[][] vierailtu;
     private double[][] etaisyys;
     private Solmu[][] edeltaja;
-    private boolean[][] vierailtu;
-    private Solmu alku;
-    private Solmu loppu;
+    private int vapaitaRuutuja;
 
     private static final int INF = 999999999;
 
     /**
-     * Luo uuden algoritmiolion valitulle kartalle (ei toimi vielä täysin oikein!).
+     * Luo uuden algoritmiolion valitulle kartalle.
      *
      * @param valittuKartta käyttäjän valitsema kartta
      */
@@ -32,17 +40,13 @@ public class JPS implements Algoritmi {
         alusta(valittuKartta);
     }
 
-    // Palauttaa väärän polun pituuden; virhe liittyy mahdollisesti etenemiseen esteen kulmalla.
     @Override
     public Tulos laskeReitti(Solmu alku, Solmu loppu) {
         long aikaAlkaa = System.nanoTime();
-
-        this.alku = alku;
-        this.loppu = loppu;
+        int tutkittujaSolmuja = 0;
 
         Keko keko = new Keko();
         this.etaisyys[alku.getY()][alku.getX()] = 0;
-        this.vierailtu[alku.getY()][alku.getX()] = true;
 
         alku.setVertailuarvo(0);
         keko.lisaa(alku);
@@ -54,59 +58,59 @@ public class JPS implements Algoritmi {
                 long kesto = System.nanoTime() - aikaAlkaa;
                 double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
                 Lista polku = muodostaPolku(alku, loppu);
-                return new Tulos(polku, pituus, kesto);
+                return new Tulos(polku, pituus, kesto, this.vierailtu, tutkittujaSolmuja, this.vapaitaRuutuja);
             }
 
-            Lista naapurit = haeNaapurit(u);
+            if (!this.vierailtu[u.getY()][u.getX()]) {
+                
+                this.vierailtu[u.getY()][u.getX()] = true;
+                Lista naapurit = haeNaapurit(u);
 
-            for (int i = 0; i < naapurit.koko(); i++) {
-                Solmu naapuri = naapurit.haeSolmu(i);
+                for (int i = 0; i < naapurit.koko(); i++) {
+                    Solmu naapuri = naapurit.haeSolmu(i);
+                    Suunta suunta = laskeSuunta(u, naapuri);
+                    Solmu hyppypiste = hyppaa(u, suunta, loppu);
 
-                // lasketaan hypyn suunta ja hypätään
-                Suunta suunta = laskeSuunta(u, naapuri);
-                Solmu hyppypiste = hyppaa(u, suunta);
+                    if (hyppypiste == null) {
+                        continue;
+                    }
 
-                if (hyppypiste == null) {
-                    continue;
-                }
+                    double vanhaEtaisyys = this.etaisyys[hyppypiste.getY()][hyppypiste.getX()];
+                    double hypynPituus = laskeHypynPituus(u, hyppypiste, suunta);
+                    double uusiEtaisyys = this.etaisyys[u.getY()][u.getX()] + hypynPituus;
 
-                // lasketaan hypyssä löytynyt uusi etäisyysarvo vertailua varten
-                double vanhaEtaisyys = this.etaisyys[hyppypiste.getY()][hyppypiste.getX()];
-                double hypynPituus = laskeHypynPituus(u, hyppypiste, suunta);
-                double uusiEtaisyys = this.etaisyys[u.getY()][u.getX()] + hypynPituus;
+                    if (uusiEtaisyys < vanhaEtaisyys) {
 
-                if (uusiEtaisyys < vanhaEtaisyys && !this.vierailtu[hyppypiste.getY()][hyppypiste.getX()]) {
-
-                    this.etaisyys[hyppypiste.getY()][hyppypiste.getX()] = uusiEtaisyys;
-                    this.vierailtu[hyppypiste.getY()][hyppypiste.getX()] = true;
-                    this.edeltaja[hyppypiste.getY()][hyppypiste.getX()] = u;
-
-                    double vertailuarvo = uusiEtaisyys + arvioituEtaisyysLoppuun(hyppypiste, loppu);
-                    hyppypiste.setVertailuarvo(vertailuarvo);
-                    keko.lisaa(hyppypiste);
+                        this.etaisyys[hyppypiste.getY()][hyppypiste.getX()] = uusiEtaisyys;
+                        this.edeltaja[hyppypiste.getY()][hyppypiste.getX()] = u;
+                        double vertailuarvo = uusiEtaisyys + arvioituEtaisyysLoppuun(hyppypiste, loppu);
+                        hyppypiste.setVertailuarvo(vertailuarvo);
+                        keko.lisaa(hyppypiste);
+                        tutkittujaSolmuja++;
+                    }
                 }
             }
+
         }
         return new Tulos();
     }
 
     /**
      * Etsii seuraavia mahdollisia hyppypisteitä solmusta s käsin.
+     *
      * @param s solmu, joka viimeksi on poimittu keosta
      * @param suunta suunta, johon ollaan liikkumassa
+     * @param loppu etsittävänä olevan polun loppusolmu
      * @return hyppypiste solmuna, jos sellainen löytyy
      */
-    private Solmu hyppaa(Solmu s, Suunta suunta) {
+    private Solmu hyppaa(Solmu s, Suunta suunta, Solmu loppu) {
 
-        // otetaan ensimmäinen askel
         Solmu seuraava = new Solmu(s.getX() + suunta.x, s.getY() + suunta.y);
 
-        // ollaanko ulkona kartalta tai esteessä?
         if (!sallittuSolmu(seuraava.getY(), seuraava.getX())) {
             return null;
         }
 
-        // ollaanko lopussa?
         if (seuraava.samaSolmu(loppu)) {
             return seuraava;
         }
@@ -114,98 +118,108 @@ public class JPS implements Algoritmi {
         // onko pakotettuja naapureita?
         int x = seuraava.getX();
         int y = seuraava.getY();
-
-        if (suunta.y == 0) { // ollaan hyppäämässä vaakasuoraan
-            if ((!sallittuSolmu(y + 1, x) && sallittuSolmu(y + 1, x + suunta.x))
-                    || (!sallittuSolmu(y - 1, x) && sallittuSolmu(y - 1, x + suunta.x))) {
+        
+        if (suunta.y == 0) {
+            if ((!sallittuSolmu(y + 1, s.getX()) && sallittuSolmu(y + 1, x))
+                    || (!sallittuSolmu(y - 1 , s.getX()) && sallittuSolmu(y - 1, x))) {
                 return seuraava;
             }
-        } else if (suunta.x == 0) { // ollaan hyppäämässä pystysuoraan
-            if ((!sallittuSolmu(y, x + 1) && sallittuSolmu(y + suunta.y, x + 1))
-                    || (!sallittuSolmu(y, x - 1) && sallittuSolmu(y + suunta.y, x - 1))) {
-                return seuraava;
-            }
-        } else { // ollaan hyppäämässä viistoon
-            if ((!sallittuSolmu(y, x - suunta.x) && sallittuSolmu(y + suunta.y, x - suunta.x))
-                    || (!sallittuSolmu(y - suunta.y, x) && sallittuSolmu(y - suunta.y, x + suunta.x))) {
+        } else if (suunta.x == 0) {
+            if ((!sallittuSolmu(s.getY(), x + 1)) && sallittuSolmu(y, x + 1)
+                    || (!sallittuSolmu(s.getY(), x - 1) && sallittuSolmu(y, x - 1))) {
                 return seuraava;
             }
         }
 
-        // onko suunta diagonaalinen?
         if (suunta.x != 0 && suunta.y != 0) {
-            // jos pystyhyppy solmusta seuraava löytää uusia hyppypisteitä, solmu seuraava on myös hyppypiste
-            Solmu pystyhyppy = hyppaa(seuraava, new Suunta(0, suunta.y));
+            
+            Solmu pystyhyppy = hyppaa(seuraava, new Suunta(0, suunta.y), loppu);
             if (pystyhyppy != null) {
                 return seuraava;
             }
-            // jos vaakahyppy löytää uusia hyppypisteitä, solmu seuraava on myös hyppypiste
-            Solmu vaakahyppy = hyppaa(seuraava, new Suunta(suunta.x, 0));
+
+            Solmu vaakahyppy = hyppaa(seuraava, new Suunta(suunta.x, 0), loppu);
             if (vaakahyppy != null) {
                 return seuraava;
             }
         }
-        // jos mikään ylläolevista ehdoista ei ole toteutunut, jatketaan hyppypisteen etsimistä samasta suunnasta
-        return hyppaa(seuraava, suunta);
+
+        return hyppaa(seuraava, suunta, loppu);
     }
 
     /**
-     * Hakee käsillä olevan solmun naapurit karsien ne suunnan perusteella (jos s on alkusolmu, haetaan kaikki vapaat naapurit).
+     * Hakee käsillä olevan solmun naapurit karsien ne suunnan perusteella (jos
+     * s on alkusolmu, haetaan kaikki vapaat naapurit). Ei salli oikaisua esteen kulmalla.
+     *
      * @param s viimeksi keosta poimittu solmu
      * @return listan naapurisolmuista, joihin on mahdollista edetä
      */
-    private Lista haeNaapurit(Solmu s) {
+    public Lista haeNaapurit(Solmu s) {
 
         Lista naapurit = new Lista();
-        int sx = s.getX();
-        int sy = s.getY();
-        Solmu edellinen = this.edeltaja[sy][sx];
+        int x = s.getX();
+        int y = s.getY();
+        Solmu edellinen = this.edeltaja[y][x];
 
-        // jos kyseessä on alkusolmu, haetaan kaikki vapaat naapurit
         if (edellinen == null) {
             return haeKaikkiNaapurit(s);
         }
 
         Suunta suunta = laskeSuunta(edellinen, s);
 
-        if (suunta.y == 0 || suunta.x == 0) { // ollaan siirtymässä suoraan
-            if (sallittuSolmu(sy + suunta.y, sx + suunta.x)) { // luonnollinen naapuri
-                naapurit.lisaa(new Solmu(sx + suunta.x, sy + suunta.y, 1));
+        if (suunta.x == 0) { // ollaan etenemässä pystysuuntaan
+            if (sallittuSolmu(y + suunta.y, x)) {
+                naapurit.lisaa(new Solmu(x, y + suunta.y)); // luonnollinen naapuri
+            }
+            if (!sallittuSolmu(y - suunta.y, x - 1)) { // pakotetut naapurit sarakkeessa x - 1
+                if (sallittuSolmu(y, x - 1)) {
+                    naapurit.lisaa(new Solmu(x - 1, y));
+                    if (sallittuSolmu(y + suunta.y, x) && sallittuSolmu(y + suunta.y, x - 1)) {
+                        naapurit.lisaa(new Solmu(x - 1, y + suunta.y));
+                    }
+                }
+            }
+            if (!sallittuSolmu(y - suunta.y, x + 1)) { // pakotetut naapurit sarakkeessa x + 1
+                if (sallittuSolmu(y, x + 1)) {
+                    naapurit.lisaa(new Solmu(x + 1, y));
+                    if (sallittuSolmu(y + suunta.y, x) && sallittuSolmu(y + suunta.y, x + 1)) {
+                        naapurit.lisaa(new Solmu(x + 1, y + suunta.y));
+                    }
+                }
             }
 
-            if (suunta.y == 0) { // vaakasiirtymän pakotetut naapurit
-                if (!sallittuSolmu(sy + 1, sx) && sallittuSolmu(sy + 1, sx + suunta.x)) {
-                    naapurit.lisaa(new Solmu(sx + suunta.x, sy + 1, Math.sqrt(2)));
-                }
-                if (!sallittuSolmu(sy - 1, sx) && sallittuSolmu(sy - 1, sx + suunta.x)) {
-                    naapurit.lisaa(new Solmu(sx + suunta.x, sy - 1, Math.sqrt(2)));
-                }
-            } else { // pystysiirtymän pakotetut naapurit
-                if (!sallittuSolmu(sy, sx + 1) && sallittuSolmu(sy + suunta.y, sx + 1)) {
-                    naapurit.lisaa(new Solmu(sx + 1, sy + suunta.y, Math.sqrt(2)));
-                }
-                if (!sallittuSolmu(sy, sx - 1) && sallittuSolmu(sy + suunta.y, sx - 1)) {
-                    naapurit.lisaa(new Solmu(sx - 1, sy + suunta.y, Math.sqrt(2)));
+        } else if (suunta.y == 0) { // ollaan etenemässä vaakasuuntaan
+            if (sallittuSolmu(y, x + suunta.x)) {
+                naapurit.lisaa(new Solmu(x + suunta.x, y)); // luonnollinen naapuri
+            }
+            if (!sallittuSolmu(y - 1, x - suunta.x)) { // pakotetut naapurit rivillä y - 1
+                if (sallittuSolmu(y - 1, x)) {
+                    naapurit.lisaa(new Solmu(x, y - 1));
+                    if (sallittuSolmu(y, x + suunta.x) && sallittuSolmu(y - 1, x + suunta.x)) {
+                        naapurit.lisaa(new Solmu(x + suunta.x, y - 1));
+                    }
                 }
             }
-        } else { // ollaan siirtymässä viistoon
-            
-            if (sallittuSolmu(sy, sx + suunta.x)) { // luonnollinen naapuri suoraan sivulla
-                naapurit.lisaa(new Solmu(sx + suunta.x, sy, 1));
-            }
-            if (sallittuSolmu(sy + suunta.y, sx)) { // luonnollinen naapuri suoraan yllä/alla
-                naapurit.lisaa(new Solmu(sx, sy + suunta.y, 1));
-            }
-            if (sallittuSolmu(sy + suunta.y, sx + suunta.x)) { // luonnollinen naapuri viistossa + ei olla siirtymässä viistoon esteen nurkalla
-                naapurit.lisaa(new Solmu(sx + suunta.x, sy + suunta.y, Math.sqrt(2)));
+            if (!sallittuSolmu(y + 1, x - suunta.x)) { // pakotetut naapurit rivillä y + 1
+                if (sallittuSolmu(y + 1, x)) {
+                    naapurit.lisaa(new Solmu(x, y + 1));
+                    if (sallittuSolmu(y, x + suunta.x) && sallittuSolmu(y + 1, x + suunta.x)) {
+                        naapurit.lisaa(new Solmu(x + suunta.x, y + 1));
+                    }
+                }
             }
 
-            // diagonaalisiirtymän pakotetut naapurit
-            if (!sallittuSolmu(sy, sx - suunta.x) && sallittuSolmu(sy + suunta.y, sx - suunta.x)) {
-                naapurit.lisaa(new Solmu(sx - suunta.x, sy + suunta.y, Math.sqrt(2)));
+        } else { // ollaan etenemässä viistoon
+            if (sallittuSolmu(y + suunta.y, x)) {
+                naapurit.lisaa(new Solmu(x, y + suunta.y));
             }
-            if (!sallittuSolmu(sy - suunta.y, sx) && sallittuSolmu(sy - suunta.y, sx + suunta.x)) {
-                naapurit.lisaa(new Solmu(sx + suunta.x, sy - suunta.y, Math.sqrt(2)));
+            if (sallittuSolmu(y, x + suunta.x)) {
+                naapurit.lisaa(new Solmu(x + suunta.x, y));
+            }
+            if (sallittuSolmu(y + suunta.y, x) && sallittuSolmu(y, x + suunta.x)) {
+                if (sallittuSolmu(y + suunta.y, x + suunta.x)) {
+                    naapurit.lisaa(new Solmu(x + suunta.x, y + suunta.y));
+                }
             }
         }
 
@@ -213,7 +227,9 @@ public class JPS implements Algoritmi {
     }
 
     /**
-     * Hakee kaikki solmun s vapaat naapurit (eli naapurit, jotka ovat kartalla ja joissa ei ole estettä).
+     * Hakee kaikki solmun s vapaat naapurit (eli naapurit, jotka ovat kartalla
+     * ja joissa ei ole estettä).
+     *
      * @param s käsillä oleva solmu (käytännössä aina alkusolmu)
      * @return lista naapurisolmuista, joihin on mahdollista edetä
      */
@@ -245,7 +261,9 @@ public class JPS implements Algoritmi {
     }
 
     /**
-     * Laskee naapurihaussa ja hyppäämisessä tarvittavan suhteellisen suunnan kahden solmun välillä.
+     * Laskee naapurihaussa ja hyppäämisessä tarvittavan suhteellisen suunnan
+     * kahden solmun välillä.
+     *
      * @param mista solmu josta ollaan tultu
      * @param mihin solmu johon ollaan tultu
      * @return uusi suuntaolio
@@ -271,6 +289,12 @@ public class JPS implements Algoritmi {
         return new Suunta(x, y);
     }
 
+    /**
+     * Tarkistaa, ovatko koordinaatit kartan rajojen sisällä ja onko niiden kohdalla vapaata.
+     * @param rivi y-koordinaatti
+     * @param sarake x-koordinaatti
+     * @return true, jos solmuun voi edetä, muutoin false
+     */
     private boolean sallittuSolmu(int rivi, int sarake) {
 
         if ((rivi >= 0 && rivi < this.kartta.length) && (sarake >= 0 && sarake < this.kartta[0].length)) { // ollaan kartan rajojen sisällä
@@ -285,7 +309,7 @@ public class JPS implements Algoritmi {
      *
      * @param s käsillä oleva solmu
      * @param loppu etsittävän polun loppusolmu
-     * @return euklidinen etäisyys s-loppu, jos suorituksessa on A*, muutoin 0
+     * @return euklidinen etäisyys s --> loppu
      */
     private double arvioituEtaisyysLoppuun(Solmu s, Solmu loppu) {
         double xErotus = s.getX() - loppu.getX();
@@ -295,7 +319,8 @@ public class JPS implements Algoritmi {
     }
 
     /**
-     * Muodostaa löydetyn polun rekursiivisesti käymällä läpi edeltäjätaulukkoa.
+     * Muodostaa löydetyn polun rekursiivisesti käymällä läpi edeltäjätaulukkoa. Ulommassa silmukassa edetään hyppypisteestä seuraavaan,
+     * sisempi generoi hyppypisteiden väliin jäävät solmut.
      *
      * @param alku haetun polun alku
      * @param loppu haetun polun loppu
@@ -309,7 +334,7 @@ public class JPS implements Algoritmi {
         while (!s.samaSolmu(alku)) {
             Solmu edellinenHyppypiste = this.edeltaja[s.getY()][s.getX()];
             Suunta suunta = laskeSuunta(s, edellinenHyppypiste);
-            
+
             // sisempi while-silmukka poimii polkuun ne solmut, jotka jäävät kahden hyppypisteen väliin
             while (!s.samaSolmu(edellinenHyppypiste)) {
                 s = new Solmu(s.getX() + suunta.x, s.getY() + suunta.y);
@@ -319,14 +344,10 @@ public class JPS implements Algoritmi {
         return polku;
     }
 
-    @Override
-    public boolean[][] haeTutkitut() {
-        return this.vierailtu;
-    }
-
     /**
-     * Laskee kahden solmun välisen etäisyyden koordinaattien perusteella (oletus on, että kahden solmun välillä on kuljettu koko ajan samaan suuntaan).
-     * @param mista solmu josta on lähdetty 
+     * Laskee kahden solmun välisen etäisyyden koordinaattien perusteella.
+     *
+     * @param mista solmu josta on lähdetty
      * @param mihin solmu johon on tultu
      * @param suunta suunta johon on kuljettu
      * @return laskettu etäisyys doublena
@@ -342,7 +363,7 @@ public class JPS implements Algoritmi {
             yErotus = -yErotus;
         }
 
-        if (suunta.x == 0 || suunta.y == 0) { // ollaan hypätty suoraan
+        if (suunta.x == 0 || suunta.y == 0) {
             return xErotus + yErotus;
         } else {
             return xErotus * Math.sqrt(2);
@@ -354,6 +375,7 @@ public class JPS implements Algoritmi {
         this.etaisyys = new double[kartta.length][kartta[0].length];
         this.vierailtu = new boolean[kartta.length][kartta[0].length];
         this.edeltaja = new Solmu[kartta.length][kartta[0].length];
+        this.vapaitaRuutuja = valittuKartta.getVapaitaRuutuja();
 
         for (int i = 0; i < this.etaisyys.length; i++) {
             for (int j = 0; j < this.etaisyys[0].length; j++) {

@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 
 /**
- *
+ * Testaa Dijkstran oikeellisuutta vertaamalla sen löytämän polun pituutta skenaarion tietoihin.
  * @author pertjenn
  */
 public class DijkstraTest {
@@ -78,7 +78,7 @@ public class DijkstraTest {
             add(new Solmu(3, 4));
             add(new Solmu(2, 4));
             add(new Solmu(1, 4));
-            add(new Solmu(0, 4)); // tämä solmu tulee reitille, jos esteen nurkalla ei saa edetä viistoon
+            add(new Solmu(0, 4));
             add(new Solmu(0, 3));
             add(new Solmu(0, 2));
             add(new Solmu(0, 1));

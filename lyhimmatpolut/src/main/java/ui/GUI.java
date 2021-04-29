@@ -92,7 +92,7 @@ public class GUI extends Application {
                 Tulos laskennanTulos = algoritmi.laskeReitti(alku, loppu);
 
                 if (laskennanTulos.onnistui()) {
-                    this.piirtaja.piirraPolku(laskennanTulos.getPolku(), algoritmi.haeTutkitut());
+                    this.piirtaja.piirraPolku(laskennanTulos.getPolku(), laskennanTulos.getTutkitut());
                 }
                 this.valikonRakentaja.asetaTulokset(laskennanTulos);
             }
@@ -174,7 +174,6 @@ public class GUI extends Application {
             case "Jump Point Search":
                 return new JPS(kartta);
             default:
-                // Käytetään oletusarvoisesti Dijkstraa.
                 return new DijkstraStar(kartta, true);
         }
     }
@@ -195,6 +194,8 @@ public class GUI extends Application {
     private void nollaaPisteidenValinta() {
         this.alku = null;
         this.loppu = null;
+        this.valikonRakentaja.asetaAlku(-1, -1);
+        this.valikonRakentaja.asetaLoppu(-1, -1);
     }
 
     public static void main(String[] args) {
