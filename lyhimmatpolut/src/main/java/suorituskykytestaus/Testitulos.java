@@ -130,7 +130,7 @@ public class Testitulos {
 
     /**
      * Palauttaa tiedon, toimiko JPS oikein verrattuna Dijkstraan (käytetään yksikkötesteissä).
-     * @return true, jos A* ja Dijkstra löysivät saman polun
+     * @return true, jos JPS ja Dijkstra löysivät saman polun
      */
     public boolean haeOikeellisuustulosJPSlle() {
         return this.jpsLoysiPolun;

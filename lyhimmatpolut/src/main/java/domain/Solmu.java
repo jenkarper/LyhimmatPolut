@@ -30,7 +30,7 @@ public class Solmu {
     }
     
     /**
-     * Luo uuden solmuolion annetuilla koordinaateilla ja painolla.
+     * Luo uuden solmuolion annetuilla koordinaateilla, painolla ja vertailuarvolla.
      * @param x solmun x-koordinaatti
      * @param y solmun y-koordinaatti
      * @param paino solmun etäisyys polun edelliseen solmuun

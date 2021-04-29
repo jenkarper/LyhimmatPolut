@@ -1,44 +1,47 @@
 package algoritmit;
 
-import dao.Kartanlukija;
-import dao.TiedostonlukijaIO;
-import domain.Kartta;
 import domain.Solmu;
 import domain.Tulos;
+import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import suorituskykytestaus.Testaaja;
+import suorituskykytestaus.Testitulos;
 
 /**
- * JPS ei toimi vielä kunnolla, joten testi ei testaa vielä kunnolla.
+ * Testaa algoritmin oikeellisuutta vertaamalla sen tulosta Dijkstran tulokseen.
  * @author pertjenn
  */
 public class JPSTest {
-    private JPS algoritmi;
-    private final TiedostonlukijaIO lukija;
-    private final Kartta berliini;
-    
+
+    private final Testaaja testaaja;
+    private final String testikartta;
+
     public JPSTest() {
-        this.lukija = new Kartanlukija();
-        lukija.lueKartta("kartat/Berlin_0_1024.map");
-        this.berliini = lukija.haeKartta();
+        this.testaaja = new Testaaja();
+        this.testikartta = "kartat/London_0_1024.map";
     }
 
+    /**
+     * Arpoo satunnaisia reittejä, laskee niiden pituuden ari algoritmeilla ja vertaa pituuksia toisiinsa.
+     */
     @Test
-    public void loytaaPolunVaikeassaKartassa() {
-        this.algoritmi = new JPS(this.berliini);
-        Tulos tulos = algoritmi.laskeReitti(new Solmu(19, 3), new Solmu(1005, 1002));
-        double odotettuPituus = 1539.80230712;
-        double loydettyPituus = tulos.getPituus();
-        
-        assertEquals(odotettuPituus, loydettyPituus, 1);
-        
+    public void loytaaSamatPolunpituudetKuinDijkstra() {
+        this.testaaja.suoritaTestit(testikartta, 10);
+
+        ArrayList<Testitulos> tulokset = this.testaaja.getTulokset();
+
+        for (Testitulos tulos : tulokset) {
+            assertTrue(tulos.haeOikeellisuustulosJPSlle());
+        }
     }
     
     @Test
     public void eiLoydaPolkuaKunSitaEiOle() {
-        this.algoritmi = new JPS(this.berliini);
-        Tulos tulos = algoritmi.laskeReitti(new Solmu(847, 137), new Solmu(651, 486));
+        this.testaaja.suoritaTestit(testikartta, 1);
+        Algoritmi jps = new JPS(this.testaaja.getKartta());
+        Tulos tulos = jps.laskeReitti(new Solmu(50, 858), new Solmu(921, 142));
         
-        assertTrue(!tulos.onnistui());
+        assertFalse(tulos.onnistui());
     }
 }

@@ -1,7 +1,6 @@
 package suorituskykytestaus;
 
 import domain.Solmu;
-import java.util.Objects;
 
 /**
  * Suorituskykytesteissä käytetty luokka, johon tallennetaan tarpeelliset tiedot
@@ -28,8 +27,6 @@ public class Reittikuvaus {
         this.alku = new Solmu(alkuX, alkuY);
         this.loppu = new Solmu(loppuX, loppuY);
         this.reitinPituus = pituus;
-//        double rp = Math.round(pituus * 10000);
-//        this.reitinPituus = rp / 10000;
     }
 
     public Solmu getAlku() {

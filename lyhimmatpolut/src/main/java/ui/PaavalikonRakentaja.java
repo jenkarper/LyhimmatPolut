@@ -27,8 +27,8 @@ public class PaavalikonRakentaja {
     private VBox tulokset;
     private Label pituus;
     private Label kesto;
+    private Label tutkittuja;
     private VBox suorituskykytestienKaynnistysValikko;
-    private String valittuKartta;
     private ToggleGroup algoritmiNapit;
 
     /**
@@ -103,7 +103,8 @@ public class PaavalikonRakentaja {
         muotoileOtsikko(tulosOtsikko);
         this.pituus = new Label("");
         this.kesto = new Label("");
-        this.tulokset = new VBox(10, pituus, kesto);
+        this.tutkittuja = new Label("");
+        this.tulokset = new VBox(10, pituus, kesto, tutkittuja);
         valikko.getChildren().addAll(tulosOtsikko, tulokset);
     }
     
@@ -127,9 +128,6 @@ public class PaavalikonRakentaja {
         d.setSelected(true);
         a.setToggleGroup(algoritmiNapit);
         j.setToggleGroup(algoritmiNapit);
-        
-        // Asetetaan toteuttamattomat algoritmit ei-valittaviksi
-        //j.setDisable(true);
     }
 
     /**
@@ -139,7 +137,11 @@ public class PaavalikonRakentaja {
      * @param y valitun pisteen y-koordinaatti
      */
     public void asetaAlku(int x, int y) {
-        this.alku.setText("Alku: (" + x + ", " + y + ")");
+        if (x == -1 && y == -1) {
+            this.alku.setText("Alku: ");
+        } else {
+            this.alku.setText("Alku: (" + x + ", " + y + ")");
+        }
     }
 
     /**
@@ -149,7 +151,11 @@ public class PaavalikonRakentaja {
      * @param y valitun pisteen y-koordinaatti
      */
     public void asetaLoppu(int x, int y) {
-        this.loppu.setText("Loppu: (" + x + ", " + y + ")");
+        if (x == -1 && y == -1) {
+            this.loppu.setText("Loppu: ");
+        } else {
+            this.loppu.setText("Loppu: (" + x + ", " + y + ")");
+        }
     }
 
     /**
@@ -162,6 +168,7 @@ public class PaavalikonRakentaja {
         if (tulos.onnistui()) {
             this.pituus.setText("Reitin pituus: " + tulos.getPituus());
             this.kesto.setText("Käytetty aika (ms): " + tulos.getAika());
+            this.tutkittuja.setText("Tutkittujen osuus (%): " + tulos.laskeTutkittujenOsuus());
         } else {
             this.pituus.setText("Antamiesi pisteiden välille ei voitu muodostaa polkua!");
         }
@@ -173,6 +180,7 @@ public class PaavalikonRakentaja {
     public void nollaaTulokset() {
         this.pituus.setText("");
         this.kesto.setText("");
+        this.tutkittuja.setText("");
     }
 
     public HBox getKarttalistanKehys() {

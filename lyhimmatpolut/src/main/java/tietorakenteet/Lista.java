@@ -7,6 +7,12 @@ import domain.Solmu;
  * @author pertjenn
  */
 public class Lista {
+    
+    /**
+     * Listan tarvitsemat oliomuuttujat.
+     * Solmu-taulukko solmujen säilömistä varten
+     * listan viimeistä solmua osoittava muuttuja
+     */
     private Solmu[] lista;
     private int viimeinen;
     
@@ -31,6 +37,9 @@ public class Lista {
         }
     }
     
+    /**
+     * Kasvattaa listan kokoa kopioimalla alkuperäisen taulukon uuteen, isompaan taulukkoon.
+     */
     private void kasvata() {
         Solmu[] uusiLista = new Solmu[lista.length * 2];
         for (int i = 0; i <= viimeinen; i++) {
