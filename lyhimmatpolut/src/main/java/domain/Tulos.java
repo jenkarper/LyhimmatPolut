@@ -69,7 +69,7 @@ public class Tulos {
      * Pyöristää lasketun pituuden graafista käyttöliittymää varten.
      * @return pituus kahden desimaalin tarkkuudella
      */
-    public double getPyoristettyPituus() {
+    public double laskePyoristettyPituus() {
         double pyoristettava = Math.round(this.pituus * 100);
         return pyoristettava / 100;
     }

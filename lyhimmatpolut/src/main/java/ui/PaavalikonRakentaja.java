@@ -166,7 +166,7 @@ public class PaavalikonRakentaja {
     public void asetaTulokset(Tulos tulos) {
 
         if (tulos.onnistui()) {
-            this.pituus.setText("Reitin pituus: " + tulos.getPituus());
+            this.pituus.setText("Reitin pituus: " + tulos.laskePyoristettyPituus());
             this.kesto.setText("Käytetty aika (ms): " + tulos.getAika());
             this.tutkittuja.setText("Tutkittujen osuus (%): " + tulos.laskeTutkittujenOsuus());
         } else {

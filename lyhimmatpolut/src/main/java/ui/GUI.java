@@ -101,18 +101,6 @@ public class GUI extends Application {
         this.valikonRakentaja.getLaskennanKaynnistysValikko().getChildren().add(laske);
     }
 
-    private void muodostaSuorituskykytestienKaynnistysNappi() {
-        Button testaa = new Button("Käynnistä!");
-
-        testaa.setOnAction((event) -> {
-            Testaaja testaaja = new Testaaja();
-            testaaja.suoritaTestit("kartat/Boston_2_1024.map", 5);
-            testaaja.naytaTulokset();
-        });
-
-        this.valikonRakentaja.getSuorituskykytestienKaynnistysValikko().getChildren().add(testaa);
-    }
-
     private void lueKartta(String karttatiedosto) {
         this.lukija = new Kartanlukija();
         lukija.lueKartta("kartat/" + karttatiedosto);
@@ -196,6 +184,27 @@ public class GUI extends Application {
         this.loppu = null;
         this.valikonRakentaja.asetaAlku(-1, -1);
         this.valikonRakentaja.asetaLoppu(-1, -1);
+    }
+    
+    // SUORITUSKYKYTESTAUKSEN KÄYNNISTYS JA TESTAUSPARAMETRIEN VALINTA
+
+    private void muodostaSuorituskykytestienKaynnistysNappi() {
+        Button testaa = new Button("Käynnistä!");
+
+        testaa.setOnAction((event) -> {
+            Testaaja testaaja = new Testaaja();
+            
+            // Muuta näitä arvoja, kun haluat säätää suorituskykytestejä.
+            String kaytettavaKartta = "kartat/Boston_2_1024.map";
+            int polunPituusMin = 450;
+            int polunPituusMax = 550;
+            int arvottaviaReitteja = 5;
+            
+            testaaja.suoritaSuorituskykytestit(kaytettavaKartta, polunPituusMin, polunPituusMax, arvottaviaReitteja);
+            //testaaja.naytaYksittaisetTulokset();
+        });
+
+        this.valikonRakentaja.getSuorituskykytestienKaynnistysValikko().getChildren().add(testaa);
     }
 
     public static void main(String[] args) {

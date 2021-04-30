@@ -2,11 +2,11 @@ package algoritmit;
 
 import domain.Solmu;
 import domain.Tulos;
+import suorituskykytestaus.Testaaja;
+import suorituskykytestaus.Testitulos;
 import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import suorituskykytestaus.Testaaja;
-import suorituskykytestaus.Testitulos;
 
 /**
  * Testaa algoritmin oikeellisuutta vertaamalla sen tulosta Dijkstran tulokseen.
@@ -26,7 +26,7 @@ public class AStarTest {
      */
     @Test
     public void loytaaSamatPolutKuinDijkstra() {
-        this.testaaja.suoritaTestit(this.testikartta, 10);
+        this.testaaja.suoritaOikeellisuustestit(this.testikartta, 10);
         ArrayList<Testitulos> tulokset = this.testaaja.getTulokset();
 
         for (Testitulos tulos : tulokset) {
@@ -37,7 +37,7 @@ public class AStarTest {
     
     @Test
     public void eiLoydaPolkuaKunSitaEiOle() {
-        this.testaaja.suoritaTestit(testikartta, 1);
+        this.testaaja.suoritaOikeellisuustestit(testikartta, 1);
         Algoritmi aStar = new DijkstraStar(this.testaaja.getKartta(), false);
         Tulos tulos = aStar.laskeReitti(new Solmu(50, 858), new Solmu(921, 142));
         
