@@ -90,7 +90,11 @@ Tässä JPS:n toteutuksessa hyppymetodi palauttaa siis aina täsmälleen yhden h
 
 ## Suorituskyky- ja O-analyysivertailu
 
-*Tulossa!*
+Suorituskykytestaus toteutettiin kolmella kartalla:
+
+Berliini: <img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/berliini.png" width="250"> Boston: <img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/boston.png" width="250"> Pariisi: <img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/pariisi.png" width="250">
+
+Pyrin valitsemaan keskenään mahdollisimman erilaisia karttoja, mutta käyttämässäni aineistossa ei ole järin suurta variaatiota. Testaus käynnistetään käyttöliittymästä, ja testien tulokset tulostuvat suoritusympäristöstä riippuen konsoliin tai NetBeansin Output-ikkunaan. Käyttöliittymän testien käynnistysnapin painaminen kutsuu Testaaja-luokan [metodia](https://github.com/jenkarper/LyhimmatPolut/blob/940301348ff49741c5d55e050238aceb418587aa/lyhimmatpolut/src/main/java/suorituskykytestaus/Testaaja.java#L37), joka arpoo laskettavat reiti, laskee jokaista reittiä kohden lyhimmäin polun kullakin kolmesta algoritmista ja laskee lopulta algoritmien suoritusten keskiarvoja.
 
 ## Työhön jääneet puutteet ja parannusehdotukset
 
