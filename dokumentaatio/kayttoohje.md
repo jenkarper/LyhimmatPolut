@@ -8,7 +8,7 @@ Sovellus aukeaa ikkunaan, jossa näkyy oletusvalintana Berliinin historiallista 
 
 **1. Valitse laskennassa käytettävä algoritmi**
 
-Oletusarvoisesti valittuna on Dijkstra. Voit vaihtaa algoritmia klikkaamalla vaihtoehtoa. Huom! Jump Point Search ei tällä hetkellä etsi lainkaan polkua, koska koko algoritmia ei vielä ole toteutettu! Jos valitset Jump Point Searchin laskentaan, karttaan piirtyy polun sijasta valitusta alkupisteestä lähtevän haun löytämät hyppypisteet ([kts. kommentti](https://github.com/jenkarper/LyhimmatPolut/blob/cf9f119b70eb1adabefd04b0f22e1be8d7124383/lyhimmatpolut/src/main/java/algoritmit/JPS.java#L41)).
+Oletusarvoisesti valittuna on Dijkstra. Voit vaihtaa algoritmia klikkaamalla vaihtoehtoa.
 
 **2. Jos et halua käyttää oletuskartaa, valitse uusi kartta valikosta:**
 
@@ -28,4 +28,4 @@ Jos annettujen pisteiden välille löytyy reitti, ohjelma tulostaa laskennan tie
 
 **Käynnistä suorituskykytestit**
 
-Numeroidun valikon alapuolella on vielä suorituskykytestaukset käynnistävä nappi. Toistaiseksi tehtävät suorituskykytestit on kovakoodattu ohjelmakoodiin, ja testien tulokset tulostuvat ajoympäristöstä riippuen komentoriville tai NetBeansin Output-ikkunaan. Myös Jump Point Search on mukana suorituskykytestissä, mutta se ei toistaiseksi löydä mitään polkua.
+Numeroidun valikon alapuolella on vielä suorituskykytestaukset käynnistävä nappi. Tehtävät suorituskykytestit on kovakoodattu ohjelmakoodiin, ja testien tulokset tulostuvat ajoympäristöstä riippuen komentoriville tai NetBeansin Output-ikkunaan. Voit säätää testejä muuttamalla valittua karttaa, arvottavien reittien määrää ja laskettavan polun pituushaarukkaa luokassa [GUI](https://github.com/jenkarper/LyhimmatPolut/blob/15adfee4f1bf974194a3219d78ba56fdbe79a971/lyhimmatpolut/src/main/java/ui/GUI.java#L189).
