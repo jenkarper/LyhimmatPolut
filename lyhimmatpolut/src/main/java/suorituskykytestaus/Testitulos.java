@@ -1,5 +1,7 @@
 package suorituskykytestaus;
 
+import domain.Tulos;
+
 /**
  * Suorituskykytestauksen tulokset kokoava luokka.
  *
@@ -9,31 +11,25 @@ public class Testitulos {
 
     private final String kartta;
     private final Reittikuvaus reitti;
-    private final double dijkstraAika;
-    private final double aStarAika;
-    private final double jpsAika;
-    private final boolean aStarLoysiPolun;
-    private final boolean jpsLoysiPolun;
+    private final Tulos dijkstra;
+    private final Tulos aStar;
+    private final Tulos jps;
 
     /**
      * Muodostaa uuden suorituskykytestituloksen.
      *
      * @param kartta kartta, jossa polkuja etsittiin
      * @param reitti kartalta arvottu reitti
-     * @param dijkstraAika Dijkstran käyttämä aika
-     * @param aStarAika A*:n käyttämä aika
-     * @param jpsAika JPS:n käyttämä aika
-     * @param aStarLoysiPolun toimiko A* oikein
-     * @param jpsLoysiPolun toimiko JPS oikein
+     * @param dijkstra Dijkstran laskema tulos
+     * @param aStar A*:n laskema tulos
+     * @param jps JPS:n laskema tulos
      */
-    public Testitulos(String kartta, Reittikuvaus reitti, double dijkstraAika, double aStarAika, double jpsAika, boolean aStarLoysiPolun, boolean jpsLoysiPolun) {
+    public Testitulos(String kartta, Reittikuvaus reitti, Tulos dijkstra, Tulos aStar, Tulos jps) {
         this.kartta = kartta;
         this.reitti = reitti;
-        this.dijkstraAika = dijkstraAika;
-        this.aStarAika = aStarAika;
-        this.jpsAika = jpsAika;
-        this.aStarLoysiPolun = aStarLoysiPolun;
-        this.jpsLoysiPolun = jpsLoysiPolun;
+        this.dijkstra = dijkstra;
+        this.aStar = aStar;
+        this.jps = jps;
     }
 
     public String getKartta() {
@@ -45,15 +41,22 @@ public class Testitulos {
     }
 
     public double getDijkstraAika() {
-        return dijkstraAika;
+        return dijkstra.getAika();
     }
 
     public double getAStarAika() {
-        return aStarAika;
+        return aStar.getAika();
     }
 
     public double getJpsAika() {
-        return jpsAika;
+        return jps.getAika();
+    }
+    
+    public double getDijkstranTutkitut() {
+        return dijkstra.laskeTutkittujenOsuus();
+    }
+    public double getAStarinTutkitut() {
+        return aStar.laskeTutkittujenOsuus();
     }
 
     /**
@@ -61,8 +64,8 @@ public class Testitulos {
      *
      * @return merkkijono, joka ilmaisee eron
      */
-    private String laskeAStarEro() {
-        double ero = dijkstraAika - aStarAika;
+    private String laskeEroAStarDijkstra() {
+        double ero = dijkstra.getAika() - aStar.getAika();
         StringBuilder sb = new StringBuilder();
         sb.append("\nA* oli ").append(ero).append(" ms ");
 
@@ -77,10 +80,11 @@ public class Testitulos {
 
     /**
      * Laskee aikaeron Dijkstran ja JPS:n välillä.
+     *
      * @return merkkijono, joka ilmaisee eron
      */
-    private String laskeJPSEro() {
-        double ero = dijkstraAika - jpsAika;
+    private String laskeEroJpsDijkstra() {
+        double ero = dijkstra.getAika() - jps.getAika();
         StringBuilder sb = new StringBuilder();
         sb.append("\nJump Point Search oli ").append(ero).append(" ms ");
 
@@ -94,25 +98,39 @@ public class Testitulos {
     }
 
     /**
+     * Hakee Dijkstran ja A*:n tutkittujen solmujen osuudet.
+     */
+    private String haeTutkittujenSolmujenOsuudet() {
+        double dijkstraTutki = dijkstra.laskeTutkittujenOsuus();
+        double aStarTutki = aStar.laskeTutkittujenOsuus();
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nDijkstra käsitteli laskennan aikana ").append(dijkstraTutki).append(" % kartan vapaasta alueesta.");
+        sb.append("\nA* käsitteli laskennan aikana ").append(aStarTutki).append(" % kartan vapaasta alueesta.");
+
+        return sb.toString();
+    }
+
+    /**
      * Näyttää testin tuloksen merkkijonomuodossa.
+     *
      * @return testi tulos merkkijonona
      */
-    public String haeSuorituskykytulos() {
+    public String haeSuorituskykytulosMerkkijonona() {
         StringBuilder tulos = new StringBuilder();
         tulos.append("Käytetty kartta: ").append(kartta)
                 .append("\nHaetun polun pituus: ").append(reitti.getReitinPituus())
-                .append("\nDijkstran käyttämä aika: ").append(dijkstraAika);
+                .append("\nDijkstran käyttämä aika: ").append(dijkstra.getAika());
 
-        if (aStarLoysiPolun) {
-            tulos.append("\nA*-algoritmin käyttämä aika: ").append(aStarAika)
-                    .append(laskeAStarEro());
+        if (haeOikeellisuustulosAStarille()) {
+            tulos.append("\nA*-algoritmin käyttämä aika: ").append(aStar.getAika())
+                    .append(laskeEroAStarDijkstra());
         } else {
             tulos.append("\nA* ei löytänyt oikeaa polkua");
         }
 
-        if (jpsLoysiPolun) {
-            tulos.append("\nJump Point Search -algoritmin käyttämä aika: ").append(jpsAika)
-                    .append(laskeJPSEro());
+        if (haeOikeellisuustulosJPSlle()) {
+            tulos.append("\nJump Point Search -algoritmin käyttämä aika: ").append(jps.getAika())
+                    .append(laskeEroJpsDijkstra());
         } else {
             tulos.append("\nJump Point Search -algoritmi ei löytänyt oikeaa polkua");
         }
@@ -121,18 +139,26 @@ public class Testitulos {
     }
 
     /**
-     * Palauttaa tiedon, toimiko A* oikein verrattuna Dijkstraan (käytetään yksikkötesteissä).
+     * Palauttaa tiedon, toimiko A* oikein verrattuna Dijkstraan (käytetään
+     * yksikkötesteissä).
+     *
      * @return true, jos A* ja Dijkstra löysivät saman polun
      */
     public boolean haeOikeellisuustulosAStarille() {
-        return this.aStarLoysiPolun;
+        return dijkstra.getPituus() == aStar.getPituus();
     }
 
     /**
-     * Palauttaa tiedon, toimiko JPS oikein verrattuna Dijkstraan (käytetään yksikkötesteissä).
+     * Palauttaa tiedon, toimiko JPS oikein verrattuna Dijkstraan (käytetään
+     * yksikkötesteissä).
+     *
      * @return true, jos JPS ja Dijkstra löysivät saman polun
      */
     public boolean haeOikeellisuustulosJPSlle() {
-        return this.jpsLoysiPolun;
+        double dijkstranPituus = dijkstra.getPituus();
+        double jpsPituus = jps.getPituus();
+        double erotus = Math.abs(dijkstranPituus - jpsPituus);
+        
+        return (erotus < 0.0000001);
     }
 }

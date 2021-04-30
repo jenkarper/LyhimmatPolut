@@ -56,7 +56,7 @@ public class TulosTest {
         Tulos tulos = new Tulos(new Lista(), 1.23456789, System.nanoTime(), new boolean[1][1], 12345, 23456);
         double odotettuPituus = 1.23;
         
-        assertTrue(odotettuPituus == tulos.getPyoristettyPituus());
+        assertTrue(odotettuPituus == tulos.laskePyoristettyPituus());
     }
     
     @Test
