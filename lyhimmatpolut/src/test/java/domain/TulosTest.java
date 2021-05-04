@@ -58,4 +58,22 @@ public class TulosTest {
         
         assertTrue(tulos.getTutkitut().length > 1);
     }
+    
+    @Test
+    public void laskeeTutkittujenOsuudenOikein() {
+        boolean[][] tutkitut = new boolean[][]{
+            {false, true, false, false, false},
+            {false, true, false, false, false},
+            {false, true, true, false, false},
+            {false, false, true, true, false}
+        };
+        
+        Tulos tulos = new Tulos(new Lista(), 1, 1, tutkitut, 20);
+        
+        double odotettuTutkittujenOsuus = (6.0 / 20.0) * 100.0;
+        double saatuTutkittujenOsuus = tulos.laskeTutkittujenOsuus();
+        
+        assertTrue(odotettuTutkittujenOsuus == saatuTutkittujenOsuus);
+        
+    }
 }

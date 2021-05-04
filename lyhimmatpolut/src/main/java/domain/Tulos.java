@@ -74,8 +74,8 @@ public class Tulos {
      * @return pituus kahden desimaalin tarkkuudella
      */
     public double laskePyoristettyPituus() {
-        double pyoristettava = Math.round(this.pituus * 100);
-        return pyoristettava / 100;
+        double pyoristettava = Math.round(this.pituus * 100.0);
+        return pyoristettava / 100.0;
     }
     
     /**
