@@ -8,7 +8,13 @@ Ohjelman pakkausrakenne on seuraava:
 
 Sovelluslogiikka on jaettu kolmeen pakkaukseen: algoritmit ja tietorakenteet ovat omissa pakkauksissaan, ja muu sovelluslogiikan toteuttava koodi on pakkauksessa domain. Ulkoisen tiedon käsittelyn hoitavat luokat ovat pakkauksessa dao, ja käyttöliittymän rakentava koodi sijaitsee pakkauksessa ui. Pääohjelmaluokka on omassa pakkauksessaan main, ja sen tarkoitus on välttää JavaFX:n käytöstä aiheutuva ongelma jar-tiedoston paketoinnissa. Pääohjelman ainoa tehtävä on kutsua GUI-luokan metodia *main*.
 
-## Saavutetut aika- ja tilavuusvaativuudet
+## Toteutetut tietorakenteet ja algoritmit
+
+Suunnitelman mukaisesti työhön on toteutettu Solmu-olioita säilövät [Lista](https://github.com/jenkarper/LyhimmatPolut/blob/main/lyhimmatpolut/src/main/java/tietorakenteet/Lista.java) ja [Keko](https://github.com/jenkarper/LyhimmatPolut/blob/main/lyhimmatpolut/src/main/java/tietorakenteet/Keko.java). Lista tarjoaa toiminnallisuuden solmujen lisäämiseen, solmun hakemiseen tietystä indeksistä ja listan koon tarkistamiseen. Keko on rakennettu minimikekona, ja se tarjoaa toiminnallisuuden solmujen lisäämiseen, pienimmän solmun poistamiseen sekä sen tarkistamiseen, onko keko tyhjä. Tietorakenteiden oikeellisuus testataan yksikkö- ja integraatiotesteillä. Tietorakenteille on tehty jonkin verran suorituskykytestausta vertaamalla niitä Javan vastaaviin valmiisiin rakenteihin (ArrayList ja PriorityQueue), mutta tätä testausta ei ole raportoitu.
+
+Algoritmeista on niinikään suunnitelman mukaisesti toteutettu Dijkstra, A* ja Jump Point Search.
+
+## Algoritmien saavutetut aika- ja tilavuusvaativuudet
 
 Dijkstran aikavaativuus on tunnetusti O(n + m log n), jossa *n* on solmujen lukumäärä ja *m* on kaarien lukumäärä. Pahimmassa tapauksessa algoritmi lisää kaikki verkon solmut kekoon ja poistaa ne sieltä, ennen kuin loppusolmu tulee vastaan. A* voi parantaa Dijkstran suoritusta käyttämällä solmujen järjestysperusteena keossa arvoa, jossa siihen asti kuljettuun etäisyyteen lisätään heuristisesti arvioitu etäisyys loppuun. Tässä työssä heuristiikaksi on valittu ns. [euklidinen etäisyys](https://github.com/jenkarper/LyhimmatPolut/blob/24f10c643bed57811af3a50dbd0c2beeebaabb3a/lyhimmatpolut/src/main/java/algoritmit/DijkstraStar.java#L133). A*:n nopeus Dijkstraan nähden perustuu siis siihen, että Dijkstra voi tehdä turhaa työtä esimerkiksi tutkimalla solmuja, jotka ovat kauempana maalista kuin alkusolmu.
 
@@ -88,13 +94,23 @@ Hyppymetodia kutsutaan kaikille keosta poimituille solmuille. Se suorittaa JPS:n
 
 Tässä JPS:n toteutuksessa hyppymetodi palauttaa siis aina täsmälleen yhden hyppypisteen tai ei yhtäkään. Jos hyppy etenee diagonaalisti, tehdään tiedusteluja aina ensin vaaka- ja pystysuuntaan, koska suora siirtymä on halvempi kuin viisto. Jos vaaka- tai pystyhaku tuottaa mahdollisen hyppypisteen (pseudokoodissa rivit 30 ja 33), palautetaan se solmu, josta vaaka- ja pystyhaku tehtiin. Harabor ja Grastien ovat sittemmin julkaisseet myös algoritmin parannellun version, jossa tiedustelun aikana rekursiota ei päätetä heti uuden hyppypisteen löydyttyä, vaan tällaiset diagonaalihypyn sisällä löytyneet vaaka- ja pystyhypyn tuottamat hyppypisteet kerätään listaan, ja kaikki löytyneet hyppypisteet palautetaan kerralla.
 
-## Suorituskyky- ja O-analyysivertailu
+## Suorituskykyvertailu
 
 Suorituskykytestaus toteutettiin kolmella kartalla:
 
 Berliini: <img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/berliini.png" width="250"> Boston: <img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/boston.png" width="250"> Pariisi: <img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/pariisi.png" width="250">
 
-Pyrin valitsemaan keskenään mahdollisimman erilaisia karttoja, mutta käyttämässäni aineistossa ei ole järin suurta variaatiota. Testaus käynnistetään käyttöliittymästä, ja testien tulokset tulostuvat suoritusympäristöstä riippuen konsoliin tai NetBeansin Output-ikkunaan. Käyttöliittymän testien käynnistysnapin painaminen kutsuu Testaaja-luokan [metodia](https://github.com/jenkarper/LyhimmatPolut/blob/940301348ff49741c5d55e050238aceb418587aa/lyhimmatpolut/src/main/java/suorituskykytestaus/Testaaja.java#L37), joka arpoo laskettavat reiti, laskee jokaista reittiä kohden lyhimmäin polun kullakin kolmesta algoritmista ja laskee lopulta algoritmien suoritusten keskiarvoja.
+Testaus käynnistetään käyttöliittymästä, ja testien tulokset tulostuvat suoritusympäristöstä riippuen konsoliin tai NetBeansin Output-ikkunaan. Käyttöliittymän testien käynnistysnapin painaminen kutsuu Testaaja-luokan [metodia](https://github.com/jenkarper/LyhimmatPolut/blob/940301348ff49741c5d55e050238aceb418587aa/lyhimmatpolut/src/main/java/suorituskykytestaus/Testaaja.java#L37), joka arpoo laskettavat reiti, laskee jokaista reittiä kohden lyhimmäin polun kullakin kolmesta algoritmista ja laskee lopulta algoritmien suoritusten keskiarvoja. Testausta varten valitaan käytettävä kartta, arvottavien reittein enimmäis- ja vähimmäispituus sekä laskettavien reittien lukumäärä.
+
+### Huomioita testausaineistosta
+
+Pyrin valitsemaan keskenään mahdollisimman erilaisia karttoja, mutta käyttämässäni aineistossa ei ole järin suurta variaatiota. Solmujen ja kaarien lukumäärä on kaikissa kartoissa samaa luokkaa, ja kaarten paino on joko 1 (suora siirtymä) tai sqrt(2) (vino siirtymä). Testeissä käytettävien alku- ja loppusolmujen koordinaattien lukeminen karttaa vastaavasta skenaariotiedostosta varmistaa, että testeissä haetaan vain reittejä, jotka todella ovat olemassa. Jaoin testin jokaisella kartalla kolmeen osaan haettavan polun pituuden mukaan. Arvoin skenaariotiedostosta lyhyitä (pituus 450-550), keskipitkiä (pituus 950-1050) ja pitkiä (pituus 1450-1550) reittejä, aina tuhat reittiä testiajoa kohti. Koska haluttuun pituushaarukkaan ei kuuluu tuhatta reittiä missään kartassa, osa reiteistä tuli laskettua useampaan kertaan.
+
+Vertasin kaikkia kolmea algoritmia laskenta-ajan perusteella ja Dijkstraa ja A*:ia lisäksi tutkittujen solmujen perusteella. Eri kartoista saatavat tutkittujen solmujen prosenttiosuudet eivät ole keskenään verrannollisia, koska osuus on laskettu kaikista niistä kartan ruuduista, joissa ei ole estettä. Berliini-kartassa kuitenkin osa tällaisista vapaaksi tulkituista ruuduista on esteen ympätöimiä, joten niihin ei ole edes mahdollista edetä, jos päätepisteet sijaitsevat niiden ulkopuolella. Yhden kartan reittejä laskettaessa saadut prosenttiosuudet antavat kuitenkin kuvaa Dijkstran ja A*:in tilan käytön eroista.
+
+### Suorituskykyvertailun tulokset
+
+Algoritmien keskinäinen järjestys laskentanopeudessa oli odotettu: Dijkstra oli hitain, sitten A*, ja Jump Point Search oli selvästi nopein. Eri karttojen välillä ei ollut dramaattista eroa. Dijkstran laskenta-ajassa lyhyen ja keskipitkän reitin välillä oli paljon selvempi ero kuin keskipitkän ja pitkän, kun taas kahdessa muussa algoritmissa selvempi ero oli keskipitkän ja pitkän reitin välillä. Etenkin Dijkstran ja A*:in ero siis tasoittui hieman pidempiin reitteihin mennessä. Jump Point Searchin erot Berliinin kartalla eri pituisten reittien laskennassa olivat paljon pienemmät kuin kahdella muulla kartalla. Odotin ennakkoon, että Jump Point Searchin ero kahteen muuhun algoritmiin olisi suhteessa suurempi Bostonin kartalla, jolla on suhteessa enemmän tyhjiä alueita. Tällaisella kartalla Jump Point Searchin symmetristen polkujen hyödyntäminen tuottaa suurimman edun.
 
 ## Työhön jääneet puutteet ja parannusehdotukset
 
