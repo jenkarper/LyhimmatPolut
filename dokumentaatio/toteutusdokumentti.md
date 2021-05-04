@@ -114,7 +114,7 @@ Keskiarvot algoritmien käyttämästä laskenta-ajasta ja tutkituista solmuista 
 
 <img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/kaavio_laskenta-aika.png">
 
-Algoritmien keskinäinen järjestys laskentanopeudessa oli odotettu: Dijkstra oli hitain, sitten A*, ja Jump Point Search oli selvästi nopein. Eri karttojen välillä ei ollut dramaattista eroa. Dijkstran laskenta-ajassa lyhyen ja keskipitkän reitin välillä oli paljon selvempi ero kuin keskipitkän ja pitkän, kun taas kahdessa muussa algoritmissa selvempi ero oli keskipitkän ja pitkän reitin välillä. Etenkin Dijkstran ja A*:in ero siis tasoittui hieman pidempiin reitteihin mennessä. Jump Point Searchin erot Berliinin kartalla eri pituisten reittien laskennassa olivat paljon pienemmät kuin kahdella muulla kartalla. Odotin ennakkoon, että Jump Point Searchin ero kahteen muuhun algoritmiin olisi suhteessa suurempi Bostonin kartalla, jolla on suhteessa enemmän tyhjiä alueita. Tällaisella kartalla Jump Point Searchin symmetristen polkujen hyödyntäminen tuottaa suurimman edun. Ero onkin jonkin verran suurempi kuin muissa kartoissa, mutta luultaasti selvemmän eron esiintuominen vaatisi selvemmän eron karttaprofiilissa.
+Algoritmien keskinäinen järjestys laskentanopeudessa oli odotettu: Dijkstra oli hitain, sitten A*, ja Jump Point Search oli selvästi nopein. Eri karttojen välillä ei ollut dramaattista eroa. Dijkstran laskenta-ajassa lyhyen ja keskipitkän reitin välillä oli paljon selvempi ero kuin keskipitkän ja pitkän, kun taas kahdessa muussa algoritmissa selvempi ero oli keskipitkän ja pitkän reitin välillä. Etenkin Dijkstran ja A*:in ero siis tasoittui hieman pidempiin reitteihin mennessä. Jump Point Searchin erot Berliinin kartalla eri pituisten reittien laskennassa olivat paljon pienemmät kuin kahdella muulla kartalla. Odotin ennakkoon, että Jump Point Searchin ero kahteen muuhun algoritmiin olisi suhteessa suurempi Bostonin kartalla, jolla on suhteessa enemmän tyhjiä alueita. Tällaisella kartalla Jump Point Searchin symmetristen polkujen hyödyntäminen tuottaa suurimman edun. Ero onkin jonkin verran suurempi kuin muissa kartoissa, mutta luultavasti selvemmän eron esiintuominen vaatisi selvemmän eron karttaprofiilissa.
 
 <img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/kaavio_tutkitut-solmut.png">
 
@@ -126,11 +126,17 @@ Kaiken kaikkiaan olen melko tyytyväinen ohjelman rakenteeseen. Käyttöliittym�
 
 Halusin pitää käyttöliittymäkoodin ja sovelluslogiikkakoodin toisistaan erillään, ja käyttäjä näkeekin algoritmien toiminnasta vain lopputuloksen. Olisi kuitenkin voinut olla mielenkiintoista toteuttaa myös sellainen vaihtoehto, että käyttäjä voi seurata laskennan etenemistä ja polun muodostumista käyttöliittymässä. Tällaisessa tapauksessa algoritmien toimintaa olisi voinut sopivasti hidastaa.
 
-*Jatkuu!*
+Suorituskykytestaus olisi luultavasti antanut mielenkiintoisempia tuloksia, jos testiaineistossa olisi ollut enemmän variaatiota. Moving AI Lab -sivustolla on tarjolla runsaasti kartta-aineistoa, jossa avoimen ja suljetun maaston välisissä suhteissa on paljon selvempiä eroja, mutta niiden käyttäminen vaatisi jonkin verran muutoksia eri ohjelman osiin, enkä enää tässä vaiheessa ehdi niitä toteuttaa. Jos tekisin työn uudestaan, käyttäisin toisenlaista aineistoa, esimerkiksi [näitä](https://movingai.com/benchmarks/bg512/index.html) Baldur's Gate II -pelin karttoja.
+
+### Kartta-aineisto
+
+N. Sturtevant. ["Benchmarks for Grid-Based Pathfinding"](http://web.cs.du.edu/~sturtevant/papers/benchmarks.pdf), *Transactions on Computational Intelligence and AI in Games*, vol. 4, nro 12, sivut 144-148, 2012.
+
+(Ladattu [täältä](https://movingai.com/benchmarks/street/index.html).)
 
 ### Lähteet
 
-[1] D. Harabor & A. Grastien. ["Online Graph Pruning for Pathfinding on Grid Maps"](http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-aaai11.pdf), 2011. Luettu 27.4.2021.
+<a name="eka">[1]</a> D. Harabor & A. Grastien. ["Online Graph Pruning for Pathfinding on Grid Maps"](http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-aaai11.pdf), 2011. Luettu 27.4.2021.
 
 [2] D. Harabor & A. Grastien. ["The JPS Pathinding System"](https://harabor.net/data/papers/harabor-grastien-socs12.pdf), 2012. Luettu 27.4.2021.
 
