@@ -114,6 +114,7 @@ public class PaavalikonRakentaja {
         this.resetoi = new Button("Pyyhi polku");
         valikko.getChildren().add(resetoi);
         valikko.setMargin(resetoi, new Insets(50, 0, 0, 0));
+        resetoi.setDisable(true);
     }
     
     private void luoSuorituskykytestienKaynnistys() {

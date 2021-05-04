@@ -160,6 +160,13 @@ public class Testaaja {
         }
     }
     
+    /**
+     * Muodostaa suorituskykytestin tulosten yhteenvedon merkkijonomuodossa tulostusta varten.
+     * @param polunPituusMin testissä käytetty polunpituuden alaraja
+     * @param polunPituusMax testissä käytetty polunpituuden alaraja
+     * @param keskiarvot laskennan tulosten keskiarvot taulukkona
+     * @return merkkijonomuotoinen esitys tuloksista
+     */
     public String yhteenvetoMerkkijonona(int polunPituusMin, int polunPituusMax, double[] keskiarvot) {
         StringBuilder sb = new StringBuilder();
         sb.append("Käytetty kartta: ").append(this.kartta.getNimi());

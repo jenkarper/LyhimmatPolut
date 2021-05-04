@@ -96,6 +96,7 @@ public class GUI extends Application {
                     this.piirtaja.piirraPolku(laskennanTulos.getPolku(), laskennanTulos.getTutkitut());
                 }
                 this.valikonRakentaja.asetaTulokset(laskennanTulos);
+                this.valikonRakentaja.getResetointinappi().setDisable(false);
             }
         });
 
@@ -107,6 +108,7 @@ public class GUI extends Application {
 
         resetoi.setOnAction((event) -> {
             resetoiKaikki();
+            resetoi.setDisable(true);
         });
     }
 
