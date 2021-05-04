@@ -17,6 +17,10 @@ Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen opp
 
 [Käyttöohje](dokumentaatio/kayttoohje.md)
 
+## Releaset
+
+[Loppupalautus](https://github.com/jenkarper/LyhimmatPolut/releases/tag/v1.0)
+
 ## Viikkoraportit
 
 - [Viikko 1](dokumentaatio/viikkoraportit/viikko_1.md)
