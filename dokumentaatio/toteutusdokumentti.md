@@ -110,7 +110,15 @@ Vertasin kaikkia kolmea algoritmia laskenta-ajan perusteella ja Dijkstraa ja A*:
 
 ### Suorituskykyvertailun tulokset
 
-Algoritmien keskinäinen järjestys laskentanopeudessa oli odotettu: Dijkstra oli hitain, sitten A*, ja Jump Point Search oli selvästi nopein. Eri karttojen välillä ei ollut dramaattista eroa. Dijkstran laskenta-ajassa lyhyen ja keskipitkän reitin välillä oli paljon selvempi ero kuin keskipitkän ja pitkän, kun taas kahdessa muussa algoritmissa selvempi ero oli keskipitkän ja pitkän reitin välillä. Etenkin Dijkstran ja A*:in ero siis tasoittui hieman pidempiin reitteihin mennessä. Jump Point Searchin erot Berliinin kartalla eri pituisten reittien laskennassa olivat paljon pienemmät kuin kahdella muulla kartalla. Odotin ennakkoon, että Jump Point Searchin ero kahteen muuhun algoritmiin olisi suhteessa suurempi Bostonin kartalla, jolla on suhteessa enemmän tyhjiä alueita. Tällaisella kartalla Jump Point Searchin symmetristen polkujen hyödyntäminen tuottaa suurimman edun.
+Keskiarvot algoritmien käyttämästä laskenta-ajasta ja tutkituista solmuista on koottu pylväskaavioihin. Kaaviossa "Lyhyt" vastaa reitin pituutta välillä 450-550, "Keskipitkä" välillä 950-1050 ja "Pitkä" välillä 1450-1550.
+
+<img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/kaavio_laskenta-aika.png">
+
+Algoritmien keskinäinen järjestys laskentanopeudessa oli odotettu: Dijkstra oli hitain, sitten A*, ja Jump Point Search oli selvästi nopein. Eri karttojen välillä ei ollut dramaattista eroa. Dijkstran laskenta-ajassa lyhyen ja keskipitkän reitin välillä oli paljon selvempi ero kuin keskipitkän ja pitkän, kun taas kahdessa muussa algoritmissa selvempi ero oli keskipitkän ja pitkän reitin välillä. Etenkin Dijkstran ja A*:in ero siis tasoittui hieman pidempiin reitteihin mennessä. Jump Point Searchin erot Berliinin kartalla eri pituisten reittien laskennassa olivat paljon pienemmät kuin kahdella muulla kartalla. Odotin ennakkoon, että Jump Point Searchin ero kahteen muuhun algoritmiin olisi suhteessa suurempi Bostonin kartalla, jolla on suhteessa enemmän tyhjiä alueita. Tällaisella kartalla Jump Point Searchin symmetristen polkujen hyödyntäminen tuottaa suurimman edun. Ero onkin jonkin verran suurempi kuin muissa kartoissa, mutta luultaasti selvemmän eron esiintuominen vaatisi selvemmän eron karttaprofiilissa.
+
+<img src="https://github.com/jenkarper/LyhimmatPolut/blob/main/dokumentaatio/kuvat/kaavio_tutkitut-solmut.png">
+
+A*:in etu Dijkstraan nähden visualisoituu hyvin siinä, kuinka suuren osuuden kartan kaikista solmuista algoritmi laskennan aikana tutkii. Lyhyissä ja keskipitkissä poluissa Dijkstra tutkii moninkertaisen määrän solmuja A*:iin verrattuna, ja pisimmissäkin poluissa ero on kaksinkertainen. Bostonin kartalla, jossa vapaata yhtenäistä maastoa on eniten, Dijkstra tutkii pitkissä poluissa lähes kaikki vapaat solmut.
 
 ## Työhön jääneet puutteet ja parannusehdotukset
 
