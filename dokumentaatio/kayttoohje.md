@@ -28,6 +28,10 @@ Klikkaa Laske!-nappia käynnistääksesi reitin laskennan. Ohjelma piirtää lö
 
 Jos annettujen pisteiden välille löytyy reitti, ohjelma tulostaa laskennan tiedot otsikon 5 alle: reitin pituuden, laskentaan käytetyn ajan millisekunteina sekä tutkittujen ruutujen osuuden kaikista vapaista ruuduista. Jos reittiä ei voida muodostaa, ohjelma ilmoittaa sen samassa kohdassa.
 
+**Pyyhi polku**
+
+Kun olet klikannut Laske!-nappia, Tulokset-kohdan alapuolella oleva Pyyhi polku -nappi tulee aktiiviseksi. Jos haluat laskea uuden reitin samalla kartalla, saat pyyhittyä edellisen polun klikkaamalla nappia. Voit myös valita uuden kartan, jolloin valinnat automaattisesti nollautuvat.
+
 **Käynnistä suorituskykytestit**
 
 Numeroidun valikon alapuolella on vielä suorituskykytestaukset käynnistävä nappi. Tehtävät suorituskykytestit on kovakoodattu ohjelmakoodiin, ja testien tulokset tulostuvat ajoympäristöstä riippuen komentoriville tai NetBeansin Output-ikkunaan. Voit säätää testejä muuttamalla valittua karttaa, arvottavien reittien määrää ja laskettavan polun pituushaarukkaa luokassa [GUI](https://github.com/jenkarper/LyhimmatPolut/blob/15adfee4f1bf974194a3219d78ba56fdbe79a971/lyhimmatpolut/src/main/java/ui/GUI.java#L189).
