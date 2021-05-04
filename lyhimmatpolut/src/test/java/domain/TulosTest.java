@@ -44,16 +44,8 @@ public class TulosTest {
     }
     
     @Test
-    public void laskeeTutkittujenOsuudenOikein() {
-        Tulos tulos = new Tulos(new Lista(), 0.0, System.nanoTime(), new boolean[1][1], 12345, 23456);
-        double odotettuTutkittujenOsuus = 52.63;
-        
-        assertTrue(odotettuTutkittujenOsuus == tulos.laskeTutkittujenOsuus());
-    }
-    
-    @Test
     public void laskeePyoristetynPituudenOikein() {
-        Tulos tulos = new Tulos(new Lista(), 1.23456789, System.nanoTime(), new boolean[1][1], 12345, 23456);
+        Tulos tulos = new Tulos(new Lista(), 1.23456789, System.nanoTime(), new boolean[1][1], 23456);
         double odotettuPituus = 1.23;
         
         assertTrue(odotettuPituus == tulos.laskePyoristettyPituus());

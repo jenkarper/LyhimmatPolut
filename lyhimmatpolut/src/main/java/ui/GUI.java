@@ -198,10 +198,9 @@ public class GUI extends Application {
             String kaytettavaKartta = "kartat/Boston_2_1024.map";
             int polunPituusMin = 450;
             int polunPituusMax = 550;
-            int arvottaviaReitteja = 5;
+            int arvottaviaReitteja = 1000;
             
             testaaja.suoritaSuorituskykytestit(kaytettavaKartta, polunPituusMin, polunPituusMax, arvottaviaReitteja);
-            //testaaja.naytaYksittaisetTulokset();
         });
 
         this.valikonRakentaja.getSuorituskykytestienKaynnistysValikko().getChildren().add(testaa);

@@ -43,7 +43,6 @@ public class JPS implements Algoritmi {
     @Override
     public Tulos laskeReitti(Solmu alku, Solmu loppu) {
         long aikaAlkaa = System.nanoTime();
-        int tutkittujaSolmuja = 0;
 
         Keko keko = new Keko();
         this.etaisyys[alku.getY()][alku.getX()] = 0;
@@ -59,7 +58,7 @@ public class JPS implements Algoritmi {
                 double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
                 Lista polku = muodostaPolku(alku, loppu);
                 
-                return new Tulos(polku, pituus, kesto, this.vierailtu, tutkittujaSolmuja, this.vapaitaRuutuja);
+                return new Tulos(polku, pituus, kesto, this.vierailtu, this.vapaitaRuutuja);
             }
 
             if (!this.vierailtu[u.getY()][u.getX()]) {
@@ -87,7 +86,6 @@ public class JPS implements Algoritmi {
                         double vertailuarvo = uusiEtaisyys + arvioituEtaisyysLoppuun(hyppypiste, loppu);
                         hyppypiste.setVertailuarvo(vertailuarvo);
                         keko.lisaa(hyppypiste);
-                        tutkittujaSolmuja++;
                     }
                 }
             }
