@@ -56,6 +56,7 @@ public class GUI extends Application {
         this.valikonRakentaja = new PaavalikonRakentaja();
         this.tiedotJaTulokset = valikonRakentaja.luoValikko();
         muodostaLaskennanKaynnistysNappi();
+        muodostaResetointinappi();
         muodostaSuorituskykytestienKaynnistysNappi();
     }
 
@@ -101,6 +102,14 @@ public class GUI extends Application {
         this.valikonRakentaja.getLaskennanKaynnistysValikko().getChildren().add(laske);
     }
 
+    private void muodostaResetointinappi() {
+        Button resetoi = this.valikonRakentaja.getResetointinappi();
+
+        resetoi.setOnAction((event) -> {
+            resetoiKaikki();
+        });
+    }
+
     private void lueKartta(String karttatiedosto) {
         this.lukija = new Kartanlukija();
         lukija.lueKartta("kartat/" + karttatiedosto);
@@ -115,13 +124,7 @@ public class GUI extends Application {
 
     private void alustaKartanValinta() {
         this.karttalista.setOnAction(e -> {
-            nollaaPisteidenValinta();
-            lueKartta((String) karttalista.getSelectionModel().getSelectedItem());
-            this.kartta = lukija.haeKartta();
-            piirraKartta();
-            this.asettelu.setCenter(karttataulu);
-            alustaPaatepisteidenValinta();
-            this.valikonRakentaja.nollaaTulokset();
+            resetoiKaikki();
         });
     }
 
@@ -185,21 +188,30 @@ public class GUI extends Application {
         this.valikonRakentaja.asetaAlku(-1, -1);
         this.valikonRakentaja.asetaLoppu(-1, -1);
     }
-    
-    // SUORITUSKYKYTESTAUKSEN KÄYNNISTYS JA TESTAUSPARAMETRIEN VALINTA
 
+    private void resetoiKaikki() {
+        nollaaPisteidenValinta();
+        lueKartta((String) karttalista.getSelectionModel().getSelectedItem());
+        this.kartta = lukija.haeKartta();
+        piirraKartta();
+        this.asettelu.setCenter(karttataulu);
+        alustaPaatepisteidenValinta();
+        this.valikonRakentaja.nollaaTulokset();
+    }
+
+    // SUORITUSKYKYTESTAUKSEN KÄYNNISTYS JA TESTAUSPARAMETRIEN VALINTA
     private void muodostaSuorituskykytestienKaynnistysNappi() {
         Button testaa = new Button("Käynnistä!");
 
         testaa.setOnAction((event) -> {
             Testaaja testaaja = new Testaaja();
-            
+
             // Muuta näitä arvoja, kun haluat säätää suorituskykytestejä.
             String kaytettavaKartta = "kartat/Boston_2_1024.map";
             int polunPituusMin = 450;
             int polunPituusMax = 550;
             int arvottaviaReitteja = 1000;
-            
+
             testaaja.suoritaSuorituskykytestit(kaytettavaKartta, polunPituusMin, polunPituusMax, arvottaviaReitteja);
         });
 
