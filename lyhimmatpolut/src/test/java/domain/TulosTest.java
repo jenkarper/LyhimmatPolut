@@ -44,16 +44,8 @@ public class TulosTest {
     }
     
     @Test
-    public void laskeeTutkittujenOsuudenOikein() {
-        Tulos tulos = new Tulos(new Lista(), 0.0, System.nanoTime(), new boolean[1][1], 12345, 23456);
-        double odotettuTutkittujenOsuus = 52.63;
-        
-        assertTrue(odotettuTutkittujenOsuus == tulos.laskeTutkittujenOsuus());
-    }
-    
-    @Test
     public void laskeePyoristetynPituudenOikein() {
-        Tulos tulos = new Tulos(new Lista(), 1.23456789, System.nanoTime(), new boolean[1][1], 12345, 23456);
+        Tulos tulos = new Tulos(new Lista(), 1.23456789, System.nanoTime(), new boolean[1][1], 23456);
         double odotettuPituus = 1.23;
         
         assertTrue(odotettuPituus == tulos.laskePyoristettyPituus());
@@ -65,5 +57,23 @@ public class TulosTest {
         Tulos tulos = d.laskeReitti(new Solmu(0, 0), new Solmu(4, 4));
         
         assertTrue(tulos.getTutkitut().length > 1);
+    }
+    
+    @Test
+    public void laskeeTutkittujenOsuudenOikein() {
+        boolean[][] tutkitut = new boolean[][]{
+            {false, true, false, false, false},
+            {false, true, false, false, false},
+            {false, true, true, false, false},
+            {false, false, true, true, false}
+        };
+        
+        Tulos tulos = new Tulos(new Lista(), 1, 1, tutkitut, 20);
+        
+        double odotettuTutkittujenOsuus = (6.0 / 20.0) * 100.0;
+        double saatuTutkittujenOsuus = tulos.laskeTutkittujenOsuus();
+        
+        assertTrue(odotettuTutkittujenOsuus == saatuTutkittujenOsuus);
+        
     }
 }

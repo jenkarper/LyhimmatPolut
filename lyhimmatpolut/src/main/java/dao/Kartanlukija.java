@@ -95,7 +95,6 @@ public class Kartanlukija implements TiedostonlukijaIO {
             }
             rivi++;
         }
-
         this.kartta = new Kartta(karttataulu, korkeus, leveys, nimi, vapaitaRuutuja);
     }
 
@@ -151,7 +150,7 @@ public class Kartanlukija implements TiedostonlukijaIO {
         while (lukija.hasNextLine()) {
             String tiedostonRivi = lukija.nextLine();
             this.skenaario.lisaaReittikuvaus(lueRivi(tiedostonRivi));
-        }        
+        }
     }
 
     /**

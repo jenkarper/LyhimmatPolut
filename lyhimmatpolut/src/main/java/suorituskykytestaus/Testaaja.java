@@ -36,6 +36,8 @@ public class Testaaja {
      */
     public void suoritaSuorituskykytestit(String valittuKartta, int polunPituusMin, int polunPituusMax, int arvottaviaReitteja) {
         
+        System.out.println("Suoritetaan testejä...");
+        
         lueTiedostot(valittuKartta);
         arvoReititSuorituskykytestiin(polunPituusMin, polunPituusMax, arvottaviaReitteja);
         this.tulokset = new ArrayList<>();
@@ -52,7 +54,6 @@ public class Testaaja {
 
             this.tulokset.add(muodostaTestitulos(rk, d, a, j));
         }
-        naytaYksittaisetTulokset();
         double[] keskiarvoajat = laskeYhteenvetoSuorituskykytestista();
         String yhteenveto = yhteenvetoMerkkijonona(polunPituusMin, polunPituusMax, keskiarvoajat);
         System.out.println(yhteenveto);
@@ -159,6 +160,13 @@ public class Testaaja {
         }
     }
     
+    /**
+     * Muodostaa suorituskykytestin tulosten yhteenvedon merkkijonomuodossa tulostusta varten.
+     * @param polunPituusMin testissä käytetty polunpituuden alaraja
+     * @param polunPituusMax testissä käytetty polunpituuden alaraja
+     * @param keskiarvot laskennan tulosten keskiarvot taulukkona
+     * @return merkkijonomuotoinen esitys tuloksista
+     */
     public String yhteenvetoMerkkijonona(int polunPituusMin, int polunPituusMax, double[] keskiarvot) {
         StringBuilder sb = new StringBuilder();
         sb.append("Käytetty kartta: ").append(this.kartta.getNimi());
@@ -189,16 +197,20 @@ public class Testaaja {
             jpsAika += tulos.getJpsAika();
             dijkstranTutkitut += tulos.getDijkstranTutkitut();
             aStarinTutkitut += tulos.getAStarinTutkitut();
+            if (!tulos.haeOikeellisuustulosAStarille() || !tulos.haeOikeellisuustulosJPSlle()) {
+                System.out.println("Virhe:");
+                System.out.println(tulos.getReitti().toString());
+                System.out.println("");
+            }
         }
         
         double[] keskiarvot = new double[5];
-        System.out.println(Math.round(dijkstranTutkitut / toistoja));
         
         keskiarvot[0] = dijkstranAika / toistoja;
         keskiarvot[1] = aStarinAika / toistoja;
         keskiarvot[2] = jpsAika / toistoja;
-        keskiarvot[3] = (Math.round((dijkstranTutkitut / toistoja) * 10)) / 10;
-        keskiarvot[4] = (Math.round((aStarinTutkitut / toistoja) * 10)) / 10;
+        keskiarvot[3] = dijkstranTutkitut / toistoja;
+        keskiarvot[4] = aStarinTutkitut / toistoja;
         
         return keskiarvot;
     }

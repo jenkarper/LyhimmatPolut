@@ -28,6 +28,7 @@ public class PaavalikonRakentaja {
     private Label pituus;
     private Label kesto;
     private Label tutkittuja;
+    private Button resetoi;
     private VBox suorituskykytestienKaynnistysValikko;
     private ToggleGroup algoritmiNapit;
 
@@ -50,6 +51,7 @@ public class PaavalikonRakentaja {
         luoPisteidenValinta();
         luoLaskennanKaynnistys();
         luoTulostenNaytto();
+        luoResetointinappi();
         luoSuorituskykytestienKaynnistys();
 
         valikko.setSpacing(20);
@@ -106,6 +108,13 @@ public class PaavalikonRakentaja {
         this.tutkittuja = new Label("");
         this.tulokset = new VBox(10, pituus, kesto, tutkittuja);
         valikko.getChildren().addAll(tulosOtsikko, tulokset);
+    }
+    
+    private void luoResetointinappi() {
+        this.resetoi = new Button("Pyyhi polku");
+        valikko.getChildren().add(resetoi);
+        valikko.setMargin(resetoi, new Insets(50, 0, 0, 0));
+        resetoi.setDisable(true);
     }
     
     private void luoSuorituskykytestienKaynnistys() {
@@ -168,7 +177,7 @@ public class PaavalikonRakentaja {
         if (tulos.onnistui()) {
             this.pituus.setText("Reitin pituus: " + tulos.laskePyoristettyPituus());
             this.kesto.setText("Käytetty aika (ms): " + tulos.getAika());
-            this.tutkittuja.setText("Tutkittujen osuus (%): " + tulos.laskeTutkittujenOsuus());
+            this.tutkittuja.setText("Tutkittujen osuus (%): " + (Math.round(tulos.laskeTutkittujenOsuus() * 100.0)) / 100.0);
         } else {
             this.pituus.setText("Antamiesi pisteiden välille ei voitu muodostaa polkua!");
         }
@@ -193,6 +202,10 @@ public class PaavalikonRakentaja {
     
     public VBox getSuorituskykytestienKaynnistysValikko() {
         return this.suorituskykytestienKaynnistysValikko;
+    }
+    
+    public Button getResetointinappi() {
+        return this.resetoi;
     }
 
     /**

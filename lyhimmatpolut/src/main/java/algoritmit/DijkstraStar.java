@@ -46,7 +46,6 @@ public class DijkstraStar implements Algoritmi {
     @Override
     public Tulos laskeReitti(Solmu alku, Solmu loppu) {
         long aikaAlussa = System.nanoTime();
-        int tutkittujaSolmuja = 0;
 
         alku.setVertailuarvo(0);
         etaisyys[alku.getY()][alku.getX()] = 0;
@@ -62,7 +61,7 @@ public class DijkstraStar implements Algoritmi {
                 double pituus = this.etaisyys[loppu.getY()][loppu.getX()];
                 Lista polku = muodostaPolku(alku, loppu);
 
-                return new Tulos(polku, pituus, kesto, this.vierailtu, tutkittujaSolmuja, this.vapaitaRuutuja);
+                return new Tulos(polku, pituus, kesto, this.vierailtu, this.vapaitaRuutuja);
             }
 
             if (!this.vierailtu[u.getY()][u.getX()]) {
@@ -80,7 +79,6 @@ public class DijkstraStar implements Algoritmi {
                         this.etaisyys[n.getY()][n.getX()] = uusiEtaisyys;
                         this.edeltaja[n.getY()][n.getX()] = u;
                         keko.lisaa(n);
-                        tutkittujaSolmuja++;
                     }
                 }
             }

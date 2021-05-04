@@ -11,14 +11,13 @@ public class Tulos {
     private final double pituus;
     private final double aika;
     private final boolean[][] tutkitut;
-    private final int tutkittujaSolmuja;
     private final int vapaitaRuutuja;
     
     /**
      * Luo tyhjän tulosolion, jos polkua ei löytynyt.
      */
     public Tulos() {
-        this(new Lista(), -1, -1, null, -1, -1);
+        this(new Lista(), -1, -1, null, -1);
     }
     
     /**
@@ -27,15 +26,13 @@ public class Tulos {
      * @param pituus löydetyn polun pituus
      * @param nanoaika laskentaan käytetty aika nanosekunteina
      * @param tutkitut boolean-taulukko laskennan aikana tutkituista solmuista
-     * @param tutkittujaSolmuja kuinka monta solmua laskennan aikana tutkittiin
      * @param vapaitaRuutuja kuinka monta vapaata ruutua kartassa on
      */
-    public Tulos(Lista polku, double pituus, long nanoaika, boolean[][] tutkitut, int tutkittujaSolmuja, int vapaitaRuutuja) {
+    public Tulos(Lista polku, double pituus, long nanoaika, boolean[][] tutkitut, int vapaitaRuutuja) {
         this.polku = polku;
         this.pituus = pituus;
         this.aika = muunna(nanoaika);
         this.tutkitut = tutkitut;
-        this.tutkittujaSolmuja = tutkittujaSolmuja;
         this.vapaitaRuutuja = vapaitaRuutuja;
     }
 
@@ -57,12 +54,19 @@ public class Tulos {
     
     /**
      * Laskee laskennassa tutkittujen solmujen osuuden kaikista vapaista.
-     * @return osuus prosentteina kahden desimaalin tarkkuudella
+     * @return osuus prosentteina
      */
     public double laskeTutkittujenOsuus() {
-        double osuus = (double) this.tutkittujaSolmuja / (double) this.vapaitaRuutuja;
-        double pyoristettava = Math.round(osuus * 10000);
-        return pyoristettava / 100;
+        int tutkittuja = 0;
+        for (int i = 0; i < this.tutkitut.length; i++) {
+            for (int j = 0; j < this.tutkitut[0].length; j++) {
+                if (this.tutkitut[i][j]) {
+                    tutkittuja++;
+                }
+            }
+        }
+
+        return ((double) tutkittuja / (double) this.vapaitaRuutuja) * 100.0;
     }
     
     /**
@@ -70,8 +74,8 @@ public class Tulos {
      * @return pituus kahden desimaalin tarkkuudella
      */
     public double laskePyoristettyPituus() {
-        double pyoristettava = Math.round(this.pituus * 100);
-        return pyoristettava / 100;
+        double pyoristettava = Math.round(this.pituus * 100.0);
+        return pyoristettava / 100.0;
     }
     
     /**
