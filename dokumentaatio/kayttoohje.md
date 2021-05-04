@@ -1,6 +1,8 @@
 # Käyttöohje
 
-Kloonaa repositorio koneellesi. Sen jälkeen voit suorittaa sen komentoriviltä navigoimalla projektin juurihakemistoon (samaan, jossa pom.xml-tiedosto sijaitsee) ja ajamalla komennon `mvn compile exec:java -Dexec.mainClass=main.Main`.
+Kloonaa repositorio koneellesi. Sen jälkeen voit suorittaa sen komentoriviltä navigoimalla projektin juurihakemistoon (samaan, jossa pom.xml-tiedosto sijaitsee) ja ajamalla komennon `mvn compile exec:java -Dexec.mainClass=main.Main`. Voit myös avata ohjelman NetBeansissa.
+
+Vaihtoehtoisesti voit ladata suoritettavan jar-tiedoston [täältä](https://github.com/jenkarper/LyhimmatPolut/releases/tag/v1.0). Ohjelman voi sen jälkeen käynnistää komentoriviltä navigoimalla siihen hakemistoon, jossa jar sijaitsee, ja ajamalla komennon `java -jar LyhimmatPolut.jar`.
 
 Sovellus aukeaa ikkunaan, jossa näkyy oletusvalintana Berliinin historiallista keskustaa esittävä kartta sekä toimintavalikko.
 
