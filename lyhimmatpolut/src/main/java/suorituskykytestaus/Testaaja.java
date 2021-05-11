@@ -79,7 +79,9 @@ public class Testaaja {
 
             Tulos d = this.dijkstra.laskeReitti(alku, loppu);
             Tulos a = this.aStar.laskeReitti(alku, loppu);
-            Tulos j = this.jps.laskeReitti(alku, loppu);
+            Tulos j = this.jps.laskeReitti(alku, loppu);            if (!testireitit.contains(rk) && rk.getReitinPituus() > 150.0) { // kaikkein lyhimmät reitit karsitaan
+                testireitit.add(rk);
+            }
 
             this.tulokset.add(muodostaTestitulos(rk, d, a, j));
         }
@@ -120,7 +122,12 @@ public class Testaaja {
         while (testireitit.size() < reitteja) {
             Reittikuvaus rk = this.skenaario.arvoReittikuvaus();
             if (rk.getReitinPituus() > polunPituusMin && rk.getReitinPituus() < polunPituusMax) {
-                testireitit.add(rk);
+                if (!testireitit.contains(rk)) {
+                    testireitit.add(rk);
+                } else {
+                    Reittikuvaus toinenSuunta = rk.kaanna();
+                    testireitit.add(toinenSuunta);
+                }
             }
         }
     }
