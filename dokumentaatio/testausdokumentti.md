@@ -26,7 +26,7 @@ Testikattavuus koko projektin tasolla (4.5.2021):
 
 Järjestelmätestausta on toteutettu manuaalisesti kehitystyön edetessä. Olen käyttänyt kehitystyössä NetBeans-ympäristöä ja ajanut ohjelmaa enimmäkseen siellä, mutta olen pyrkinyt aina isojen muutosten jälkeen generoimaan myös jar-tiedoston ja suorittamaan sen. Olen myös testannut ohjelmaa laitoksen koneella etätyöpöydän avulla.
 
-## Suorituskykyvertailu
+## Suorituskykytestaus
 
 Suorituskykytestaus toteutettiin kolmella kartalla:
 
@@ -36,7 +36,7 @@ Testaus käynnistetään käyttöliittymästä, ja testien tulokset tulostuvat s
 
 ### Huomioita testausaineistosta
 
-Pyrin valitsemaan keskenään mahdollisimman erilaisia karttoja, mutta käyttämässäni aineistossa ei ole järin suurta variaatiota. Solmujen ja kaarien lukumäärä on kaikissa kartoissa samaa luokkaa, ja kaarten paino on joko 1 (suora siirtymä) tai sqrt(2) (vino siirtymä). Testeissä käytettävien alku- ja loppusolmujen koordinaattien lukeminen karttaa vastaavasta skenaariotiedostosta varmistaa, että testeissä haetaan vain reittejä, jotka todella ovat olemassa. Jaoin testin jokaisella kartalla kolmeen osaan haettavan polun pituuden mukaan. Arvoin skenaariotiedostosta lyhyitä (pituus 450-550), keskipitkiä (pituus 950-1050) ja pitkiä (pituus 1450-1550) reittejä, aina tuhat reittiä testiajoa kohti. Koska haluttuun pituushaarukkaan ei kuuluu tuhatta reittiä missään kartassa, osa reiteistä tuli laskettua useampaan kertaan.
+Pyrin valitsemaan keskenään mahdollisimman erilaisia karttoja, mutta käyttämässäni aineistossa ei ole järin suurta variaatiota. Solmujen ja kaarien lukumäärä on kaikissa kartoissa samaa luokkaa, ja kaarten paino on joko 1 (suora siirtymä) tai sqrt(2) (vino siirtymä). Testeissä käytettävien alku- ja loppusolmujen koordinaattien lukeminen karttaa vastaavasta skenaariotiedostosta varmistaa, että testeissä haetaan vain reittejä, jotka todella ovat olemassa. Jaoin testin jokaisella kartalla kolmeen osaan haettavan polun pituuden mukaan. Arvoin skenaariotiedostosta lyhyitä (pituus 450-550), keskipitkiä (pituus 950-1050) ja pitkiä (pituus 1450-1550) reittejä, aina tuhat reittiä testiajoa kohti. Arpoja huomioi myös ns. käänteisreitit, eli jos luettu reittikuaus on jo listalla, lisätään sen käänteisreitti. Koska haluttuun pituushaarukkaan ei kuuluu tuhatta reittiä missään kartassa, osa reiteistä tuli laskettua useampaan kertaan. Laskennan toistokertojen tarkoitus testauksessani on kuitenkin eliminoida suoritusympäristön mahdollisista tehokkuusvaihteluista johtuvat heitot laskenta-ajoissa, joten en pitänyt testauksessa käytettävien reittien ainutlaatuisuutta välttämättömänä.
 
 Vertasin kaikkia kolmea algoritmia laskenta-ajan perusteella ja Dijkstraa ja A*:ia lisäksi tutkittujen solmujen perusteella. Eri kartoista saatavat tutkittujen solmujen prosenttiosuudet eivät ole keskenään verrannollisia, koska osuus on laskettu kaikista niistä kartan ruuduista, joissa ei ole estettä. Berliini-kartassa kuitenkin osa tällaisista vapaaksi tulkituista ruuduista on esteen ympätöimiä, joten niihin ei ole edes mahdollista edetä, jos päätepisteet sijaitsevat niiden ulkopuolella. Yhden kartan reittejä laskettaessa saadut prosenttiosuudet antavat kuitenkin kuvaa Dijkstran ja A*:in tilan käytön eroista.
 
