@@ -57,6 +57,14 @@ Checkstyle-raportin avaaminen:
 
 `chromium-browser target/site/checkstyle.html`
 
+JavaDocin luominen:
+
+`mvn javadoc:javadoc`
+
+JavaDocin avaaminen:
+
+`chromium-browser target/site/apidocs/index.html`
+
 Suoritettavan jar-tiedoston paketointi:
 
 `mvn package`
