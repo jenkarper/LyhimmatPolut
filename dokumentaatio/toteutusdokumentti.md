@@ -8,6 +8,8 @@ Ohjelman pakkausrakenne on seuraava:
 
 Sovelluslogiikka on jaettu kolmeen pakkaukseen: algoritmit ja tietorakenteet ovat omissa pakkauksissaan, ja muu sovelluslogiikan toteuttava koodi on pakkauksessa domain. Ulkoisen tiedon käsittelyn hoitavat luokat ovat pakkauksessa dao, ja käyttöliittymän rakentava koodi sijaitsee pakkauksessa ui. Pääohjelmaluokka on omassa pakkauksessaan main, ja sen tarkoitus on välttää JavaFX:n käytöstä aiheutuva ongelma jar-tiedoston paketoinnissa. Pääohjelman ainoa tehtävä on kutsua GUI-luokan metodia *main*.
 
+Suorituskykytestauksen toteuttavat luokat ovat kaikki yhdessä suorituskykytestauspakkauksessa, eivätkä ne noudata samaa jaottelua kuin muu ohjelma (niissä on esimerkiksi sellaista koodia, joka oikeastaan kuuluisi käyttöliittymään). Pidin kuitenkin parempana koota kaiken suorituskykytestauksen hoitavan koodin yhteen pakkaukseen.
+
 ## Toteutetut tietorakenteet ja algoritmit
 
 Suunnitelman mukaisesti työhön on toteutettu Solmu-olioita säilövät [Lista](https://github.com/jenkarper/LyhimmatPolut/blob/main/lyhimmatpolut/src/main/java/tietorakenteet/Lista.java) ja [Keko](https://github.com/jenkarper/LyhimmatPolut/blob/main/lyhimmatpolut/src/main/java/tietorakenteet/Keko.java). Lista tarjoaa toiminnallisuuden solmujen lisäämiseen, solmun hakemiseen tietystä indeksistä ja listan koon tarkistamiseen. Keko on rakennettu minimikekona, ja se tarjoaa toiminnallisuuden solmujen lisäämiseen, pienimmän solmun poistamiseen sekä sen tarkistamiseen, onko keko tyhjä. Tietorakenteiden oikeellisuus testataan yksikkö- ja integraatiotesteillä. Tietorakenteille on tehty jonkin verran suorituskykytestausta vertaamalla niitä Javan vastaaviin valmiisiin rakenteihin (ArrayList ja PriorityQueue), mutta tätä testausta ei ole raportoitu.
