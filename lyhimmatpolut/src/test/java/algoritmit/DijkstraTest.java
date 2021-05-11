@@ -145,4 +145,5 @@ public class DijkstraTest {
         
         assertEquals(odotettuPituus, loydettyPituus, 0.0001);
     }
+    
 }

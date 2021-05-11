@@ -1,6 +1,7 @@
 package suorituskykytestaus;
 
 import domain.Solmu;
+import java.util.Objects;
 
 /**
  * Suorituskykytesteissä käytetty luokka, johon tallennetaan tarpeelliset tiedot
@@ -40,6 +41,19 @@ public class Reittikuvaus {
     public double getReitinPituus() {
         return reitinPituus;
     }
+    
+    /**
+     * Kääntää reitin vaihtamalla alku- ja loppupisteet keskenään.
+     * @return uusi reittikuvaus vastakkaiseen suuntaan kulkevasta reitistä
+     */
+    public Reittikuvaus kaanna() {
+        int aX = loppu.getX();
+        int aY = loppu.getY();
+        int lX = alku.getX();
+        int lY = alku.getY();
+        
+        return new Reittikuvaus(aX, aY, lX, lY, this.reitinPituus);
+    }
 
     @Override
     public String toString() {
@@ -63,5 +77,13 @@ public class Reittikuvaus {
         }
         
         return (samaAlku && samaLoppu);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.alku);
+        hash = 89 * hash + Objects.hashCode(this.loppu);
+        return hash;
     }
 }
