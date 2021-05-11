@@ -10,19 +10,23 @@ package algoritmit;
 
 package dao;
 
-
 /**
  * Sovelluslogiikan toteuttavat luokat, pl. algoritmit ja tietorakenteet.
  */
 
 package domain;
 
-
 /**
  * Pääohjelmaluokka.
  */
 
-package lyhimmatpolut;
+package main;
+
+/**
+ * Algoritmien suorituskykytestauksesta vastaavat luokat.
+ */
+
+package suorituskykytestaus;
 
 /**
  * Tietorakenteiden toteuttamisesta vastaavat luokat.
