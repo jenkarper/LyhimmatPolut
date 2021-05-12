@@ -43,6 +43,5 @@ public class JPSTest {
         Tulos tulos = jps.laskeReitti(new Solmu(50, 858), new Solmu(921, 142));
         
         assertFalse(tulos.onnistui());
-    }
-    
+    } 
 }

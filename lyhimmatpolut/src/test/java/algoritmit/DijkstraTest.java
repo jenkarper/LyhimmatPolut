@@ -144,6 +144,5 @@ public class DijkstraTest {
         loydettyPituus = saatuTulos.getPituus();
         
         assertEquals(odotettuPituus, loydettyPituus, 0.0001);
-    }
-    
+    } 
 }

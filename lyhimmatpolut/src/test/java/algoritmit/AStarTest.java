@@ -43,5 +43,4 @@ public class AStarTest {
         
         assertFalse(tulos.onnistui());
     }
-    
 }

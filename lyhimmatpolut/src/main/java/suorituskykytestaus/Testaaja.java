@@ -25,23 +25,23 @@ public class Testaaja {
     private TiedostonlukijaIO lukija;
     private ArrayList<Reittikuvaus> testireitit;
     private ArrayList<Testitulos> tulokset;
-    
+
     /**
      * Suorittaa suorituskykytestit valitulla kartalla ja annetuilla spekseillä.
-     * 
+     *
      * @param valittuKartta karttatiedoston polku
      * @param polunPituusMin arvottavien reittien polun pituuden alaraja
      * @param polunPituusMax arvottavien reittien polun pituuden yläraja
      * @param arvottaviaReitteja kuinka monta reittiä arvotaan
      */
     public void suoritaSuorituskykytestit(String valittuKartta, int polunPituusMin, int polunPituusMax, int arvottaviaReitteja) {
-        
+
         System.out.println("Suoritetaan testejä...");
-        
+
         lueTiedostot(valittuKartta);
         arvoReititSuorituskykytestiin(polunPituusMin, polunPituusMax, arvottaviaReitteja);
         this.tulokset = new ArrayList<>();
-        
+
         for (Reittikuvaus rk : testireitit) {
             Solmu alku = rk.getAlku();
             Solmu loppu = rk.getLoppu();
@@ -56,6 +56,8 @@ public class Testaaja {
         }
         double[] keskiarvoajat = laskeYhteenvetoSuorituskykytestista();
         String yhteenveto = yhteenvetoMerkkijonona(polunPituusMin, polunPituusMax, keskiarvoajat);
+        System.out.println("");
+        System.out.println("Tulokset:");
         System.out.println(yhteenveto);
     }
 
@@ -79,9 +81,7 @@ public class Testaaja {
 
             Tulos d = this.dijkstra.laskeReitti(alku, loppu);
             Tulos a = this.aStar.laskeReitti(alku, loppu);
-            Tulos j = this.jps.laskeReitti(alku, loppu);            if (!testireitit.contains(rk) && rk.getReitinPituus() > 150.0) { // kaikkein lyhimmät reitit karsitaan
-                testireitit.add(rk);
-            }
+            Tulos j = this.jps.laskeReitti(alku, loppu);
 
             this.tulokset.add(muodostaTestitulos(rk, d, a, j));
         }
@@ -115,10 +115,10 @@ public class Testaaja {
             }
         }
     }
-    
+
     private void arvoReititSuorituskykytestiin(int polunPituusMin, int polunPituusMax, int reitteja) {
         this.testireitit = new ArrayList<>();
-        
+
         while (testireitit.size() < reitteja) {
             Reittikuvaus rk = this.skenaario.arvoReittikuvaus();
             if (rk.getReitinPituus() > polunPituusMin && rk.getReitinPituus() < polunPituusMax) {
@@ -166,9 +166,11 @@ public class Testaaja {
             System.out.println("");
         }
     }
-    
+
     /**
-     * Muodostaa suorituskykytestin tulosten yhteenvedon merkkijonomuodossa tulostusta varten.
+     * Muodostaa suorituskykytestin tulosten yhteenvedon merkkijonomuodossa
+     * tulostusta varten.
+     *
      * @param polunPituusMin testissä käytetty polunpituuden alaraja
      * @param polunPituusMax testissä käytetty polunpituuden alaraja
      * @param keskiarvot laskennan tulosten keskiarvot taulukkona
@@ -186,10 +188,10 @@ public class Testaaja {
         sb.append("\n\nKESKIMÄÄRÄISET TUTKITTUJEN SOLMUJEN OSUUDET");
         sb.append("\nDijkstra:\t").append(keskiarvot[3]);
         sb.append("\nA*:\t\t").append(keskiarvot[4]);
-        
+
         return sb.toString();
     }
-    
+
     private double[] laskeYhteenvetoSuorituskykytestista() {
         double dijkstranAika = 0.0;
         double aStarinAika = 0.0;
@@ -197,7 +199,7 @@ public class Testaaja {
         double dijkstranTutkitut = 0.0;
         double aStarinTutkitut = 0.0;
         int toistoja = this.tulokset.size();
-        
+
         for (Testitulos tulos : this.tulokset) {
             dijkstranAika += tulos.getDijkstraAika();
             aStarinAika += tulos.getAStarAika();
@@ -210,15 +212,15 @@ public class Testaaja {
                 System.out.println("");
             }
         }
-        
+
         double[] keskiarvot = new double[5];
-        
+
         keskiarvot[0] = dijkstranAika / toistoja;
         keskiarvot[1] = aStarinAika / toistoja;
         keskiarvot[2] = jpsAika / toistoja;
         keskiarvot[3] = dijkstranTutkitut / toistoja;
         keskiarvot[4] = aStarinTutkitut / toistoja;
-        
+
         return keskiarvot;
     }
 

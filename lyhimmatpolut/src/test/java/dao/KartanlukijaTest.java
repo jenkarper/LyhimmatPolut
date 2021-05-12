@@ -50,4 +50,5 @@ public class KartanlukijaTest {
         
         assertEquals(odotettu.toString(), loydetty.toString());
     }
+    
 }
