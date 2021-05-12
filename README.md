@@ -19,7 +19,7 @@ Tämä projekti on toteutettu Helsingin yliopiston tietojenkäsittelytieteen opp
 
 ## Releaset
 
-*Ei vielä releaseja.*
+[Loppupalautus](https://github.com/jenkarper/LyhimmatPolut/releases/tag/v1.0)
 
 ## Viikkoraportit
 
@@ -69,4 +69,4 @@ Suoritettavan jar-tiedoston paketointi:
 
 `mvn package`
 
-Jar-tiedosto muodostuu projektin juuressa olevaan target-hakemistoon nimellä _LyhimmatPolut-1.0-SNAPSHOT.jar_. Jar-tiedoston voi tallentaa haluamaansa sijaintiin ja ajaa komennolla `java -jar LyhimmatPolut-1.0-SNAPSHOT.jar`. Kartta-aineisto paketoidaan jar-tiedostoon mukaan.
+Jar-tiedosto muodostuu projektin juuressa olevaan target-hakemistoon nimellä _LyhimmatPolut-1.0-SNAPSHOT.jar_. Jar-tiedoston voi tallentaa haluamaansa sijaintiin ja ajaa komennolla `java -jar LyhimmatPolut-1.0-SNAPSHOT.jar`. Suorittaminen edellyttää, että samassa hakemistossa jar-tiedoston kanssa on myös kartta-aineiston sisältävä kartat-hakemisto.
